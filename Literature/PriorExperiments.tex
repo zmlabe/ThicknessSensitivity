@@ -1,0 +1,174 @@
+\let\latexnofiles\nofiles
+\let\nofiles\relax
+\documentclass[12pt,fleqn]{article}
+\usepackage[margin=1in,headsep=0.4in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage[sort,square]{natbib}
+\usepackage{setspace}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{capt-of}
+\usepackage{caption}
+\usepackage{lineno}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
+\newcommand{\etal}{\textit{et al}.}
+\newcommand{\ie}{\textit{i}.\textit{e}.,\ }
+\newcommand{\eg}{\textit{e}.\textit{g}.,\ }
+\newcommand{\Si}{5.67032\e{-8} \frac{W}{m^{2}\cdot K^{4}}}
+\newcommand{\W}{\frac{W}{m^{2}\cdot K^{4}}}
+\usepackage[yyyymmdd,hhmmss, us,12hr]{datetime}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{gensymb}
+\usepackage{cancel}
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{0.1\baselineskip}{\baselineskip}
+\usepackage{outlines}
+\usepackage{enumitem}
+\setenumerate[1]{label=\textbf{\Roman*.}}
+\setenumerate[2]{label=\Alph*.}
+\setenumerate[3]{label=\arabic*.}
+\setenumerate[4]{label=\alph*.}
+
+\pagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\fancyhf{}
+\fancyfoot[C]{Page \textbf{[\thepage]} of 5}
+
+\center{\Huge ``Sea Ice Thickness Perturbation Experiments''}
+
+\begin{outline}[enumerate]
+\1 Influence of sea ice on the atmosphere: A study with an Arctic atmospheric regional climate model \citep{Rinke2006}
+	\2 Experiment
+		\3 RCM set to different sea ice and SST lower boundary conditions
+		\3 RCM = 2 RCM HIRHAM (15-year simulations, 1979-1993) experiments
+			\4 Physical parameterization of ECHAM4
+			\4 Lower boundary forced by SST, sea ice fraction, and thickness (updated daily)
+			\4 ``Prescribed sea ice thickness influences the thermal conduction through the ice''
+		\3 Seasonal means calculated from 1979-1993 with emphasis on DJF
+			\4 Large latent and sensible heat fluxes for open waters
+			\4 Low incoming shortwave radiative flux
+	\2 Data
+		\3 ECMWF reanalysis (ERA-15)
+			\3 (1 - HIRHAM.era) 1981-1993 NCEP weekly SST data with GISST prior to 1981. Sea ice fraction derived from SST warmer or cooler than -1.8\degree C. Constant ice thickness of 2 m where sea ice fraction $>$ 0.5.
+			\3 (2 - HIRHAM.nps) SST/sea ice data from NPS coupled ice-ocean model and driven by ERA-15 atmospheric data. Sea ice model couples with POP ocean.
+	\2 Results
+		\3 ``Especially inaccurate is the assumption of a fixed sea ice thickness (most Arctic RCMs use a uniform thickness of 2 m)''
+		\3 NPS--ERA15
+			\4 3\degree C warmer SST in Labrador/Barents Sea and less SIC. This may be a result of model smoothing at the boundary edge.
+			\4 SST in Labrador Sea may have stronger influence on atmospheric circulation
+			\4 NPS shows much stronger heat upward heat fluxes in Labrador and Barents Seas
+			\4 NPS has reduced heat fluxes and slightly colder (1\degree C) for central Arctic
+		\3 No relationship with changing storm track
+		\3 ``improved lower-boundar
+		y forcing contributes to only slightly improved atmospheric simulation''
+		\3 Small differences in summer from changes in SIT
+		\3 Changes in SIC have stronger effects than SIT
+		\3 Changes in 2mT affect SLP - known as ``cold high effect''
+		\3 ``So in regions of relatively thick sea ice (inner Arctic) it seems not absolutely necessary to have the exact ice thickness and its regional distribution to get a reasonable atmospheric temperature profile''
+		\3 Marginal ice zone correct SIT affects entire temperature profile column
+		\3 Potential influence for thicker ice in western Arctic to have broad effect on troposphere-stratosphere coupling
+	\2 Issues
+\1 Atmospheric response to changes in Arctic sea ice thickness \citep{Gerdes2006}
+	\2 Experiment
+		\3 4 experiments with varying sea ice concentration and thickness in Arctic and North Atlantic (40-years each). Climatological seasonal cycle of SST
+	\2 Data
+		\3 SIC/SIT from a hindcast simulation with an ocean-sea ice model for the Atlantic and Arctic Oceans forced by NCEP/NCAR (1948-1998)
+		\3 Atmospheric model is GFDL AM2 (2.5\degree x 2\degree - 24 levels)
+		\3 (1 - THI95) monthly sea ice conditions averaged over 1994-1996
+		\3 (2 - THI65) monthly sea ice conditions averaged over 1964-1966
+		\3 (3 - CON95) monthly sea ice concentration from 1994-1996 with thickness from 1948-1998 average
+		\3 (4 - CON65) monthly sea ice concentration from 1964-1966 with thickness from 1948-1998 average
+	\2 Results
+		\3 ``Realistic sea ice thickness changes can induce atmospheric signals that are of similar magnitude as those due to changes in sea ice cover.''
+		\3 Nearly 3.5\degree C change near New Siberian Islands for TAS (THI95--THI65)
+		\3 Low pressure in Arctic and high pressure in North Pacific attributed to differences in SIT, but NCEP reanalysis shows the change in North Atlantic
+		\3 ''Reaction of atmosphere to decreasing SIT contains a strengthening of the NAO''
+	\2 Issues
+		\3 Neglect influence of SST anomalies
+\1 Impact of prescribed Arctic sea ice thickness in simulations of the present and future climate \citep{Krinner2009}
+	\2 Experiment
+		\3 AGCM for realistic SIT prescription for 1980-2007 and 2080-2090 under SRES-A1B
+	\2 Data
+		\3 LMDZ4 AGCM (96 x 72 x 19)
+		\3 1979-2007 observed SST and SIC and GHGs
+		\3 Ocean boundary from MPI-ECHAM5
+		\3 Each period has one simulation with constant thickness at 3 m (C) and one simulation prescribed (V)
+	\2 Results
+		\3 ``Observations of heat flux through thin (*papers*) and thick sea ice (*papers*) show similar large differences''
+		\3 Differences between TAS warming from SIT during present day vs. end of century
+		\3 ``It is noteworthy that the strong DJF sea-level pressure change over the Eurasian Arctic coast in response to the sea ice thinning at the end of the 21\textsuperscript{st} century resembles the ``Arctic Rapid change pattern'' for the most recent years''
+		\3 SIT reduction impact between V and C is greater in future during winter due to fraction of open water in this period therefore winter surface energy budget is much more strongly influenced by turbulent heat flux over leads
+		\3 Weaker heat flux at end of century due to deeper snow cover
+		\3 Surface temperature inversion strength is reduced by 2.5\degree C
+		\3 Weak warming of mid troposphere and up
+		\3 Weak circulation (500 hPa) response during present day, stronger in future and greatest in spring  (MAM) with Rossby wave train feature from Aleutian to the Azores
+		\3 No storm track changes
+	\2 Issues
+		\3 In CMIP5, the anomaly method can cause grid points to be sea ice covered, which are ice-free in the coupled model output and contain no information about SIT or SIC.
+		\3 !!!!!! Their parameterization scheme has issues - relies mostly on SIC and their parameterization of melt ponds and surface albedo. Big differences with coupled experiments.
+\1 Fast atmospheric response to a sudden thinning of Arctic sea ice \citep{Semmler2016}
+	\2 Experiment
+		\3 Surface temperature forcing that causes rapid decrease in Arctic SIT and hence a fast atmospheric response
+	\2 Data
+		\3 IFS (cycle 37r3) - ECMWF model with time step of 1 hr and 91 vertical levels
+		\3 15-day experiments from 1979-2012 creating ensemble of 408 pairs (forced with ERA-interim)
+		\3 CTL and RED (reduced thickness)
+		\3 90-day experiments to get quasi-equilibrium response from ensemble of 204 pairs
+		\3 RED simulations had sea ice surface temperature (SIST) increase by 10\degree C throughout duration of simulation
+			\4 If freezing point of sea ice had been exceeded, then the SIST was set to freezing point of sea water
+		\3 For typical 1-2 m SIT this is a 60-70\% reduction in SIT
+	\2 Results
+		\3 Reduction in temperature gradient around 60\degree N is well above main baroclinic zones in storm formation regions of North Pacific and North Atlantic so therefore little effect on midlatitude storm tracks
+		\3 Thinner ice accompanied by more convective heating and less large-scale precipitation
+		\3 Increased SIST causes quite negative mean SLP anomaly over central Arctic, but quickly diminishes
+		\3 Building positive 500 mb height anomaly over 90 days
+	\2 Issues
+		\3 Strong height dependence for temperature response indicates importance of models simulating the Arctic boundary layer processes
+\1 Sea ice thickness and recent Arctic warming \citep{Lang2016}
+	\2 Experiment
+		\3 Constrain a model using SIT reanalysis 
+	\2 Data
+		\3 EC-Earth (based on IFS (36r4) from ECMWF with 91 vertical layers
+		\3 Two sets of hindcast experiments using 10 ensembles forced by ERA-I over 1982-2013
+		\3 CTRL has observed SST and SIC from OISST and GHG from CMIP5, SIT set at 1.5 m
+		\3 RIT has same forcing as CTRL, but thickness distribution used from GIOMAS
+	\2 Results
+		\3 Up to 1.5\degree C per decade of wintertime warming from SIT
+		\3 1/3 to 1/2 of wintertime warming in Eastern Arctic may be due to changes in SIT
+		\3 Little warming contribution in Barents Sea
+		\3 TAS warming is from thermodynamic rather than circulation-change effect
+		\3 Weakening of the Iceland/Aleutian lows 
+		\3 SIT contributed roughly half of SLP trend in Arctic 
+	\2 Issues
+		\3 Their model does not account for snow depth on sea ice
+\1 Experiment from Russell Blackport (*see email*)
+	\2 10-year averages of SST/SIC from a particular time period in LENS to force a AGCM
+	\2 CICE model sets thickness to 2 m at each grid point in Arctic
+	\2 Therefore, large difference between AGCM and LENS with cold bias in AGCM (especially along Siberia)
+		\3 See the figure which is AGCM--LENS for 2 m TAS
+	\2 Then computed thickness in AGCM from reading the LENS output
+	\2 Reducing thickness by 0.5 m caused 2-3\degree C warming
+\end{outline}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent\makebox[\linewidth][r]{\rule{\textwidth}{1pt}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make your BibTeX bibliography by using these commands:
+\bibliographystyle{/Users/zlabe/Documents/agufull08.bst}
+\bibliography{/Users/zlabe/Documents/library}
+
+\end{document}

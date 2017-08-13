@@ -1,0 +1,37 @@
+\begin{thebibliography}{5}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{\textit{Gerdes}(2006)}]{Gerdes2006}
+Gerdes, R. (2006), {Atmospheric response to changes in Arctic sea ice
+  thickness}, \textit{Geophysical Research Letters}, \textit{33}(18), L18,709,
+  \doi{10.1029/2006GL027146}.
+
+\bibitem[{\textit{Krinner et~al.}(2009)\textit{Krinner, Rinke, Dethloff, and
+  Gorodetskaya}}]{Krinner2009}
+Krinner, G., A.~Rinke, K.~Dethloff, and I.~V. Gorodetskaya (2009), {Impact of
+  prescribed Arctic sea ice thickness in simulations of the present and future
+  climate}, \textit{Climate Dynamics}, \textit{35}(4), 619--633,
+  \doi{10.1007/s00382-009-0587-7}.
+
+\bibitem[{\textit{Lang et~al.}(2016)\textit{Lang, Yang, and Kaas}}]{Lang2016}
+Lang, A., S.~Yang, and E.~Kaas (2016), {Sea ice thickness and recent Arctic
+  warming}, \textit{Geophysical Research Letters}, \doi{10.1002/2016GL071274}.
+
+\bibitem[{\textit{Rinke et~al.}(2006)\textit{Rinke, Maslowski, Dethloff, and
+  Clement}}]{Rinke2006}
+Rinke, A., W.~Maslowski, K.~Dethloff, and J.~Clement (2006), {Influence of sea
+  ice on the atmosphere: A study with an Arctic atmospheric regional climate
+  model}, \textit{Journal of Geophysical Research}, \textit{111}(D16), D16,103,
+  \doi{10.1029/2005JD006957}.
+
+\bibitem[{\textit{Semmler et~al.}(2016)\textit{Semmler, Jung, and
+  Serrar}}]{Semmler2016}
+Semmler, T., T.~Jung, and S.~Serrar (2016), {Fast atmospheric response to a
+  sudden thinning of Arctic sea ice}, \textit{Climate Dynamics},
+  \textit{46}(3-4), 1015--1025, \doi{10.1007/s00382-015-2629-7}.
+
+\end{thebibliography}
