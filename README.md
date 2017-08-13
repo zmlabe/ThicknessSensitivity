@@ -6,6 +6,7 @@
 Zachary Labe - [Research Website](http://sites.uci.edu/zlabe/) - [@ZLabe](https://twitter.com/ZLabe)
 
 ## Description
++ ```Literature/```: Associated documents and research notes for current project
 + ```Scripts/```: Main [Python](https://www.python.org/) scripts/functions used in data analysis and plotting
 + ```requirements.txt```: List of environments and modules associated with the most recent version of this project. A Python [Anaconda2 Distribution](https://docs.continuum.io/anaconda/) was used for our analysis. All AGCM experiments were processed through resources on CISL's [Cheyenne](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne) supercomputer. Tools including [NCL](https://www.ncl.ucar.edu/), [CDO](https://code.mpimet.mpg.de/projects/cdo), and [NCO](http://nco.sourceforge.net/) were also used for initial data manipulation.
 
