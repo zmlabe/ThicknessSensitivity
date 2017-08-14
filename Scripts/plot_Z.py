@@ -45,7 +45,7 @@ lat,lon,time,lev,Z500f = MO.readExperi(directorydata,'Z500','FIT','surface')
 Z500h_on = np.nanmean(Z500h[:,9:10,:,:],axis=1)
 Z500f_on = np.nanmean(Z500f[:,9:10,:,:],axis=1)
 
-Z500h_dj,Z500f_dj = UT.calcDecJan(Z500h,Z500f,lat,lon,'surface')
+Z500h_dj,Z500f_dj = UT.calcDecJan(Z500h,Z500f,lat,lon,'surface',1)
 
 Z500h_fm = np.nanmean(Z500h[:,1:2,:,:],axis=1)
 Z500f_fm = np.nanmean(Z500f[:,1:2,:,:],axis=1)

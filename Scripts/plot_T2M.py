@@ -1,5 +1,5 @@
 """
-Plot U10 comparisons between HIT and FIT experiments. These are 
+Plot temperature comparisons between HIT and FIT experiments. These are 
 sea ice thickness perturbation experiments using WACCM4.
 
 Notes
@@ -30,7 +30,7 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting U10 - %s----' % titletime)
+print('\n' '----Plotting temperature - %s----' % titletime)
 
 ### Alott time series
 year1 = 1960
@@ -38,40 +38,39 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 ### Call function for surface temperature data
-lat,lon,time,lev,U10h = MO.readExperi(directorydata,'U10','HIT','surface')
-lat,lon,time,lev,U10f = MO.readExperi(directorydata,'U10','FIT','surface')
+lat,lon,time,lev,tash = MO.readExperi(directorydata,'T2M','HIT','surface')
+lat,lon,time,lev,tasf = MO.readExperi(directorydata,'T2M','FIT','surface')
 
 ### Separate per periods (ON,DJ,FM)
-U10h_on = np.nanmean(U10h[:,9:10,:,:],axis=1)
-U10f_on = np.nanmean(U10f[:,9:10,:,:],axis=1)
+tash_on = np.nanmean(tash[:,9:10,:,:],axis=1)
+tasf_on = np.nanmean(tasf[:,9:10,:,:],axis=1)
 
-U10h_dj,U10f_dj = UT.calcDecJan(U10h,U10f,lat,lon,'surface',1)
+tash_dj,tasf_dj = UT.calcDecJan(tash,tasf,lat,lon,'surface',1)
 
-U10h_fm = np.nanmean(U10h[:,1:2,:,:],axis=1)
-U10f_fm = np.nanmean(U10f[:,1:2,:,:],axis=1)
+tash_fm = np.nanmean(tash[:,1:2,:,:],axis=1)
+tasf_fm = np.nanmean(tasf[:,1:2,:,:],axis=1)
 
-### Plot
+### Calculate period differenceds
+diff_on = np.nanmean((tasf_on-tash_on),axis=0)
+diff_dj = np.nanmean((tasf_dj-tash_dj),axis=0)
+diff_fm = np.nanmean((tasf_fm-tash_fm),axis=0)
+
+### Calculate significance
+stat_on,pvalue_on = UT.calc_indttest(tash_on,tasf_on)
+stat_dj,pvalue_dj = UT.calc_indttest(tash_dj,tasf_dj)
+stat_fm,pvalue_fm = UT.calc_indttest(tash_fm,tasf_fm)
+
+###########################################################################
+###########################################################################
+###########################################################################
+### Plot surface temperature
 plt.rc('text',usetex=True)
 plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
 
 ### Set limits for contours and colorbars
-limit = np.arange(-10,10.1,1)
+limit = np.arange(-10,10.1,0.5)
 barlim = np.arange(-10,11,5)
 
-### Calculate period differenceds
-diff_on = np.nanmean((U10f_on-U10h_on),axis=0)
-diff_dj = np.nanmean((U10f_dj-U10h_dj),axis=0)
-diff_fm = np.nanmean((U10f_fm-U10h_fm),axis=0)
-
-### Calculate significance
-stat_on,pvalue_on = UT.calc_indttest(U10h_on,U10f_on)
-stat_dj,pvalue_dj = UT.calc_indttest(U10h_dj,U10f_dj)
-stat_fm,pvalue_fm = UT.calc_indttest(U10h_fm,U10f_fm)
-
-###########################################################################
-###########################################################################
-###########################################################################
-### Plot U10
 fig = plt.figure()
 ax1 = plt.subplot(131)
 
@@ -101,10 +100,10 @@ cs1 = ax1.scatter(x,y,pvalue_onq,color='k',marker='.',alpha=0.5,
                 edgecolor='k',linewidth=0.2)
 
 ax1.annotate(r'\textbf{ON}',
-            xy=(0, 0),xytext=(0.33,1.05),xycoords='axes fraction',
+            xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('temp_diff_18lev')            
+cmap = ncm.cmap('NCV_blu_red')            
 cs.set_cmap(cmap)   
 
 ###########################################################################
@@ -134,13 +133,13 @@ meridians = np.arange(-180,180,60)
 
 cs = m.contourf(x,y,var,limit,extend='both')
 cs1 = ax2.scatter(x,y,pvalue_djq,color='k',marker='.',alpha=0.5,
-                edgecolor='k',linewidth=0.2)        
+                edgecolor='k',linewidth=0.2)
 
 ax2.annotate(r'\textbf{DJ}',
             xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('temp_diff_18lev')            
+cmap = ncm.cmap('NCV_blu_red')            
 cs.set_cmap(cmap)  
 
 ###########################################################################
@@ -176,18 +175,18 @@ ax3.annotate(r'\textbf{FM}',
             xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('temp_diff_18lev')            
+cmap = ncm.cmap('NCV_blu_red')            
 cs.set_cmap(cmap)  
 
 cbar_ax = fig.add_axes([0.312,0.23,0.4,0.03])                
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
-cbar.set_label(r'\textbf{m/s}',fontsize=11,color='dimgray')
+cbar.set_label(r'\textbf{$^\circ$C}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
 cbar.set_ticklabels(map(str,barlim)) 
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
 
-plt.savefig(directoryfigure + 'U10_diff.png',dpi=300)
+plt.savefig(directoryfigure + 'T2M_diff.png',dpi=300)
 
