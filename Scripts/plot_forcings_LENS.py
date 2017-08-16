@@ -76,7 +76,7 @@ varc[np.where(varc >= 0)] = 2.
 ### Set limits for contours and colorbars
 limsit = np.arange(0,7.1,0.1)
 barlimsit = np.arange(0,8,1)
-limdiff = np.arange(-3,3.1,0.1)
+limdiff = np.arange(-3,3.1,0.5)
 barlimdiff = np.arange(-3,4,1)
 
 fig = plt.figure()
@@ -88,8 +88,8 @@ var, lons_cyclic = addcyclic(varh, lons)
 var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
 lon2d, lat2d = np.meshgrid(lons_cyclic, lats)
 x, y = m1(lon2d, lat2d)
-          
-m1.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
+   
+m1.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)       
 m1.drawcoastlines(color='darkgrey',linewidth=0.1)
 parallels = np.arange(-90,90,30)
 meridians = np.arange(-180,180,60)
@@ -128,7 +128,8 @@ var, lons_cyclic = addcyclic(varc, lons)
 var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
 lon2d, lat2d = np.meshgrid(lons_cyclic, lats)
 x, y = m2(lon2d, lat2d)
-          
+  
+m2.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)        
 m2.drawcoastlines(color='darkgrey',linewidth=0.1)
 parallels = np.arange(-90,90,30)
 meridians = np.arange(-180,180,60)
@@ -156,9 +157,9 @@ cbar.set_ticks(barlimsit)
 cbar.set_ticklabels(map(str,barlimsit)) 
 cbar.ax.tick_params(axis='x', size=.01)
 
-plt.text(-0.14,23,r'\textbf{HIT}',color='dimgray',fontsize=30)
-plt.text(0.9,23,r'\textbf{HIT}',color='dimgray',fontsize=30)
-plt.text(1.05,21.8,r'\textbf{CONSTANT}',color='dimgray',fontsize=10)
+plt.text(-0.15,23,r'\textbf{HIT}',color='dimgray',fontsize=30)
+plt.text(0.93,23,r'\textbf{CIT}',color='dimgray',fontsize=30)
+#plt.text(1.05,21.8,r'\textbf{CONSTANT}',color='dimgray',fontsize=10)
 plt.text(-0.75,13.5,r'\textbf{DJF}',color='dimgray',fontsize=30,
          rotation=90)
 
@@ -176,7 +177,8 @@ var, lons_cyclic = addcyclic(varf, lons)
 var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
 lon2d, lat2d = np.meshgrid(lons_cyclic, lats)
 x, y = m3(lon2d, lat2d)
-          
+
+m3.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)          
 m3.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
 m3.drawcoastlines(color='darkgrey',linewidth=0.1)
 parallels = np.arange(-90,90,30)
@@ -204,7 +206,7 @@ def colormapSIT():
 cmap = colormapSIT()      
 cs.set_cmap('cubehelix')
 
-m.fillcontinents(color='dimgray')
+m3.fillcontinents(color='dimgray')
 
 cbar = m3.colorbar(cs,location='bottom',pad = 0.2,extend='max',
                   drawedges=False)
@@ -226,7 +228,8 @@ var, lons_cyclic = addcyclic(diffsit, lons)
 var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
 lon2d, lat2d = np.meshgrid(lons_cyclic, lats)
 x, y = m4(lon2d, lat2d)
-          
+     
+m4.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)     
 m4.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
 m4.drawcoastlines(color='darkgrey',linewidth=0.1)
 parallels = np.arange(-90,90,30)

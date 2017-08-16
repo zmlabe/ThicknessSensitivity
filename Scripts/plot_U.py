@@ -11,7 +11,6 @@ Notes
 ### Import modules
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.colors as c
 from mpl_toolkits.basemap import Basemap, addcyclic, shiftgrid
 import nclcmaps as ncm
 import datetime
@@ -37,7 +36,7 @@ year1 = 1960
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-### Call function for surface temperature data
+### Call function for zonal wind data
 lat,lon,time,lev,uh = MO.readExperi(directorydata,'U','HIT','profile')
 lat,lon,time,lev,uf = MO.readExperi(directorydata,'U','FIT','profile')
 
@@ -91,18 +90,18 @@ latq,levq = np.meshgrid(lat,lev)
 fig = plt.figure()
 ax1 = plt.subplot(131)
 
-ax1.spines['top'].set_color('darkgrey')
-ax1.spines['right'].set_color('darkgrey')
-ax1.spines['bottom'].set_color('darkgrey')
-ax1.spines['left'].set_color('darkgrey')
+ax1.spines['top'].set_color('dimgrey')
+ax1.spines['right'].set_color('dimgrey')
+ax1.spines['bottom'].set_color('dimgrey')
+ax1.spines['left'].set_color('dimgrey')
 ax1.spines['left'].set_linewidth(2)
 ax1.spines['bottom'].set_linewidth(2)
 ax1.spines['right'].set_linewidth(2)
 ax1.spines['top'].set_linewidth(2)
 ax1.tick_params(axis='y',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')
+                width=2,color='dimgrey')
 ax1.tick_params(axis='x',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')    
+                width=2,color='dimgrey')    
 ax1.xaxis.set_ticks_position('bottom')
 ax1.yaxis.set_ticks_position('left')
 
@@ -132,18 +131,18 @@ ax1.annotate(r'\textbf{ON}',
 ###########################################################################
 ax2 = plt.subplot(132)
 
-ax2.spines['top'].set_color('darkgrey')
-ax2.spines['right'].set_color('darkgrey')
-ax2.spines['bottom'].set_color('darkgrey')
-ax2.spines['left'].set_color('darkgrey')
+ax2.spines['top'].set_color('dimgrey')
+ax2.spines['right'].set_color('dimgrey')
+ax2.spines['bottom'].set_color('dimgrey')
+ax2.spines['left'].set_color('dimgrey')
 ax2.spines['left'].set_linewidth(2)
 ax2.spines['bottom'].set_linewidth(2)
 ax2.spines['right'].set_linewidth(2)
 ax2.spines['top'].set_linewidth(2)
 ax2.tick_params(axis='y',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')
+                width=2,color='dimgrey')
 ax2.tick_params(axis='x',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')    
+                width=2,color='dimgrey')    
 ax2.xaxis.set_ticks_position('bottom')
 ax2.yaxis.set_ticks_position('left')
 
@@ -172,18 +171,18 @@ cs.set_cmap(cmap)
 ###########################################################################
 ax3 = plt.subplot(133)
 
-ax3.spines['top'].set_color('darkgrey')
-ax3.spines['right'].set_color('darkgrey')
-ax3.spines['bottom'].set_color('darkgrey')
-ax3.spines['left'].set_color('darkgrey')
+ax3.spines['top'].set_color('dimgrey')
+ax3.spines['right'].set_color('dimgrey')
+ax3.spines['bottom'].set_color('dimgrey')
+ax3.spines['left'].set_color('dimgrey')
 ax3.spines['left'].set_linewidth(2)
 ax3.spines['bottom'].set_linewidth(2)
 ax3.spines['right'].set_linewidth(2)
 ax3.spines['top'].set_linewidth(2)
 ax3.tick_params(axis='y',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')
+                width=2,color='dimgrey')
 ax3.tick_params(axis='x',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')    
+                width=2,color='dimgrey')    
 ax3.xaxis.set_ticks_position('bottom')
 ax3.yaxis.set_ticks_position('left')
 
@@ -221,4 +220,5 @@ plt.subplots_adjust(wspace=0.3)
 plt.subplots_adjust(bottom=0.21)
 
 plt.savefig(directoryfigure + 'U_diff.png',dpi=300)
+print('Completed: Script done!')
 

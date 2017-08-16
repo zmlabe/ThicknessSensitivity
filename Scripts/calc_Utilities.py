@@ -18,10 +18,10 @@ def calcDecJan(varx,vary,lat,lon,level,levsq):
 
     Parameters
     ----------
-    varx : 3d array
-        [year*month,lat,lon]
-    vary : 3d array
-        [year*month,lat,lon]
+    varx : 4d array or 5d array
+        [year,month,lat,lon] or [year,month,lev,lat,lon]
+    vary : 4d array or 5d array
+        [year,month,lat,lon] or [year,month,lev,lat,lon]
     lat : 1d numpy array
         latitudes
     lon : 1d numpy array
@@ -33,20 +33,21 @@ def calcDecJan(varx,vary,lat,lon,level,levsq):
         
     Returns
     -------
-    varx_dj : 3d array
-        [year,lat,lon]
+    varx_dj : 3d array or 4d array
+        [year,lat,lon] or [year,lev,lat,lon]
     vary_dj : 3d array
-        [year,lat,lon]
+        [year,lat,lon] or [year,lev,lat,lon]
 
     Usage
     -----
     varx_dj,vary_dj = calcDecJan(varx,vary,lat,lon,level,levsq)
     """
-    print('\n>>> Using calcDecJan function! \n')
+    print('\n>>> Using calcDecJan function!')
     
     ### Import modules
     import numpy as np
     
+    ### Reshape for 3d variables
     if level == 'surface':    
         varxravel = np.reshape(varx.copy(),
                            (varx.shape[0]*12.,
@@ -67,6 +68,7 @@ def calcDecJan(varx,vary,lat,lon,level,levsq):
                                     (2,lat.shape[0],lon.shape[0])),axis=0)                   
             vary_dj[counter,:,:] = np.nanmean(np.reshape(djappendf,
                                     (2,lat.shape[0],lon.shape[0])),axis=0)
+    ### Reshape for 4d variables
     elif level == 'profile':
         varxravel = np.reshape(varx.copy(),
                            (varx.shape[0]*12.,levsq,
@@ -98,7 +100,7 @@ def calcDecJan(varx,vary,lat,lon,level,levsq):
                                 
     print('Completed: Organized data by months (ON,DJ,FM)!')
 
-    print('\n*Completed: Finished calcDecJan function!')
+    print('*Completed: Finished calcDecJan function!')
     return varx_dj,vary_dj
     
 def calc_indttest(varx,vary):
@@ -120,16 +122,18 @@ def calc_indttest(varx,vary):
     -----
     stat,pvalue = calc_ttest(varx,vary)
     """
-    print('\n>>> Using calc_ttest function! \n')
+    print('\n>>> Using calc_ttest function!')
     
     ### Import modules
     import numpy as np
     import scipy.stats as sts
     
+    ### 2-independent sample t-test
     stat,pvalue = sts.ttest_ind(varx,vary,nan_policy='omit')
     
-    pvalue[np.where(pvalue > 0.05)] = np.nan
-    pvalue[np.where(pvalue <= 0.05)] = 1.
+    ### Significant at 95% confidence level
+    pvalue[np.where(pvalue >= 0.05)] = np.nan
+    pvalue[np.where(pvalue < 0.05)] = 1.
     
-    print('\n*Completed: Finished calc_ttest function!')
+    print('*Completed: Finished calc_ttest function!')
     return stat,pvalue

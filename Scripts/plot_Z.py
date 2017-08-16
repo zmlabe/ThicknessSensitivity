@@ -1,17 +1,16 @@
 """
-Plot Z500 comparisons between HIT and FIT experiments. These are 
-sea ice thickness perturbation experiments using WACCM4.
+Plot geopotential height between HIT and FIT experiments. These are 
+sea ice zhickness perturbation experiments using WACCM4.
 
 Notes
 -----
-    Author : Zachary Labe
-    Date   : 13 August 2017
+    Auzhor : Zachary Labe
+    Date   : 14 August 2017
 """
 
 ### Import modules
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.colors as c
 from mpl_toolkits.basemap import Basemap, addcyclic, shiftgrid
 import nclcmaps as ncm
 import datetime
@@ -30,164 +29,189 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting Z - %s----' % titletime)
+print('\n' '----Plotting temperature - %s----' % titletime)
 
 ### Alott time series
 year1 = 1960
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-### Call function for surface temperature data
-lat,lon,time,lev,Z500h = MO.readExperi(directorydata,'Z500','HIT','surface')
-lat,lon,time,lev,Z500f = MO.readExperi(directorydata,'Z500','FIT','surface')
+### Call function for geopotential height
+lat,lon,time,lev,zh = MO.readExperi(directorydata,'GEOP','HIT','profile')
+lat,lon,time,lev,zf = MO.readExperi(directorydata,'GEOP','FIT','profile')
 
-### Separate per periods (ON,DJ,FM)
-Z500h_on = np.nanmean(Z500h[:,9:10,:,:],axis=1)
-Z500f_on = np.nanmean(Z500f[:,9:10,:,:],axis=1)
+#### Separate per periods (ON,DJ,FM)
+zh_on = np.nanmean(zh[:,9:10,:,:,:],axis=1)
+zf_on = np.nanmean(zf[:,9:10,:,:,:],axis=1)
 
-Z500h_dj,Z500f_dj = UT.calcDecJan(Z500h,Z500f,lat,lon,'surface',1)
+zh_dj,zf_dj = UT.calcDecJan(zh,zf,lat,lon,'profile',lev.shape[0])
 
-Z500h_fm = np.nanmean(Z500h[:,1:2,:,:],axis=1)
-Z500f_fm = np.nanmean(Z500f[:,1:2,:,:],axis=1)
+zh_fm = np.nanmean(zh[:,1:2,:,:,:],axis=1)
+zf_fm = np.nanmean(zf[:,1:2,:,:,:],axis=1)
 
-### Plot
+#### Calculate period differenceds
+diff_on = np.nanmean((zf_on-zh_on),axis=0)
+diff_dj = np.nanmean((zf_dj-zh_dj),axis=0)
+diff_fm = np.nanmean((zf_fm-zh_fm),axis=0)
+
+### Calculate zonal mean
+zdiff_on = np.nanmean((diff_on),axis=2)
+zdiff_dj = np.nanmean((diff_dj),axis=2)
+zdiff_fm = np.nanmean((diff_fm),axis=2)
+
+## Calculate climo
+zclimo_on = np.apply_over_axes(np.nanmean,zh_on,(0,3)).squeeze()
+zclimo_dj = np.apply_over_axes(np.nanmean,zh_dj,(0,3)).squeeze()
+zclimo_fm = np.apply_over_axes(np.nanmean,zh_fm,(0,3)).squeeze()
+
+### Calculate significance
+stat_on,pvalue_on = UT.calc_indttest(np.nanmean(zh_on,axis=3),
+                                     np.nanmean(zf_on,axis=3))
+stat_dj,pvalue_dj = UT.calc_indttest(np.nanmean(zh_dj,axis=3),
+                                     np.nanmean(zf_dj,axis=3))
+stat_fm,pvalue_fm = UT.calc_indttest(np.nanmean(zh_fm,axis=3),
+                                     np.nanmean(zf_fm,axis=3))
+
+###########################################################################
+###########################################################################
+###########################################################################
+#### Plot Z
 plt.rc('text',usetex=True)
 plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
 
 ### Set limits for contours and colorbars
-limit = np.arange(-100,100.1,1)
-barlim = np.arange(-100,101,50)
+limit = np.arange(-30,31,1)
+barlim = np.arange(-30,31,10)
+zscale = np.array([1000,700,500,300,200,
+                    100,50,30,10])
+latq,levq = np.meshgrid(lat,lev)
 
-### Calculate period differenceds
-diff_on = np.nanmean((Z500f_on-Z500h_on),axis=0)
-diff_dj = np.nanmean((Z500f_dj-Z500h_dj),axis=0)
-diff_fm = np.nanmean((Z500f_fm-Z500h_fm),axis=0)
-
-### Calculate significance    
-stat_on,pvalue_on = UT.calc_indttest(Z500h_on,Z500f_on)
-stat_dj,pvalue_dj = UT.calc_indttest(Z500h_dj,Z500f_dj)
-stat_fm,pvalue_fm = UT.calc_indttest(Z500h_fm,Z500f_fm)
-
-###########################################################################
-###########################################################################
-###########################################################################
-### Plot surface temperature
 fig = plt.figure()
 ax1 = plt.subplot(131)
 
-m = Basemap(projection='ortho',lon_0=0,lat_0=89,resolution='l',
-            area_thresh=10000.)
+ax1.spines['top'].set_color('dimgrey')
+ax1.spines['right'].set_color('dimgrey')
+ax1.spines['bottom'].set_color('dimgrey')
+ax1.spines['left'].set_color('dimgrey')
+ax1.spines['left'].set_linewidth(2)
+ax1.spines['bottom'].set_linewidth(2)
+ax1.spines['right'].set_linewidth(2)
+ax1.spines['top'].set_linewidth(2)
+ax1.tick_params(axis='y',direction='out',which='major',pad=3,
+                width=2,color='dimgrey')
+ax1.tick_params(axis='x',direction='out',which='major',pad=3,
+                width=2,color='dimgrey')    
+ax1.xaxis.set_ticks_position('bottom')
+ax1.yaxis.set_ticks_position('left')
 
-var, lons_cyclic = addcyclic(diff_on, lon)
-var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
-lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
-x, y = m(lon2d, lat2d)
 
-pvalue_onq,lons_cyclic = addcyclic(pvalue_on, lon)
-pvalue_onq,lons_cyclic = shiftgrid(180.,pvalue_onq,lons_cyclic,start=False)
-          
-m.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
-m.drawcoastlines(color='dimgray',linewidth=0.8)
-parallels = np.arange(-90,90,45)
-meridians = np.arange(-180,180,60)
-#m.drawparallels(parallels,labels=[True,True,True,True],
-#                linewidth=0.6,color='dimgray',fontsize=6)
-#m.drawmeridians(meridians,labels=[True,True,True,True],
-#                linewidth=0.6,color='dimgray',fontsize=6)
-#m.drawlsmask(land_color='dimgray',ocean_color='mintcream')
+cs = plt.contourf(lat,lev,zdiff_on,limit,extend='both')
+cs1 = plt.scatter(latq,levq,pvalue_on,color='k',marker='.',alpha=0.9,
+                edgecolor='k',linewidth=0.7)
 
-cs = m.contourf(x,y,var,limit,extend='both')
-cs1 = ax1.scatter(x,y,pvalue_onq,color='k',marker='.',alpha=0.5,
-                edgecolor='k',linewidth=0.2)
+plt.gca().invert_yaxis()
+plt.yscale('log',nonposy='clip')
+
+plt.xlim([0,90])
+plt.ylim([1000,10])
+plt.xticks(np.arange(0,96,15),map(str,np.arange(0,91,15)),fontsize=8)
+plt.yticks(zscale,map(str,zscale),ha='right',fontsize=8)
+plt.minorticks_off()
+
+cmap = ncm.cmap('temp_diff_18lev')            
+cs.set_cmap(cmap) 
 
 ax1.annotate(r'\textbf{ON}',
-            xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
+            xy=(0, 0),xytext=(0.33,1.02),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('nrl_sirkes')            
-cs.set_cmap(cmap)   
-
 ###########################################################################
-
 ax2 = plt.subplot(132)
 
-m = Basemap(projection='ortho',lon_0=0,lat_0=89,resolution='l',
-            area_thresh=10000.)
+ax2.spines['top'].set_color('dimgrey')
+ax2.spines['right'].set_color('dimgrey')
+ax2.spines['bottom'].set_color('dimgrey')
+ax2.spines['left'].set_color('dimgrey')
+ax2.spines['left'].set_linewidth(2)
+ax2.spines['bottom'].set_linewidth(2)
+ax2.spines['right'].set_linewidth(2)
+ax2.spines['top'].set_linewidth(2)
+ax2.tick_params(axis='y',direction='out',which='major',pad=3,
+                width=2,color='dimgrey')
+ax2.tick_params(axis='x',direction='out',which='major',pad=3,
+                width=2,color='dimgrey')    
+ax2.xaxis.set_ticks_position('bottom')
+ax2.yaxis.set_ticks_position('left')
 
-var, lons_cyclic = addcyclic(diff_dj, lon)
-var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
-lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
-x, y = m(lon2d, lat2d)
+cs = plt.contourf(lat,lev,zdiff_dj,limit,extend='both')
+cs1 = plt.scatter(latq,levq,pvalue_dj,color='k',marker='.',alpha=0.9,
+                edgecolor='k',linewidth=0.7)
 
-pvalue_djq,lons_cyclic = addcyclic(pvalue_dj, lon)
-pvalue_djq,lons_cyclic = shiftgrid(180.,pvalue_djq,lons_cyclic,start=False)
-          
-m.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
-m.drawcoastlines(color='dimgray',linewidth=0.8)
-parallels = np.arange(-90,90,45)
-meridians = np.arange(-180,180,60)
-#m.drawparallels(parallels,labels=[True,True,True,True],
-#                linewidth=0.6,color='dimgray',fontsize=6)
-#m.drawmeridians(meridians,labels=[True,True,True,True],
-#                linewidth=0.6,color='dimgray',fontsize=6)
-#m.drawlsmask(land_color='dimgray',ocean_color='mintcream')
+plt.gca().invert_yaxis()
+plt.yscale('log',nonposy='clip')
 
-cs = m.contourf(x,y,var,limit,extend='both')
-cs1 = ax2.scatter(x,y,pvalue_djq,color='k',marker='.',alpha=0.5,
-                edgecolor='k',linewidth=0.2)
+plt.xlim([0,90])
+plt.ylim([1000,10])
+plt.xticks(np.arange(0,96,15),map(str,np.arange(0,91,15)),fontsize=8)
+plt.yticks(zscale,map(str,zscale),ha='right',fontsize=8)
+plt.minorticks_off()
 
 ax2.annotate(r'\textbf{DJ}',
-            xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
+            xy=(0, 0),xytext=(0.35,1.02),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('nrl_sirkes')            
-cs.set_cmap(cmap)  
+cmap = ncm.cmap('temp_diff_18lev')            
+cs.set_cmap(cmap) 
 
 ###########################################################################
-
 ax3 = plt.subplot(133)
 
-m = Basemap(projection='ortho',lon_0=0,lat_0=89,resolution='l',
-            area_thresh=10000.)
+ax3.spines['top'].set_color('dimgrey')
+ax3.spines['right'].set_color('dimgrey')
+ax3.spines['bottom'].set_color('dimgrey')
+ax3.spines['left'].set_color('dimgrey')
+ax3.spines['left'].set_linewidth(2)
+ax3.spines['bottom'].set_linewidth(2)
+ax3.spines['right'].set_linewidth(2)
+ax3.spines['top'].set_linewidth(2)
+ax3.tick_params(axis='y',direction='out',which='major',pad=3,
+                width=2,color='dimgrey')
+ax3.tick_params(axis='x',direction='out',which='major',pad=3,
+                width=2,color='dimgrey')    
+ax3.xaxis.set_ticks_position('bottom')
+ax3.yaxis.set_ticks_position('left')
 
-var, lons_cyclic = addcyclic(diff_fm, lon)
-var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
-lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
-x, y = m(lon2d, lat2d)
+cs = plt.contourf(lat,lev,zdiff_fm,limit,extend='both')
+cs1 = plt.scatter(latq,levq,pvalue_fm,color='k',marker='.',alpha=0.9,
+                edgecolor='k',linewidth=0.7)
 
-pvalue_fmq,lons_cyclic = addcyclic(pvalue_fm, lon)
-pvalue_fmq,lons_cyclic = shiftgrid(180.,pvalue_fmq,lons_cyclic,start=False)
-          
-m.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
-m.drawcoastlines(color='dimgray',linewidth=0.8)
-parallels = np.arange(-90,90,45)
-meridians = np.arange(-180,180,60)
-#m.drawparallels(parallels,labels=[True,True,True,True],
-#                linewidth=0.6,color='dimgray',fontsize=6)
-#m.drawmeridians(meridians,labels=[True,True,True,True],
-#                linewidth=0.6,color='dimgray',fontsize=6)
-#m.drawlsmask(land_color='dimgray',ocean_color='mintcream')
+plt.gca().invert_yaxis()
+plt.yscale('log',nonposy='clip')
 
-cs = m.contourf(x,y,var,limit,extend='both')
-cs1 = ax3.scatter(x,y,pvalue_fmq,color='k',marker='.',alpha=0.5,
-                edgecolor='k',linewidth=0.2)
+plt.xlim([0,90])
+plt.ylim([1000,10])
+plt.xticks(np.arange(0,96,15),map(str,np.arange(0,91,15)),fontsize=8)
+plt.yticks(zscale,map(str,zscale),ha='right',fontsize=8)
+plt.minorticks_off()
 
-ax3.annotate(r'\textbf{FM}',
-            xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
+cmap = ncm.cmap('temp_diff_18lev')            
+cs.set_cmap(cmap) 
+
+ax3.annotate(r'\textbf{m}',
+            xy=(0, 0),xytext=(0.35,1.02),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('nrl_sirkes')            
-cs.set_cmap(cmap)  
-
-cbar_ax = fig.add_axes([0.312,0.23,0.4,0.03])                
+cbar_ax = fig.add_axes([0.312,0.1,0.4,0.03])                
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
-cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')
+cbar.set_label(r'\textbf{m/s}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
 cbar.set_ticklabels(map(str,barlim)) 
 cbar.ax.tick_params(axis='x', size=.01)
 
-plt.subplots_adjust(wspace=0.01)
+plt.subplots_adjust(wspace=0.3)
+plt.subplots_adjust(bottom=0.21)
 
-plt.savefig(directoryfigure + 'Z500_diff.png',dpi=300)
+plt.savefig(directoryfigure + 'Z_diff.png',dpi=300)
+print('Completed: Script done!')
 

@@ -37,7 +37,7 @@ year1 = 1960
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-### Call function for surface temperature data
+### Call function for U10 wind (m/s)
 lat,lon,time,lev,U10h = MO.readExperi(directorydata,'U10','HIT','surface')
 lat,lon,time,lev,U10f = MO.readExperi(directorydata,'U10','FIT','surface')
 
@@ -49,14 +49,6 @@ U10h_dj,U10f_dj = UT.calcDecJan(U10h,U10f,lat,lon,'surface',1)
 
 U10h_fm = np.nanmean(U10h[:,1:2,:,:],axis=1)
 U10f_fm = np.nanmean(U10f[:,1:2,:,:],axis=1)
-
-### Plot
-plt.rc('text',usetex=True)
-plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
-
-### Set limits for contours and colorbars
-limit = np.arange(-10,10.1,1)
-barlim = np.arange(-10,11,5)
 
 ### Calculate period differenceds
 diff_on = np.nanmean((U10f_on-U10h_on),axis=0)
@@ -72,6 +64,14 @@ stat_fm,pvalue_fm = UT.calc_indttest(U10h_fm,U10f_fm)
 ###########################################################################
 ###########################################################################
 ### Plot U10
+plt.rc('text',usetex=True)
+plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
+
+### Set limits for contours and colorbars
+limit = np.arange(-10,10.1,1)
+barlim = np.arange(-10,11,5)
+
+### Begin figure
 fig = plt.figure()
 ax1 = plt.subplot(131)
 
@@ -190,4 +190,5 @@ cbar.ax.tick_params(axis='x', size=.01)
 plt.subplots_adjust(wspace=0.01)
 
 plt.savefig(directoryfigure + 'U10_diff.png',dpi=300)
+print 'Completed: Script done!'
 

@@ -1,6 +1,6 @@
 """
-Plot zonal wind comparisons between HIT and FIT experiments. These are 
-sea ice thickness perturbation experiments using WACCM4.
+Plot temperature profile difference between HIT and FIT experiments. 
+These are sea ice thickness perturbation experiments using WACCM4.
 
 Notes
 -----
@@ -37,41 +37,41 @@ year1 = 1960
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-### Call function for surface temperature data
-#lat,lon,time,lev,th = MO.readExperi(directorydata,'TEMP','HIT','profile')
-#lat,lon,time,lev,tf = MO.readExperi(directorydata,'TEMP','FIT','profile')
-#
-#### Separate per periods (ON,DJ,FM)
-#th_on = np.nanmean(th[:,9:10,:,:,:],axis=1)
-#tf_on = np.nanmean(tf[:,9:10,:,:,:],axis=1)
-#
-#th_dj,tf_dj = UT.calcDecJan(th,tf,lat,lon,'profile',lev.shape[0])
-#
-#th_fm = np.nanmean(th[:,1:2,:,:,:],axis=1)
-#tf_fm = np.nanmean(tf[:,1:2,:,:,:],axis=1)
-#
-##### Calculate period differenceds
-#diff_on = np.nanmean((tf_on-th_on),axis=0)
-#diff_dj = np.nanmean((tf_dj-th_dj),axis=0)
-#diff_fm = np.nanmean((tf_fm-th_fm),axis=0)
-#
-##### Calculate significance
-#stat_on,pvalue_on = UT.calc_indttest(np.nanmean(th_on,axis=3),
-#                                     np.nanmean(tf_on,axis=3))
-#stat_dj,pvalue_dj = UT.calc_indttest(np.nanmean(th_dj,axis=3),
-#                                     np.nanmean(tf_dj,axis=3))
-#stat_fm,pvalue_fm = UT.calc_indttest(np.nanmean(th_fm,axis=3),
-#                                     np.nanmean(tf_fm,axis=3))
-#
-#### Calculate zonal mean
-#zdiff_on = np.nanmean((diff_on),axis=2)
-#zdiff_dj = np.nanmean((diff_dj),axis=2)
-#zdiff_fm = np.nanmean((diff_fm),axis=2)
+### Call function for vertical temperature data
+lat,lon,time,lev,th = MO.readExperi(directorydata,'TEMP','HIT','profile')
+lat,lon,time,lev,tf = MO.readExperi(directorydata,'TEMP','FIT','profile')
+
+### Separate per periods (ON,DJ,FM)
+th_on = np.nanmean(th[:,9:10,:,:,:],axis=1)
+tf_on = np.nanmean(tf[:,9:10,:,:,:],axis=1)
+
+th_dj,tf_dj = UT.calcDecJan(th,tf,lat,lon,'profile',lev.shape[0])
+
+th_fm = np.nanmean(th[:,1:2,:,:,:],axis=1)
+tf_fm = np.nanmean(tf[:,1:2,:,:,:],axis=1)
+
+#### Calculate period differenceds
+diff_on = np.nanmean((tf_on-th_on),axis=0)
+diff_dj = np.nanmean((tf_dj-th_dj),axis=0)
+diff_fm = np.nanmean((tf_fm-th_fm),axis=0)
+
+#### Calculate significance
+stat_on,pvalue_on = UT.calc_indttest(np.nanmean(th_on,axis=3),
+                                     np.nanmean(tf_on,axis=3))
+stat_dj,pvalue_dj = UT.calc_indttest(np.nanmean(th_dj,axis=3),
+                                     np.nanmean(tf_dj,axis=3))
+stat_fm,pvalue_fm = UT.calc_indttest(np.nanmean(th_fm,axis=3),
+                                     np.nanmean(tf_fm,axis=3))
+
+### Calculate zonal mean
+zdiff_on = np.nanmean((diff_on),axis=2)
+zdiff_dj = np.nanmean((diff_dj),axis=2)
+zdiff_fm = np.nanmean((diff_fm),axis=2)
 
 ############################################################################
 ############################################################################
 ############################################################################
-##### Plot surface temperature
+##### Plot temperature profile
 plt.rc('text',usetex=True)
 plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
 
@@ -85,18 +85,18 @@ latq,levq = np.meshgrid(lat,lev)
 fig = plt.figure()
 ax1 = plt.subplot(131)
 
-ax1.spines['top'].set_color('darkgrey')
-ax1.spines['right'].set_color('darkgrey')
-ax1.spines['bottom'].set_color('darkgrey')
-ax1.spines['left'].set_color('darkgrey')
+ax1.spines['top'].set_color('dimgrey')
+ax1.spines['right'].set_color('dimgrey')
+ax1.spines['bottom'].set_color('dimgrey')
+ax1.spines['left'].set_color('dimgrey')
 ax1.spines['left'].set_linewidth(2)
 ax1.spines['bottom'].set_linewidth(2)
 ax1.spines['right'].set_linewidth(2)
 ax1.spines['top'].set_linewidth(2)
 ax1.tick_params(axis='y',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')
+                width=2,color='dimgrey')
 ax1.tick_params(axis='x',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')    
+                width=2,color='dimgrey')    
 ax1.xaxis.set_ticks_position('bottom')
 ax1.yaxis.set_ticks_position('left')
 
@@ -126,18 +126,18 @@ ax1.annotate(r'\textbf{ON}',
 ###########################################################################
 ax2 = plt.subplot(132)
 
-ax2.spines['top'].set_color('darkgrey')
-ax2.spines['right'].set_color('darkgrey')
-ax2.spines['bottom'].set_color('darkgrey')
-ax2.spines['left'].set_color('darkgrey')
+ax2.spines['top'].set_color('dimgrey')
+ax2.spines['right'].set_color('dimgrey')
+ax2.spines['bottom'].set_color('dimgrey')
+ax2.spines['left'].set_color('dimgrey')
 ax2.spines['left'].set_linewidth(2)
 ax2.spines['bottom'].set_linewidth(2)
 ax2.spines['right'].set_linewidth(2)
 ax2.spines['top'].set_linewidth(2)
 ax2.tick_params(axis='y',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')
+                width=2,color='dimgrey')
 ax2.tick_params(axis='x',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')    
+                width=2,color='dimgrey')    
 ax2.xaxis.set_ticks_position('bottom')
 ax2.yaxis.set_ticks_position('left')
 
@@ -166,18 +166,18 @@ ax2.annotate(r'\textbf{DJ}',
 ###########################################################################
 ax3 = plt.subplot(133)
 
-ax3.spines['top'].set_color('darkgrey')
-ax3.spines['right'].set_color('darkgrey')
-ax3.spines['bottom'].set_color('darkgrey')
-ax3.spines['left'].set_color('darkgrey')
+ax3.spines['top'].set_color('dimgrey')
+ax3.spines['right'].set_color('dimgrey')
+ax3.spines['bottom'].set_color('dimgrey')
+ax3.spines['left'].set_color('dimgrey')
 ax3.spines['left'].set_linewidth(2)
 ax3.spines['bottom'].set_linewidth(2)
 ax3.spines['right'].set_linewidth(2)
 ax3.spines['top'].set_linewidth(2)
 ax3.tick_params(axis='y',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')
+                width=2,color='dimgrey')
 ax3.tick_params(axis='x',direction='out',which='major',pad=3,
-                width=2,color='darkgrey')    
+                width=2,color='dimgrey')    
 ax3.xaxis.set_ticks_position('bottom')
 ax3.yaxis.set_ticks_position('left')
 
@@ -215,4 +215,5 @@ plt.subplots_adjust(wspace=0.3)
 plt.subplots_adjust(bottom=0.21)
 
 plt.savefig(directoryfigure + 'T_diff.png',dpi=300)
+print('Completed: Script done!')
 

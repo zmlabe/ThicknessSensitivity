@@ -1,11 +1,11 @@
 """
-Plot SLP comparisons between HIT and FIT experiments. These are 
+Plot precipitation comparisons between HIT and FIT experiments. These are 
 sea ice thickness perturbation experiments using WACCM4.
 
 Notes
 -----
     Author : Zachary Labe
-    Date   : 13 August 2017
+    Date   : 14 August 2017
 """
 
 ### Import modules
@@ -29,50 +29,51 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting sea level pressure - %s----' % titletime)
+print('\n' '----Plotting Z50 - %s----' % titletime)
 
 ### Alott time series
 year1 = 1960
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-### Call function for SLP data
-lat,lon,time,lev,slph = MO.readExperi(directorydata,'SLP','HIT','surface')
-lat,lon,time,lev,slpf = MO.readExperi(directorydata,'SLP','FIT','surface')
+### Call function for precipitation data
+lat,lon,time,lev,prh = MO.readExperi(directorydata,'P','HIT','surface')
+lat,lon,time,lev,prf = MO.readExperi(directorydata,'P','FIT','surface')
 
 ### Separate per periods (ON,DJ,FM)
-slph_on = np.nanmean(slph[:,9:10,:,:],axis=1)
-slpf_on = np.nanmean(slpf[:,9:10,:,:],axis=1)
+prh_on = np.nanmean(prh[:,9:10,:,:],axis=1)
+prf_on = np.nanmean(prf[:,9:10,:,:],axis=1)
 
-slph_dj,slpf_dj = UT.calcDecJan(slph,slpf,lat,lon,'surface',1)
+prh_dj,prf_dj = UT.calcDecJan(prh,prf,lat,lon,'surface',1)
 
-slph_fm = np.nanmean(slph[:,1:2,:,:],axis=1)
-slpf_fm = np.nanmean(slpf[:,1:2,:,:],axis=1)
+prh_fm = np.nanmean(prh[:,1:2,:,:],axis=1)
+prf_fm = np.nanmean(prf[:,1:2,:,:],axis=1)
 
 ### Calculate period differenceds
-diff_on = np.nanmean((slpf_on-slph_on),axis=0)
-diff_dj = np.nanmean((slpf_dj-slph_dj),axis=0)
-diff_fm = np.nanmean((slpf_fm-slph_fm),axis=0)
-diff_onq = slpf_on-np.nanmean(slph_on,axis=0)
-diff_djq = slpf_dj-np.nanmean(slph_dj,axis=0)
-diff_fmq = slpf_fm-np.nanmean(slph_fm,axis=0)
-    
-stat_on,pvalue_on = UT.calc_indttest(slph_on,slpf_on)
-stat_dj,pvalue_dj = UT.calc_indttest(slph_dj,slpf_dj)
-stat_fm,pvalue_fm = UT.calc_indttest(slph_fm,slpf_fm)
+diff_on = np.nanmean((prf_on-prh_on),axis=0)
+diff_dj = np.nanmean((prf_dj-prh_dj),axis=0)
+diff_fm = np.nanmean((prf_fm-prh_fm),axis=0)
+diff_onq = prf_on-np.nanmean(prh_on,axis=0)
+diff_djq = prf_dj-np.nanmean(prh_dj,axis=0)
+diff_fmq = prf_fm-np.nanmean(prh_fm,axis=0)
+
+### Calculate significance    
+stat_on,pvalue_on = UT.calc_indttest(prh_on,prf_on)
+stat_dj,pvalue_dj = UT.calc_indttest(prh_dj,prf_dj)
+stat_fm,pvalue_fm = UT.calc_indttest(prh_fm,prf_fm)
 
 ###########################################################################
 ###########################################################################
 ###########################################################################
-### Plot sea level pressure data
+### Plot precipitation
 plt.rc('text',usetex=True)
 plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
 
 ### Set limits for contours and colorbars
-limit = np.arange(-6,6.1,0.5)
-barlim = np.arange(-6,7,3)
+limit = np.arange(-2,2.1,0.05)
+barlim = np.arange(-2,3,1) 
 
-### Begin figure
+### Begin plot
 fig = plt.figure()
 ax1 = plt.subplot(131)
 
@@ -105,7 +106,7 @@ ax1.annotate(r'\textbf{ON}',
             xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('nrl_sirkes')            
+cmap = ncm.cmap('precip4_diff_19lev')            
 cs.set_cmap(cmap)   
 
 ###########################################################################
@@ -141,7 +142,7 @@ ax2.annotate(r'\textbf{DJ}',
             xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('nrl_sirkes')            
+cmap = ncm.cmap('precip4_diff_19lev')            
 cs.set_cmap(cmap)  
 
 ###########################################################################
@@ -177,35 +178,35 @@ ax3.annotate(r'\textbf{FM}',
             xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-cmap = ncm.cmap('nrl_sirkes')            
+cmap = ncm.cmap('precip4_diff_19lev')            
 cs.set_cmap(cmap)  
 
 cbar_ax = fig.add_axes([0.312,0.23,0.4,0.03])                
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
-cbar.set_label(r'\textbf{hPa}',fontsize=11,color='dimgray')
+cbar.set_label(r'\textbf{mm/day}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
 cbar.set_ticklabels(map(str,barlim)) 
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
 
-plt.savefig(directoryfigure + 'SLP_diff.png',dpi=300)
+plt.savefig(directoryfigure + 'PR_diff.png',dpi=300)
 
 ###########################################################################
 ###########################################################################
 ###########################################################################
-### Set limits for contours and colorbars
-limit = np.arange(-15,16.1,1)
-barlim = np.arange(-15,16,5)
+limit = np.arange(-5,5.1,0.1)
+barlim = np.arange(-5,6,5) 
 
-for i in xrange(diff_onq.shape[0]):
+
+for i in xrange(diff_fmq.shape[0]):
     ax3 = plt.subplot(7,6,i+1)
     
     m = Basemap(projection='ortho',lon_0=0,lat_0=89,resolution='l',
                 area_thresh=10000.)
     
-    var, lons_cyclic = addcyclic(diff_onq[i], lon)
+    var, lons_cyclic = addcyclic(diff_fmq[i], lon)
     var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
     lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
     x, y = m(lon2d, lat2d)
@@ -227,20 +228,19 @@ for i in xrange(diff_onq.shape[0]):
 #    cs1 = ax3.scatter(x,y,pvalue_fmq,color='k',marker='.',alpha=0.5,
 #                    edgecolor='k',linewidth=0.2)
     
-    cmap = ncm.cmap('nrl_sirkes')            
+    cmap = ncm.cmap('precip4_diff_19lev')            
     cs.set_cmap(cmap)  
 
 cbar_ax = fig.add_axes([0.312,0.07,0.4,0.03])                
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
-cbar.set_label(r'\textbf{$^\circ$C}',fontsize=11,color='dimgray')
+cbar.set_label(r'\textbf{mm/day}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
 cbar.set_ticklabels(map(str,barlim)) 
-cbar.ax.tick_params(axis='hPa', size=.01)
+cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.00)
 plt.subplots_adjust(hspace=0)
 
-plt.savefig(directoryfigure + 'slp_diffens_on.png',dpi=300)
+plt.savefig(directoryfigure + 'pr_diffens_fm.png',dpi=300)
 print 'Completed: Script done!'
-
