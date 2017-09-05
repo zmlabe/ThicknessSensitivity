@@ -33,7 +33,7 @@ titletime = currentmn + '/' + currentdy + '/' + currentyr
 print('\n' '----Plotting U10 - %s----' % titletime)
 
 ### Alott time series
-year1 = 1960
+year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
@@ -189,6 +189,6 @@ cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
 
-plt.savefig(directoryfigure + 'U10_diff.png',dpi=300)
+plt.savefig(directoryfigure + 'U10_diff_FIT-HIT.png',dpi=300)
 print 'Completed: Script done!'
 

@@ -1,5 +1,5 @@
 """
-Script reads in monthly data from WACCM4 experiments (HIT,FIT)
+Script reads in monthly data from WACCM4 experiments (CIT,HIT,FIT)
  
 Notes
 -----
@@ -22,7 +22,7 @@ def readExperi(directory,varid,experi,level):
     varid : string
         variable name to read
     experi : string
-        experiment name (HIT or FIT)
+        experiment name (CIT or HIT or FIT)
     level : string
         Height of variable (surface or profile)
         
@@ -50,7 +50,7 @@ def readExperi(directory,varid,experi,level):
     
     ### Call files
     totaldirectory = directory + experi + '/monthly/'
-    filename = totaldirectory + varid + '_1960-2000.nc'
+    filename = totaldirectory + varid + '_1900-2000.nc'
     
     ### Read in Data
     if level == 'surface': # 3d variables

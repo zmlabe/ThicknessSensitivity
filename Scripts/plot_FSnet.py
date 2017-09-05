@@ -19,7 +19,7 @@ import calc_Utilities as UT
 
 ### Define directories
 directorydata = '/surtsey/zlabe/simu/'
-directoryfigure = '/home/zlabe/Desktop/'
+directoryfigure = '/home/zlabe/Desktop/TestPerturb/'
 #directoryfigure = '/home/zlabe/Documents/Research/SITperturb/Figures/'
 
 ### Define time           
@@ -29,10 +29,10 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting temperature - %s----' % titletime)
+print('\n' '----Plotting net surface energy flux - %s----' % titletime)
 
 ### Alott time series
-year1 = 1960
+year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
@@ -190,6 +190,6 @@ cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
 
-plt.savefig(directoryfigure + 'FSnet_diff.png',dpi=300)
+plt.savefig(directoryfigure + 'FSnet_diff_FIT-HIT.png',dpi=300)
 print('Completed: Script done!')
 

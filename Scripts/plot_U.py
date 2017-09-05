@@ -32,7 +32,7 @@ titletime = currentmn + '/' + currentdy + '/' + currentyr
 print('\n' '----Plotting temperature - %s----' % titletime)
 
 ### Alott time series
-year1 = 1960
+year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
@@ -76,7 +76,7 @@ stat_fm,pvalue_fm = UT.calc_indttest(np.nanmean(uh_fm,axis=3),
 ###########################################################################
 ###########################################################################
 ###########################################################################
-#### Plot U10
+#### Plot U
 plt.rc('text',usetex=True)
 plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
 
@@ -219,6 +219,6 @@ cbar.ax.tick_params(axis='x', size=.01)
 plt.subplots_adjust(wspace=0.3)
 plt.subplots_adjust(bottom=0.21)
 
-plt.savefig(directoryfigure + 'U_diff.png',dpi=300)
+plt.savefig(directoryfigure + 'U_diff_FIT-HIT.png',dpi=300)
 print('Completed: Script done!')
 

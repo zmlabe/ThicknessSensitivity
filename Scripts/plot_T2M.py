@@ -19,7 +19,7 @@ import calc_Utilities as UT
 
 ### Define directories
 directorydata = '/surtsey/zlabe/simu/'
-directoryfigure = '/home/zlabe/Desktop/'
+directoryfigure = '/home/zlabe/Desktop/TestPerturb/'
 #directoryfigure = '/home/zlabe/Documents/Research/SITperturb/Figures/'
 
 ### Define time           
@@ -32,7 +32,7 @@ titletime = currentmn + '/' + currentdy + '/' + currentyr
 print('\n' '----Plotting temperature - %s----' % titletime)
 
 ### Alott time series
-year1 = 1960
+year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
@@ -190,53 +190,53 @@ cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
 
-plt.savefig(directoryfigure + 'T2M_diff.png',dpi=300)
+plt.savefig(directoryfigure + 'T2M_diff_FIT-HIT.png',dpi=300)
 
 ###########################################################################
 ###########################################################################
 ###########################################################################
-for i in xrange(diff_onq.shape[0]):
-    ax3 = plt.subplot(7,6,i+1)
-    
-    m = Basemap(projection='ortho',lon_0=0,lat_0=89,resolution='l',
-                area_thresh=10000.)
-    
-    var, lons_cyclic = addcyclic(diff_onq[i], lon)
-    var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
-    lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
-    x, y = m(lon2d, lat2d)
-    
-#    pvalue_fmq,lons_cyclic = addcyclic(pvalue_fm, lon)
-#    pvalue_fmq,lons_cyclic = shiftgrid(180.,pvalue_fmq,lons_cyclic,start=False)
-              
-    m.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
-    m.drawcoastlines(color='dimgray',linewidth=0.2)
-    parallels = np.arange(-90,90,45)
-    meridians = np.arange(-180,180,60)
-    #m.drawparallels(parallels,labels=[True,True,True,True],
-    #                linewidth=0.6,color='dimgray',fontsize=6)
-    #m.drawmeridians(meridians,labels=[True,True,True,True],
-    #                linewidth=0.6,color='dimgray',fontsize=6)
-    #m.drawlsmask(land_color='dimgray',ocean_color='mintcream')
-    
-    cs = m.contourf(x,y,var,limit,extend='both')
-#    cs1 = ax3.scatter(x,y,pvalue_fmq,color='k',marker='.',alpha=0.5,
-#                    edgecolor='k',linewidth=0.2)
-    
-    cmap = ncm.cmap('NCV_blu_red')            
-    cs.set_cmap(cmap)  
-
-cbar_ax = fig.add_axes([0.312,0.07,0.4,0.03])                
-cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
-                    extend='max',extendfrac=0.07,drawedges=False)
-cbar.set_label(r'\textbf{$^\circ$C}',fontsize=11,color='dimgray')
-cbar.set_ticks(barlim)
-cbar.set_ticklabels(map(str,barlim)) 
-cbar.ax.tick_params(axis='x', size=.01)
-
-plt.subplots_adjust(wspace=0.00)
-plt.subplots_adjust(hspace=0)
-
-plt.savefig(directoryfigure + 'tas_diffens_on.png',dpi=300)
+#for i in xrange(diff_onq.shape[0]):
+#    ax3 = plt.subplot(7,6,i+1)
+#    
+#    m = Basemap(projection='ortho',lon_0=0,lat_0=89,resolution='l',
+#                area_thresh=10000.)
+#    
+#    var, lons_cyclic = addcyclic(diff_onq[i], lon)
+#    var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
+#    lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
+#    x, y = m(lon2d, lat2d)
+#    
+##    pvalue_fmq,lons_cyclic = addcyclic(pvalue_fm, lon)
+##    pvalue_fmq,lons_cyclic = shiftgrid(180.,pvalue_fmq,lons_cyclic,start=False)
+#              
+#    m.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
+#    m.drawcoastlines(color='dimgray',linewidth=0.2)
+#    parallels = np.arange(-90,90,45)
+#    meridians = np.arange(-180,180,60)
+#    #m.drawparallels(parallels,labels=[True,True,True,True],
+#    #                linewidth=0.6,color='dimgray',fontsize=6)
+#    #m.drawmeridians(meridians,labels=[True,True,True,True],
+#    #                linewidth=0.6,color='dimgray',fontsize=6)
+#    #m.drawlsmask(land_color='dimgray',ocean_color='mintcream')
+#    
+#    cs = m.contourf(x,y,var,limit,extend='both')
+##    cs1 = ax3.scatter(x,y,pvalue_fmq,color='k',marker='.',alpha=0.5,
+##                    edgecolor='k',linewidth=0.2)
+#    
+#    cmap = ncm.cmap('NCV_blu_red')            
+#    cs.set_cmap(cmap)  
+#
+#cbar_ax = fig.add_axes([0.312,0.07,0.4,0.03])                
+#cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
+#                    extend='max',extendfrac=0.07,drawedges=False)
+#cbar.set_label(r'\textbf{$^\circ$C}',fontsize=11,color='dimgray')
+#cbar.set_ticks(barlim)
+#cbar.set_ticklabels(map(str,barlim)) 
+#cbar.ax.tick_params(axis='x', size=.01)
+#
+#plt.subplots_adjust(wspace=0.00)
+#plt.subplots_adjust(hspace=0)
+#
+#plt.savefig(directoryfigure + 't2m_FIT-HIT.png',dpi=300)
 print 'Completed: Script done!'
 

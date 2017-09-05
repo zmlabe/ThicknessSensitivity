@@ -32,12 +32,12 @@ titletime = currentmn + '/' + currentdy + '/' + currentyr
 print('\n' '----Plotting Z - %s----' % titletime)
 
 ### Alott time series
-year1 = 1960
+year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 ### Call function for 500 mb height data
-lat,lon,time,lev,Z500h = MO.readExperi(directorydata,'Z500','HIT','surface')
+lat,lon,time,lev,Z500h = MO.readExperi(directorydata,'Z500','CIT','surface')
 lat,lon,time,lev,Z500f = MO.readExperi(directorydata,'Z500','FIT','surface')
 
 ### Separate per periods (ON,DJ,FM)
@@ -67,8 +67,8 @@ plt.rc('text',usetex=True)
 plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
 
 ### Set limits for contours and colorbars
-limit = np.arange(-100,100.1,1)
-barlim = np.arange(-100,101,50) 
+limit = np.arange(-60,60.1,1)
+barlim = np.arange(-60,61,30) 
 
 ### Begin plot
 fig = plt.figure()
@@ -188,6 +188,6 @@ cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
 
-plt.savefig(directoryfigure + 'Z500_diff.png',dpi=300)
+plt.savefig(directoryfigure + 'Z500_diff_FIT-CIT.png',dpi=300)
 print 'Completed: Script done!'
 
