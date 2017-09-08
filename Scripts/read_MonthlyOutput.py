@@ -40,7 +40,7 @@ def readExperi(directory,varid,experi,level):
 
     Usage
     -----
-    lat,lon,time,lev,var = readLENS(directory,varid,experi,level)
+    lat,lon,time,lev,var = readExperi(directory,varid,experi,level)
     """
     print('\n>>> Using readExperi function! \n')
     
