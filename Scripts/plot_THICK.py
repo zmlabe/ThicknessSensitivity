@@ -44,14 +44,14 @@ lat,lon,time,lev,thickf = MO.readExperi(directorydata,'THICK','FIT',
                                         'surface')
 
 ### Separate per periods (ON,DJ,FM)
-thickh_on = np.nanmean(thickh[:,9:10,:,:],axis=1)
-thickf_on = np.nanmean(thickf[:,9:10,:,:],axis=1)
+thickh_on = np.nanmean(thickh[:,9:11,:,:],axis=1)
+thickf_on = np.nanmean(thickf[:,9:11,:,:],axis=1)
 
 thickh_dj,thickf_dj = UT.calcDecJan(thickh,thickf,lat,lon,
                                     'surface',1)
 
-thickh_fm = np.nanmean(thickh[:,1:2,:,:],axis=1)
-thickf_fm = np.nanmean(thickf[:,1:2,:,:],axis=1)
+thickh_fm = np.nanmean(thickh[:,1:3,:,:],axis=1)
+thickf_fm = np.nanmean(thickf[:,1:3,:,:],axis=1)
 
 #### Calculate period differenceds
 diff_on = np.nanmean((thickf_on-thickh_on),axis=0)
@@ -186,7 +186,7 @@ cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
-cbar.set_ticklabels(map(str,barlim)) 
+cbar.set_ticklabels(list(map(str,barlim))) 
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)

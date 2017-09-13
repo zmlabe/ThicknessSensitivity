@@ -29,7 +29,7 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting Z50 - %s----' % titletime)
+print('\n' '----Plotting Z30 - %s----' % titletime)
 
 ### Alott time series
 year1 = 1900
@@ -41,13 +41,13 @@ lat,lon,time,lev,Z30h = MO.readExperi(directorydata,'Z30','HIT','surface')
 lat,lon,time,lev,Z30f = MO.readExperi(directorydata,'Z30','FIT','surface')
 
 ### Separate per periods (ON,DJ,FM)
-Z30h_on = np.nanmean(Z30h[:,9:10,:,:],axis=1)
-Z30f_on = np.nanmean(Z30f[:,9:10,:,:],axis=1)
+Z30h_on = np.nanmean(Z30h[:,9:11,:,:],axis=1)
+Z30f_on = np.nanmean(Z30f[:,9:11,:,:],axis=1)
 
 Z30h_dj,Z30f_dj = UT.calcDecJan(Z30h,Z30f,lat,lon,'surface',1)
 
-Z30h_fm = np.nanmean(Z30h[:,1:2,:,:],axis=1)
-Z30f_fm = np.nanmean(Z30f[:,1:2,:,:],axis=1)
+Z30h_fm = np.nanmean(Z30h[:,1:3,:,:],axis=1)
+Z30f_fm = np.nanmean(Z30f[:,1:3,:,:],axis=1)
 
 ### Calculate period differenceds
 diff_on = np.nanmean((Z30f_on-Z30h_on),axis=0)
@@ -186,7 +186,7 @@ cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
-cbar.set_ticklabels(map(str,barlim)) 
+cbar.set_ticklabels(list(map(str,barlim))) 
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)

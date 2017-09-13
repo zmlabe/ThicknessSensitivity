@@ -41,13 +41,13 @@ lat,lon,time,lev,Z50h = MO.readExperi(directorydata,'Z50','HIT','surface')
 lat,lon,time,lev,Z50f = MO.readExperi(directorydata,'Z50','FIT','surface')
 
 ### Separate per periods (ON,DJ,FM)
-Z50h_on = np.nanmean(Z50h[:,9:10,:,:],axis=1)
-Z50f_on = np.nanmean(Z50f[:,9:10,:,:],axis=1)
+Z50h_on = np.nanmean(Z50h[:,9:11,:,:],axis=1)
+Z50f_on = np.nanmean(Z50f[:,9:11,:,:],axis=1)
 
 Z50h_dj,Z50f_dj = UT.calcDecJan(Z50h,Z50f,lat,lon,'surface',1)
 
-Z50h_fm = np.nanmean(Z50h[:,1:2,:,:],axis=1)
-Z50f_fm = np.nanmean(Z50f[:,1:2,:,:],axis=1)
+Z50h_fm = np.nanmean(Z50h[:,1:3,:,:],axis=1)
+Z50f_fm = np.nanmean(Z50f[:,1:3,:,:],axis=1)
 
 ### Calculate period differenceds
 diff_on = np.nanmean((Z50f_on-Z50h_on),axis=0)
@@ -183,11 +183,11 @@ cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
-cbar.set_ticklabels(map(str,barlim)) 
+cbar.set_ticklabels(list(map(str,barlim))) 
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
 
 plt.savefig(directoryfigure + 'Z50_diff_FIT-HIT.png',dpi=300)
-print 'Completed: Script done!'
+print('Completed: Script done!')
 

@@ -42,13 +42,13 @@ lat,lon,time,lev,th = MO.readExperi(directorydata,'TEMP','HIT','profile')
 lat,lon,time,lev,tf = MO.readExperi(directorydata,'TEMP','FIT','profile')
 
 ### Separate per periods (ON,DJ,FM)
-th_on = np.nanmean(th[:,9:10,:,:,:],axis=1)
-tf_on = np.nanmean(tf[:,9:10,:,:,:],axis=1)
+th_on = np.nanmean(th[:,9:11,:,:,:],axis=1)
+tf_on = np.nanmean(tf[:,9:11,:,:,:],axis=1)
 
 th_dj,tf_dj = UT.calcDecJan(th,tf,lat,lon,'profile',lev.shape[0])
 
-th_fm = np.nanmean(th[:,1:2,:,:,:],axis=1)
-tf_fm = np.nanmean(tf[:,1:2,:,:,:],axis=1)
+th_fm = np.nanmean(th[:,1:3,:,:,:],axis=1)
+tf_fm = np.nanmean(tf[:,1:3,:,:,:],axis=1)
 
 #### Calculate period differenceds
 diff_on = np.nanmean((tf_on-th_on),axis=0)

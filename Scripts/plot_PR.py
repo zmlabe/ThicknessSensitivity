@@ -41,13 +41,13 @@ lat,lon,time,lev,prh = MO.readExperi(directorydata,'P','HIT','surface')
 lat,lon,time,lev,prf = MO.readExperi(directorydata,'P','FIT','surface')
 
 ### Separate per periods (ON,DJ,FM)
-prh_on = np.nanmean(prh[:,9:10,:,:],axis=1)
-prf_on = np.nanmean(prf[:,9:10,:,:],axis=1)
+prh_on = np.nanmean(prh[:,9:11,:,:],axis=1)
+prf_on = np.nanmean(prf[:,9:11,:,:],axis=1)
 
 prh_dj,prf_dj = UT.calcDecJan(prh,prf,lat,lon,'surface',1)
 
-prh_fm = np.nanmean(prh[:,1:2,:,:],axis=1)
-prf_fm = np.nanmean(prf[:,1:2,:,:],axis=1)
+prh_fm = np.nanmean(prh[:,1:3,:,:],axis=1)
+prf_fm = np.nanmean(prf[:,1:3,:,:],axis=1)
 
 ### Calculate period differenceds
 diff_on = np.nanmean((prf_on-prh_on),axis=0)
@@ -186,7 +186,7 @@ cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 cbar.set_label(r'\textbf{mm/day}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
-cbar.set_ticklabels(map(str,barlim)) 
+cbar.set_ticklabels(list(map(str,barlim)))
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
@@ -243,4 +243,4 @@ plt.savefig(directoryfigure + 'PR_diff_FIT-HIT.png',dpi=300)
 #plt.subplots_adjust(hspace=0)
 #
 #plt.savefig(directoryfigure + 'pr_diffens_fm.png',dpi=300)
-print 'Completed: Script done!'
+print('Completed: Script done!')

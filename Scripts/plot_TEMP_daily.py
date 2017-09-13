@@ -1,5 +1,5 @@
 """
-Plot geopotential comparisons between HIT and FIT experiments. These are 
+Plot temperature comparisons between HIT and FIT experiments. These are 
 sea ice thickness perturbation experiments using WACCM4. This script is
 for DAILY data.
 
@@ -29,35 +29,35 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting Daily Geopotential - %s----' % titletime)
+print('\n' '----Plotting Daily Temperature Profile - %s----' % titletime)
 
 #### Alott time series
 year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-### Call function for geopotential profile data for polar cap
-lat,lon,time,lev,z_h = DO.readMeanExperi(directorydata,'GEOP',
+### Call function for temperature profile data for polar cap
+lat,lon,time,lev,TEMP_h = DO.readMeanExperi(directorydata,'TEMP',
                                         'HIT','profile')
-lat,lon,time,lev,z_f = DO.readMeanExperi(directorydata,'GEOP',
+lat,lon,time,lev,TEMP_f = DO.readMeanExperi(directorydata,'TEMP',
                                         'FIT','profile')
                                         
 #### Calculate significance
-stat,pvalue = UT.calc_indttest(z_h,z_f)
+stat,pvalue = UT.calc_indttest(TEMP_h,TEMP_f)
                                                                     
 ### Calculate ensemble mean
-z_diff= np.nanmean(z_f-z_h,axis=0)       
+TEMP_diff= np.nanmean(TEMP_f-TEMP_h,axis=0)       
 
 ############################################################################
 ############################################################################
 ############################################################################
-##### Plot geopotential profile
+##### Plot temperature profile
 plt.rc('text',usetex=True)
 plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
 
 ### Set limits for contours and colorbars
-limit = np.arange(-150,150.1,15)
-barlim = np.arange(-150,151,75)
+limit = np.arange(-3,3.1,0.2)
+barlim = np.arange(-3,4,1)
 zscale = np.array([1000,700,500,300,200,
                     100,50,30,10])
 timeq = np.arange(0,212,1)
@@ -82,10 +82,10 @@ ax1.xaxis.set_ticks_position('bottom')
 ax1.yaxis.set_ticks_position('left')
 
 
-cs = plt.contourf(timeq,lev,z_diff.transpose(),limit,extend='both')
+cs = plt.contourf(timeq,lev,TEMP_diff.transpose(),limit,extend='both')
                   
 plt.contourf(timeqq,levq,pvalue.transpose(),colors='None',hatches=['////'],
-             linewidth=5)                  
+             linewidth=5)
 
 plt.gca().invert_yaxis()
 plt.yscale('log',nonposy='clip')
@@ -99,14 +99,14 @@ plt.minorticks_off()
 plt.xlim([30,210])
 plt.ylim([1000,10])
 
-cmap = ncm.cmap('temp_diff_18lev')            
+cmap = ncm.cmap('NCV_blu_red')            
 cs.set_cmap(cmap) 
 
 cbar_ax = fig.add_axes([0.312,0.1,0.4,0.03])                
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 cbar.outline.set_edgecolor('dimgrey')
-cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')
+cbar.set_label(r'\textbf{$^\circ$C}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
 cbar.set_ticklabels(list(map(str,barlim)))
 cbar.ax.tick_params(axis='x', size=.01)
@@ -114,5 +114,5 @@ cbar.ax.tick_params(axis='x', size=.01)
 plt.subplots_adjust(wspace=0.3)
 plt.subplots_adjust(bottom=0.21)
 
-plt.savefig(directoryfigure + 'Z_daily_diff_FIT-HIT.png',dpi=300)
+plt.savefig(directoryfigure + 'TEMP_daily_diff_FIT-HIT.png',dpi=300)
 print('Completed: Script done!')                                

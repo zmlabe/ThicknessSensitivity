@@ -37,17 +37,17 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 ### Call function for 500 mb height data
-lat,lon,time,lev,Z500h = MO.readExperi(directorydata,'Z500','CIT','surface')
+lat,lon,time,lev,Z500h = MO.readExperi(directorydata,'Z500','HIT','surface')
 lat,lon,time,lev,Z500f = MO.readExperi(directorydata,'Z500','FIT','surface')
 
 ### Separate per periods (ON,DJ,FM)
-Z500h_on = np.nanmean(Z500h[:,9:10,:,:],axis=1)
-Z500f_on = np.nanmean(Z500f[:,9:10,:,:],axis=1)
+Z500h_on = np.nanmean(Z500h[:,9:11,:,:],axis=1)
+Z500f_on = np.nanmean(Z500f[:,9:11,:,:],axis=1)
 
 Z500h_dj,Z500f_dj = UT.calcDecJan(Z500h,Z500f,lat,lon,'surface',1)
 
-Z500h_fm = np.nanmean(Z500h[:,1:2,:,:],axis=1)
-Z500f_fm = np.nanmean(Z500f[:,1:2,:,:],axis=1)
+Z500h_fm = np.nanmean(Z500h[:,1:3,:,:],axis=1)
+Z500f_fm = np.nanmean(Z500f[:,1:3,:,:],axis=1)
 
 ### Calculate period differenceds
 diff_on = np.nanmean((Z500f_on-Z500h_on),axis=0)
@@ -188,6 +188,6 @@ cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.01)
 
-plt.savefig(directoryfigure + 'Z500_diff_FIT-CIT.png',dpi=300)
+plt.savefig(directoryfigure + 'Z500_diff_FIT-HIT.png',dpi=300)
 print('Completed: Script done!')
 

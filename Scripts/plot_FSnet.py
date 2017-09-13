@@ -41,13 +41,13 @@ lat,lon,time,lev,fsh = MO.readExperi(directorydata,'RNET','HIT','surface')
 lat,lon,time,lev,fsf = MO.readExperi(directorydata,'RNET','FIT','surface')
 
 ### Separate per periods (ON,DJ,FM)
-fsh_on = np.nanmean(fsh[:,9:10,:,:],axis=1)
-fsf_on = np.nanmean(fsf[:,9:10,:,:],axis=1)
+fsh_on = np.nanmean(fsh[:,9:11,:,:],axis=1)
+fsf_on = np.nanmean(fsf[:,9:11,:,:],axis=1)
 
 fsh_dj,fsf_dj = UT.calcDecJan(fsh,fsf,lat,lon,'surface',1)
 
-fsh_fm = np.nanmean(fsh[:,1:2,:,:],axis=1)
-fsf_fm = np.nanmean(fsf[:,1:2,:,:],axis=1)
+fsh_fm = np.nanmean(fsh[:,1:3,:,:],axis=1)
+fsf_fm = np.nanmean(fsf[:,1:3,:,:],axis=1)
 
 ### Calculate period differenceds
 diff_on = np.nanmean((fsf_on-fsh_on),axis=0)

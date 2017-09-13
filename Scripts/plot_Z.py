@@ -41,13 +41,13 @@ lat,lon,time,lev,zh = MO.readExperi(directorydata,'GEOP','HIT','profile')
 lat,lon,time,lev,zf = MO.readExperi(directorydata,'GEOP','FIT','profile')
 
 #### Separate per periods (ON,DJ,FM)
-zh_on = np.nanmean(zh[:,9:10,:,:,:],axis=1)
-zf_on = np.nanmean(zf[:,9:10,:,:,:],axis=1)
+zh_on = np.nanmean(zh[:,9:11,:,:,:],axis=1)
+zf_on = np.nanmean(zf[:,9:11,:,:,:],axis=1)
 
 zh_dj,zf_dj = UT.calcDecJan(zh,zf,lat,lon,'profile',lev.shape[0])
 
-zh_fm = np.nanmean(zh[:,1:2,:,:,:],axis=1)
-zf_fm = np.nanmean(zf[:,1:2,:,:,:],axis=1)
+zh_fm = np.nanmean(zh[:,1:3,:,:,:],axis=1)
+zf_fm = np.nanmean(zf[:,1:3,:,:,:],axis=1)
 
 #### Calculate period differenceds
 diff_on = np.nanmean((zf_on-zh_on),axis=0)
@@ -203,14 +203,14 @@ plt.minorticks_off()
 cmap = ncm.cmap('temp_diff_18lev')            
 cs.set_cmap(cmap) 
 
-ax3.annotate(r'\textbf{m}',
+ax3.annotate(r'\textbf{FM}',
             xy=(0, 0),xytext=(0.35,1.02),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
 cbar_ax = fig.add_axes([0.312,0.1,0.4,0.03])                
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
-cbar.set_label(r'\textbf{m/s}',fontsize=11,color='dimgray')
+cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
 cbar.set_ticklabels(list(map(str,barlim))) 
 cbar.ax.tick_params(axis='x', size=.01)

@@ -19,7 +19,7 @@ import calc_Utilities as UT
 
 ### Define directories
 directorydata = '/surtsey/zlabe/simu/'
-directoryfigure = '/home/zlabe/Desktop/'
+directoryfigure = '/home/zlabe/Desktop/TestPerturb/'
 #directoryfigure = '/home/zlabe/Documents/Research/SITperturb/Figures/'
 
 ### Define time           
@@ -41,13 +41,13 @@ lat,lon,time,lev,uh = MO.readExperi(directorydata,'U','HIT','profile')
 lat,lon,time,lev,uf = MO.readExperi(directorydata,'U','FIT','profile')
 
 #### Separate per periods (ON,DJ,FM)
-uh_on = np.nanmean(uh[:,9:10,:,:,:],axis=1)
-uf_on = np.nanmean(uf[:,9:10,:,:,:],axis=1)
+uh_on = np.nanmean(uh[:,9:11,:,:,:],axis=1)
+uf_on = np.nanmean(uf[:,9:11,:,:,:],axis=1)
 
 uh_dj,uf_dj = UT.calcDecJan(uh,uf,lat,lon,'profile',lev.shape[0])
 
-uh_fm = np.nanmean(uh[:,1:2,:,:,:],axis=1)
-uf_fm = np.nanmean(uf[:,1:2,:,:,:],axis=1)
+uh_fm = np.nanmean(uh[:,1:3,:,:,:],axis=1)
+uf_fm = np.nanmean(uf[:,1:3,:,:,:],axis=1)
 
 #### Calculate period differenceds
 diff_on = np.nanmean((uf_on-uh_on),axis=0)
