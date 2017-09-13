@@ -185,8 +185,9 @@ cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 cbar.set_label(r'\textbf{$^\circ$C}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
-cbar.set_ticklabels(map(str,barlim)) 
+cbar.set_ticklabels(list(map(str,barlim)))
 cbar.ax.tick_params(axis='x', size=.01)
+cbar.outline.set_edgecolor('dimgrey')
 
 plt.subplots_adjust(wspace=0.01)
 
@@ -238,5 +239,5 @@ plt.savefig(directoryfigure + 'T2M_diff_FIT-HIT.png',dpi=300)
 #plt.subplots_adjust(hspace=0)
 #
 #plt.savefig(directoryfigure + 't2m_FIT-HIT.png',dpi=300)
-print 'Completed: Script done!'
+print('Completed: Script done!')
 

@@ -32,22 +32,21 @@ titletime = currentmn + '/' + currentdy + '/' + currentyr
 print('\n' '----Plotting Daily Geopotential - %s----' % titletime)
 
 #### Alott time series
-#year1 = 1900
-#year2 = 2000
-#years = np.arange(year1,year2+1,1)
-#
-#### Call function for surface temperature data
-#lat,lon,time,lev,z_h = DO.readMeanExperi(directorydata,'GEOP',
-#                                        'HIT','profile')
-#lat,lon,time,lev,z_f = DO.readMeanExperi(directorydata,'GEOP',
-#                                        'FIT','profile')
-#                                        
-##### Calculate significance
-#stat,pvalue = UT.calc_indttest(z_h,z_f)
-#                                   
-#                                        
-#### Calculate ensemble mean
-#z_diff= np.nanmean(z_f-z_h,axis=0)       
+year1 = 1900
+year2 = 2000
+years = np.arange(year1,year2+1,1)
+
+### Call function for surface temperature data
+lat,lon,time,lev,z_h = DO.readMeanExperi(directorydata,'GEOP',
+                                        'HIT','profile')
+lat,lon,time,lev,z_f = DO.readMeanExperi(directorydata,'GEOP',
+                                        'FIT','profile')
+                                        
+#### Calculate significance
+stat,pvalue = UT.calc_indttest(z_h,z_f)
+                                                                    
+### Calculate ensemble mean
+z_diff= np.nanmean(z_f-z_h,axis=0)       
 
 ############################################################################
 ############################################################################
@@ -85,7 +84,7 @@ ax1.yaxis.set_ticks_position('left')
 
 cs = plt.contourf(timeq,lev,z_diff.transpose(),limit,extend='both')
                   
-plt.contourf(timeqq,levq,pvalue.transpose(),colors='None',hatches=['.'],
+plt.contourf(timeqq,levq,pvalue.transpose(),colors='None',hatches=['////'],
              linewidth=5)                  
                   
 #pvalue[np.where(np.isnan(pvalue))] = 0.0                  
@@ -117,7 +116,7 @@ cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
 cbar.outline.set_edgecolor('dimgrey')
 cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
-cbar.set_ticklabels(map(str,barlim)) 
+cbar.set_ticklabels(list(map(str,barlim)))
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.3)

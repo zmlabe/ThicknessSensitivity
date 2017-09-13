@@ -50,51 +50,53 @@ def calcDecJan(varx,vary,lat,lon,level,levsq):
     ### Reshape for 3d variables
     if level == 'surface':    
         varxravel = np.reshape(varx.copy(),
-                           (varx.shape[0]*12.,
-                            lat.shape[0],lon.shape[0]))
+                           (int(varx.shape[0]*12),
+                            int(lat.shape[0]),int(lon.shape[0])))
         varyravel = np.reshape(vary.copy(),
-                               (vary.shape[0]*12.,
-                                lat.shape[0],lon.shape[0])) 
+                               (int(vary.shape[0]*12),
+                                int(lat.shape[0]),int(lon.shape[0]))) 
                                
         varx_dj = np.empty((varx.shape[0]-1,lat.shape[0],lon.shape[0]))
         vary_dj = np.empty((vary.shape[0]-1,lat.shape[0],lon.shape[0]) )                 
         for i in range(0,varxravel.shape[0]-12,12):
             counter = 0
             if i >= 12:
-                counter = i/12
+                counter = i//12
             djappendh = np.append(varxravel[11+i,:,:],varxravel[12+i,:,:])
             djappendf = np.append(varyravel[11+i,:,:],varyravel[12+i,:,:])    
             varx_dj[counter,:,:] = np.nanmean(np.reshape(djappendh,
-                                    (2,lat.shape[0],lon.shape[0])),axis=0)                   
+                                    (2,int(lat.shape[0]),int(lon.shape[0]))),
+                                    axis=0)                   
             vary_dj[counter,:,:] = np.nanmean(np.reshape(djappendf,
-                                    (2,lat.shape[0],lon.shape[0])),axis=0)
+                                    (2,int(lat.shape[0]),int(lon.shape[0]))),
+                                    axis=0)
     ### Reshape for 4d variables
     elif level == 'profile':
         varxravel = np.reshape(varx.copy(),
-                           (varx.shape[0]*12.,levsq,
-                            lat.shape[0],lon.shape[0]))
+                           (int(varx.shape[0]*12.),levsq,
+                            int(lat.shape[0]),int(lon.shape[0])))
         varyravel = np.reshape(vary.copy(),
-                               (vary.shape[0]*12.,levsq,
-                                lat.shape[0],lon.shape[0])) 
+                               (int(vary.shape[0]*12.),levsq,
+                                int(lat.shape[0]),int(lon.shape[0]))) 
                                
-        varx_dj = np.empty((varx.shape[0]-1,levsq,
-                            lat.shape[0],lon.shape[0]))
-        vary_dj = np.empty((vary.shape[0]-1,levsq,
-                            lat.shape[0],lon.shape[0]) )                 
+        varx_dj = np.empty((int(varx.shape[0]-1),levsq,
+                            int(lat.shape[0]),int(lon.shape[0])))
+        vary_dj = np.empty((int(vary.shape[0]-1),levsq,
+                            int(lat.shape[0]),int(lon.shape[0])) )                 
         for i in range(0,varxravel.shape[0]-12,12):
             counter = 0
             if i >= 12:
-                counter = i/12
+                counter = i//12
             djappendh = np.append(varxravel[11+i,:,:,:],
                                   varxravel[12+i,:,:,:])
             djappendf = np.append(varyravel[11+i,:,:,:],
                                   varyravel[12+i,:,:,:])    
             varx_dj[counter,:,:] = np.nanmean(np.reshape(djappendh,
-                                    (2,levsq,lat.shape[0],
-                                     lon.shape[0])),axis=0)                   
+                                    (2,levsq,int(lat.shape[0]),
+                                     int(lon.shape[0]))),axis=0)                   
             vary_dj[counter,:,:] = np.nanmean(np.reshape(djappendf,
-                                    (2,levsq,lat.shape[0],
-                                     lon.shape[0])),axis=0)                               
+                                    (2,levsq,int(lat.shape[0]),
+                                     int(lon.shape[0]))),axis=0)                               
     else:
         print(ValueError('Selected wrong height - (surface or profile!)!'))    
                                 

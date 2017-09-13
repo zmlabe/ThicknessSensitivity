@@ -107,10 +107,12 @@ ax1.yaxis.set_ticks_position('left')
 
 
 cs = plt.contourf(lat,lev,zdiff_on,limit,extend='both')
-cs1 = plt.scatter(latq,levq,pvalue_on,color='k',marker='.',alpha=0.9,
-                edgecolor='k',linewidth=0.7)
+#cs1 = plt.scatter(latq,levq,pvalue_on,color='k',marker='.',alpha=0.9,
+#                edgecolor='k',linewidth=0.7)
 cs2 = plt.contour(lat,lev,zclimo_on,np.arange(-20,101,5),
                   linewidths=0.6,colors='dimgrey')
+plt.contourf(latq,levq,pvalue_on,colors='None',hatches=['////'],
+             linewidth=5)   
 
 plt.gca().invert_yaxis()
 plt.yscale('log',nonposy='clip')
@@ -128,7 +130,7 @@ ax1.annotate(r'\textbf{ON}',
             xy=(0, 0),xytext=(0.33,1.02),xycoords='axes fraction',
             fontsize=25,color='dimgrey',rotation=0)
 
-###########################################################################
+############################################################################
 ax2 = plt.subplot(132)
 
 ax2.spines['top'].set_color('dimgrey')
@@ -147,10 +149,12 @@ ax2.xaxis.set_ticks_position('bottom')
 ax2.yaxis.set_ticks_position('left')
 
 cs = plt.contourf(lat,lev,zdiff_dj,limit,extend='both')
-cs1 = plt.scatter(latq,levq,pvalue_dj,color='k',marker='.',alpha=0.9,
-                edgecolor='k',linewidth=0.7)
+#cs1 = plt.scatter(latq,levq,pvalue_dj,color='k',marker='.',alpha=0.9,
+#                edgecolor='k',linewidth=0.7)
 cs2 = plt.contour(lat,lev,zclimo_dj,np.arange(-20,101,5),
                   linewidths=0.6,colors='dimgrey')
+plt.contourf(latq,levq,pvalue_dj,colors='None',hatches=['////'],
+             linewidth=5) 
 
 plt.gca().invert_yaxis()
 plt.yscale('log',nonposy='clip')
@@ -187,10 +191,12 @@ ax3.xaxis.set_ticks_position('bottom')
 ax3.yaxis.set_ticks_position('left')
 
 cs = plt.contourf(lat,lev,zdiff_fm,limit,extend='both')
-cs1 = plt.scatter(latq,levq,pvalue_fm,color='k',marker='.',alpha=0.9,
-                edgecolor='k',linewidth=0.7)
+#cs1 = plt.scatter(latq,levq,pvalue_fm,color='k',marker='.',alpha=0.9,
+#                edgecolor='k',linewidth=0.7)
 cs2 = plt.contour(lat,lev,zclimo_fm,np.arange(-20,101,5),
                   linewidths=0.6,colors='dimgrey')
+plt.contourf(latq,levq,pvalue_fm,colors='None',hatches=['////'],
+             linewidth=5) 
 
 plt.gca().invert_yaxis()
 plt.yscale('log',nonposy='clip')
@@ -213,7 +219,7 @@ cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 cbar.set_label(r'\textbf{m/s}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlim)
-cbar.set_ticklabels(map(str,barlim)) 
+cbar.set_ticklabels(list(map(str,barlim))) 
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.subplots_adjust(wspace=0.3)

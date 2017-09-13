@@ -76,11 +76,11 @@ def readExperi(directory,varid,experi,level):
     ### Reshape to split years and months
     months = 12
     if level == 'surface': # 3d variables
-        var = np.reshape(varq,(varq.shape[0]/12.,months,
-                              lat.shape[0],lon.shape[0]))
+        var = np.reshape(varq,(int(varq.shape[0]/12),months,
+                              int(lat.shape[0]),int(lon.shape[0])))
     elif level == 'profile': # 4d variables
-        var = np.reshape(varq,(varq.shape[0]/12.,months,lev.shape[0],
-                      lat.shape[0],lon.shape[0]))
+        var = np.reshape(varq,(int(varq.shape[0]/12),months,int(lev.shape[0]),
+                      int(lat.shape[0]),int(lon.shape[0])))
     else:
         print(ValueError('Selected wrong height - (surface or profile!)!')) 
     print('Completed: Reshaped %s array!' % (varid))
@@ -88,7 +88,7 @@ def readExperi(directory,varid,experi,level):
     ### Convert units
     if varid in ('TEMP','T2M'):
         var = var - 273.15 # Kelvin to degrees Celsius 
-        print 'Completed: Changed units (K to C)!'
+        print('Completed: Changed units (K to C)!')
 
     print('\n*Completed: Finished readExperi function!')
     return lat,lon,time,lev,var
