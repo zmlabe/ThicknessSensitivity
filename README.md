@@ -1,6 +1,6 @@
 # Arctic sea ice thickness - perturbation study
 
-###### Under construction... ```[Python 2.7]```
+###### Under construction... ```[Python 3.6]```
 
 ## Contact
 Zachary Labe - [Research Website](http://sites.uci.edu/zlabe/) - [@ZLabe](https://twitter.com/ZLabe)
