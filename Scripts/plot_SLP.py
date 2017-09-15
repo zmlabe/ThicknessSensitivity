@@ -98,8 +98,10 @@ meridians = np.arange(-180,180,60)
 #m.drawlsmask(land_color='dimgray',ocean_color='mintcream')
 
 cs = m.contourf(x,y,var,limit,extend='both')
-cs1 = ax1.scatter(x,y,pvalue_onq,color='k',marker='.',alpha=0.5,
-                edgecolor='k',linewidth=0.2)
+#cs1 = ax1.scatter(x,y,pvalue_onq,color='k',marker='.',alpha=0.5,
+#                edgecolor='k',linewidth=0.2)
+cs1 = m.contourf(x,y,pvalue_onq,colors='None',hatches=['....'],
+             linewidths=0.4)
 
 ax1.annotate(r'\textbf{ON}',
             xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
@@ -134,8 +136,10 @@ meridians = np.arange(-180,180,60)
 #m.drawlsmask(land_color='dimgray',ocean_color='mintcream')
 
 cs = m.contourf(x,y,var,limit,extend='both')
-cs1 = ax2.scatter(x,y,pvalue_djq,color='k',marker='.',alpha=0.5,
-                edgecolor='k',linewidth=0.2)
+#cs1 = ax2.scatter(x,y,pvalue_djq,color='k',marker='.',alpha=0.5,
+#                edgecolor='k',linewidth=0.2)
+cs1 = m.contourf(x,y,pvalue_djq,colors='None',hatches=['....'],
+             linewidths=0.4)
 
 ax2.annotate(r'\textbf{DJ}',
             xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
@@ -170,8 +174,10 @@ meridians = np.arange(-180,180,60)
 #m.drawlsmask(land_color='dimgray',ocean_color='mintcream')
 
 cs = m.contourf(x,y,var,limit,extend='both')
-cs1 = ax3.scatter(x,y,pvalue_fmq,color='k',marker='.',alpha=0.5,
-                edgecolor='k',linewidth=0.2)
+#cs1 = ax3.scatter(x,y,pvalue_fmq,color='k',marker='.',alpha=0.5,
+#                edgecolor='k',linewidth=0.2)
+cs1 = m.contourf(x,y,pvalue_fmq,colors='None',hatches=['....'],
+             linewidths=0.4)
 
 ax3.annotate(r'\textbf{FM}',
             xy=(0, 0),xytext=(0.35,1.05),xycoords='axes fraction',
