@@ -10,6 +10,7 @@ Usage
 -----
     [1] calcDecJan(varx,vary,lat,lon,level,levsq)
     [2] calc_indttest(varx,vary)
+    [3] calc_weightedAve(var,lats)
 """
 
 def calcDecJan(varx,vary,lat,lon,level,levsq):
@@ -139,3 +140,62 @@ def calc_indttest(varx,vary):
     
     print('*Completed: Finished calc_ttest function!')
     return stat,pvalue
+
+def calc_weightedAve(var,lats):
+    """
+    Area weights sit array 5d [ens,year,month,lat,lon] into [ens,year,month]
+    
+    Parameters
+    ----------
+    var : 5d,4d,3d array of a gridded variable
+    lats : 2d array of latitudes
+    
+    Returns
+    -------
+    meanvar : weighted average for 3d,2d,1d array
+
+    Usage
+    -----
+    meanvar = calc_weightedAve(var,lats)
+    """
+    print('\n>>> Using calc_weightedAve function!')
+    
+    ### Import modules
+    import numpy as np
+    
+    ### Calculate weighted average for various dimensional arrays
+    if var.ndim == 5:
+        meanvar = np.empty((var.shape[0],var.shape[1],var.shape[2]))
+        for ens in range(var.shape[0]):
+            for i in range(var.shape[1]):
+                for j in range(var.shape[2]):
+                    varq = var[ens,i,j,:,:]
+                    mask = np.isfinite(varq) & np.isfinite(lats)
+                    varmask = varq[mask]
+                    areamask = np.cos(np.deg2rad(lats[mask]))
+                    meanvar[ens,i,j] = np.nansum(varmask*areamask) \
+                                        /np.sum(areamask)  
+    elif var.ndim == 4:
+        meanvar = np.empty((var.shape[0],var.shape[1]))
+        for i in range(var.shape[0]):
+            for j in range(var.shape[1]):
+                varq = var[i,j,:,:]
+                mask = np.isfinite(varq) & np.isfinite(lats)
+                varmask = varq[mask]
+                areamask = np.cos(np.deg2rad(lats[mask]))
+                meanvar[i,j] = np.nansum(varmask*areamask)/np.sum(areamask)
+    elif var.ndim == 3:
+        meanvar = np.empty((var.shape[0],var.shape[1]))
+        for i in range(var.shape[0]):
+            varq = var[i,:,:]
+            mask = np.isfinite(varq) & np.isfinite(lats)
+            varmask = varq[mask]
+            areamask = np.cos(np.deg2rad(lats[mask]))
+            meanvar[i] = np.nansum(varmask*areamask)/np.sum(areamask)
+    else:
+        ValueError('Variable has the wrong dimensions!')
+     
+    print('Completed: Weighted variable average!')
+    
+    print('*Completed: Finished calc_weightedAve function!')
+    return meanvar

@@ -36,35 +36,69 @@ def readLENSEnsemble(directory,varq):
     lats,lons,var = readLENS(directory,varq)
     """
     
-    print '\n>>> Using readLENS function!'
+    print('\n>>> Using readLENS function!')
     
     ### Import modules
     import numpy as np
     from netCDF4 import Dataset
     
     ens = ['02','03','04','05','06','07','08','09'] + \
-        map(str,np.arange(10,36,1)) + map(str,np.arange(101,106,1))
+        list(map(str,np.arange(10,36,1))) + list(map(str,np.arange(101,106,1)))
     
     ### Modify directory
     directory = directory + '%s/' % (varq)
     
-    varn = np.empty((len(ens),161*12,96,144)) # 96 for all
-    for i in xrange(len(ens)):
-        filename = '%s_0%s_1920-2100.nc' % (varq,ens[i])
-        
-        if int(ens[i]) > 100:
-            filename = '%s_%s_1920-2100.nc' % (varq,ens[i])
-            
-        data = Dataset(directory + filename)
-        lats = data.variables['latitude'][:]
-        lons = data.variables['longitude'][:]
-        varn[i,:,:,:] = data.variables['%s' % varq][:-240,:,:] # -2080
-        data.close()
-        
-        print 'Completed: Read LENS Ensemble #%s - %s!' % (ens[i],varq)
+    if varq == 'SST':
+        varn = np.empty((len(ens),75*12,384,320)) # 96 for all
+        for i in range(len(ens)):
+            if int(ens[i]) > 33:
+                filename = '%s_2006_2100_0%s.nc' % (varq,ens[i])
                 
-    var = np.reshape(varn,(len(ens),varn.shape[1]/12,12,
-                           lats.shape[0],lons.shape[0]))
+                data = Dataset(directory + filename)
+                lats = data.variables['ULAT'][:]
+                lons = data.variables['ULONG'][:]
+                varn[i,:,:,:] = np.squeeze(data.variables['%s' % varq][:-240,:,:]) # -2080
+                data.close()
+            else:
+                filename = '%s_2006_2080_0%s.nc' % (varq,ens[i])
+                
+                data = Dataset(directory + filename)
+                lats = data.variables['ULAT'][:]
+                lons = data.variables['ULONG'][:]
+                varn[i,:,:,:] = np.squeeze(data.variables['%s' % varq][:,:,:]) # -2080
+                data.close()
+            
+            if int(ens[i]) > 100:
+                filename = '%s_2006_2100_%s.nc' % (varq,ens[i])
+                
+                data = Dataset(directory + filename)
+                lats = data.variables['ULAT'][:]
+                lons = data.variables['ULONG'][:]
+                varn[i,:,:,:] = np.squeeze(data.variables['%s' % varq][:-240,:,:]) # -2080
+                data.close()
+            
+            print('Completed: Read LENS Ensemble #%s - %s!' % (ens[i],varq))
+        
+    else:
+        varn = np.empty((len(ens),161*12,96,144)) # 96 for all
+        for i in range(len(ens)):
+            filename = '%s_0%s_1920_2080.nc' % (varq,ens[i])
+            
+            if int(ens[i]) > 100:
+                filename = '%s_%s_1920_2100.nc' % (varq,ens[i])
+                
+            print(directory +filename)
+                
+            data = Dataset(directory + filename)
+            lats = data.variables['latitude'][:]
+            lons = data.variables['longitude'][:]
+            varn[i,:,:,:] = data.variables['%s' % varq][:-240,:,:] # -2080
+            data.close()
+            
+            print('Completed: Read LENS Ensemble #%s - %s!' % (ens[i],varq))
+                
+    var = np.reshape(varn,(len(ens),int(varn.shape[1]/12),12,
+                           int(lats.shape[0]),int(lons.shape[0])))
     var = np.squeeze(np.asarray(var))
     
     ### Modify Units
@@ -79,7 +113,7 @@ def readLENSEnsemble(directory,varq):
     ### Missing values    
     var[np.where(var <= -9999)] = np.nan
         
-    print '*Completed: Read %s data!' % varq
+    print('*Completed: Read %s data!' % varq)
     
     return var,lats,lons
     

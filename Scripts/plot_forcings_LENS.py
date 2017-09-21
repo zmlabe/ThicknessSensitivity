@@ -18,10 +18,10 @@ from mpl_toolkits.basemap import Basemap, addcyclic, shiftgrid
 import nclcmaps as ncm
 import datetime
 import read_var_LENS as LV
-import read_SeaIceThick_LENS as lens
+#import read_SeaIceThick_LENS as lens
 
 ### Define directories
-directorydata = '/home/zlabe/surt/simu/test/' 
+directorydata = '/home/zlabe/surt/LENS/ForcingPerturb/' 
 directoryfigure = '/home/zlabe/Desktop/'
 
 ### Define time           
@@ -31,10 +31,10 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print '\n' '----Plotting forcing files - %s----' % titletime 
+print('\n' '----Plotting forcing files - %s----' % titletime)
 
 ensembles = ['02','03','04','05','06','07','08','09'] + \
-    map(str,np.arange(10,36,1)) + map(str,np.arange(101,106,1))
+    list(map(str,np.arange(10,36,1))) + list(map(str,np.arange(101,106,1)))
 
 ### Alott time series
 year1 = 2006
@@ -97,7 +97,7 @@ meridians = np.arange(-180,180,60)
 #                linewidth=0.1,color='k',fontsize=6)
 #m.drawmeridians(meridians,labels=[True,True,True,True],
 #                linewidth=0.1,color='k',fontsize=6)
-m1.drawlsmask(land_color='dimgray',ocean_color='mintcream')
+#m1.drawlsmask(land_color='dimgray',ocean_color='mintcream')
 
 cs = m1.contourf(x,y,var,limsit,extend='max')
 cs1 = m1.contour(x,y,var,barlimsit,linewidths=0.1,colors='darkgrey',
@@ -109,9 +109,9 @@ def colormapSIT():
     cmap1 = plt.get_cmap('BuPu')
     cmap2 = plt.get_cmap('RdPu_r')
     cmap3 = plt.get_cmap('gist_heat_r')
-    cmaplist1 = [cmap1(i) for i in xrange(30,cmap1.N-10)]
-    cmaplist2 = [cmap2(i) for i in xrange(15,cmap2.N)]
-    cmaplist3 = [cmap3(i) for i in xrange(cmap2.N-15)]
+    cmaplist1 = [cmap1(i) for i in range(30,cmap1.N-10)]
+    cmaplist2 = [cmap2(i) for i in range(15,cmap2.N)]
+    cmaplist3 = [cmap3(i) for i in range(cmap2.N-15)]
     cms_sit = c.ListedColormap(cmaplist1 + cmaplist2 + cmaplist3)
     return cms_sit
         
@@ -137,11 +137,13 @@ meridians = np.arange(-180,180,60)
 #                linewidth=0.1,color='k',fontsize=6)
 #m.drawmeridians(meridians,labels=[True,True,True,True],
 #                linewidth=0.1,color='k',fontsize=6)
-m2.drawlsmask(land_color='dimgray',ocean_color='mintcream')
+#m2.drawlsmask(land_color='dimgray',ocean_color='mintcream')
 
 cs = m2.contourf(x,y,var,limsit,extend='max')
 cs1 = m2.contour(x,y,var,barlimsit,linewidths=0.1,colors='darkgrey',
                 linestyles='-')
+
+m2.fillcontinents(color='dimgray')
 
 cmap = colormapSIT()      
 cs.set_cmap('cubehelix') 
@@ -150,11 +152,9 @@ cbar_ax = fig.add_axes([0.312,0.15,0.4,0.03])
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 
-#m.fillcontinents(color='dimgray')
-
 cbar.set_label(r'\textbf{Thickness [m]}',fontsize=11,color='dimgray')
 cbar.set_ticks(barlimsit)
-cbar.set_ticklabels(map(str,barlimsit)) 
+cbar.set_ticklabels(list(map(str,barlimsit)))
 cbar.ax.tick_params(axis='x', size=.01)
 
 plt.text(-0.15,23,r'\textbf{HIT}',color='dimgray',fontsize=30)
@@ -173,7 +173,7 @@ ax = plt.subplot(121)
 
 m3 = Basemap(projection='ortho',lon_0=0,lat_0=90,resolution='l')
 
-var, lons_cyclic = addcyclic(varf, lons)
+var, lons_cyclic = addcyclic(varh, lons)
 var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
 lon2d, lat2d = np.meshgrid(lons_cyclic, lats)
 x, y = m3(lon2d, lat2d)
@@ -187,21 +187,11 @@ meridians = np.arange(-180,180,60)
 #                linewidth=0.1,color='k',fontsize=6)
 #m.drawmeridians(meridians,labels=[True,True,True,True],
 #                linewidth=0.1,color='k',fontsize=6)
-m3.drawlsmask(land_color='dimgray',ocean_color='mintcream')
+#m3.drawlsmask(land_color='dimgray',ocean_color='mintcream')
 
 cs = m3.contourf(x,y,var,limsit,extend='max')
 cs1 = m3.contour(x,y,var,barlimsit,linewidths=0.1,colors='darkgrey',
                 linestyles='-')
-
-def colormapSIT():
-    cmap1 = plt.get_cmap('BuPu')
-    cmap2 = plt.get_cmap('RdPu_r')
-    cmap3 = plt.get_cmap('gist_heat_r')
-    cmaplist1 = [cmap1(i) for i in xrange(30,cmap1.N-10)]
-    cmaplist2 = [cmap2(i) for i in xrange(15,cmap2.N)]
-    cmaplist3 = [cmap3(i) for i in xrange(cmap2.N-15)]
-    cms_sit = c.ListedColormap(cmaplist1 + cmaplist2 + cmaplist3)
-    return cms_sit
            
 cmap = colormapSIT()      
 cs.set_cmap('cubehelix')
@@ -211,14 +201,14 @@ m3.fillcontinents(color='dimgray')
 cbar = m3.colorbar(cs,location='bottom',pad = 0.2,extend='max',
                   drawedges=False)
 ticks = barlimsit
-labels = map(str,barlimsit)
+labels = list(map(str,barlimsit))
 cbar.set_ticks(ticks)
 cbar.set_ticklabels(labels)
 cbar.set_label(r'\textbf{Thickness [m]}',fontsize=11,color='dimgray')
 cbar.ax.tick_params(axis='x', size=.01)
 
 ###########################################################################
-diffsit = varf - varh
+diffsit = varc - varh
 
 ax = plt.subplot(122)
 
@@ -238,7 +228,7 @@ meridians = np.arange(-180,180,60)
 #                linewidth=0.1,color='k',fontsize=6)
 #m.drawmeridians(meridians,labels=[True,True,True,True],
 #                linewidth=0.1,color='k',fontsize=6)
-m4.drawlsmask(land_color='dimgray',ocean_color='mintcream')
+#m4.drawlsmask(land_color='dimgray',ocean_color='mintcream')
 
 cs = m4.contourf(x,y,var,limdiff,extend='both')
 cs1 = m4.contour(x,y,var,barlimdiff,linewidths=0.1,colors='darkgrey',
@@ -249,7 +239,7 @@ cs.set_cmap(cmap)
 cbar = m4.colorbar(cs,location='bottom',pad = 0.2,extend='max',
                   drawedges=False)
 ticks = barlimdiff
-labels = map(str,barlimdiff)
+labels = list(map(str,barlimdiff))
 cbar.set_ticks(ticks)
 cbar.set_ticklabels(labels)
 cbar.set_label(r'\textbf{Difference [m]}',fontsize=11,color='dimgray')
@@ -257,9 +247,9 @@ cbar.ax.tick_params(axis='x', size=.01)
 
 m4.fillcontinents(color='dimgray')
 
-plt.annotate(r'\textbf{FIT}',xy=(-0.82,1.1),
+plt.annotate(r'\textbf{HIT}',xy=(-0.82,1.1),
              xycoords='axes fraction',color='dimgray',fontsize=30,alpha=1) 
-plt.annotate(r'\textbf{FIT--HIT}',xy=(0.2,1.1),
+plt.annotate(r'\textbf{CIT--HIT}',xy=(0.2,1.1),
              xycoords='axes fraction',color='dimgray',fontsize=30,alpha=1) 
 plt.annotate(r'\textbf{DJF}',xy=(-1.45,0.55),
              xycoords='axes fraction',color='dimgray',fontsize=30,alpha=1,
@@ -267,4 +257,4 @@ plt.annotate(r'\textbf{DJF}',xy=(-1.45,0.55),
 
 plt.savefig(directoryfigure + 'sit_diff.png',dpi=300)
 
-print 'Completed: Script done!'
+print('Completed: Script done!')

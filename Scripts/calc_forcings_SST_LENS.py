@@ -97,7 +97,7 @@ def netcdfLENS(lats,lons,var,varqq,directory):
     filename = directory + name
     ncfile = Dataset(filename,'w',format='NETCDF4')
     ncfile.description = 'LENS %s interpolated on 1x1 grid' % varqq
-    
+     list(map(str,np.arange(10,36,1)))
     ### Dimensions
     ncfile.createDimension('months',var.shape[0])
     ncfile.createDimension('lat',var.shape[1])

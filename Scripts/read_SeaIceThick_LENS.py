@@ -38,7 +38,7 @@ def readLENS(directory,threshold):
     lats,lons,sit = readLENS(directory,years,threshold)
     """
     
-    print '\n>>> Using readLENS function!'
+    print('\n>>> Using readLENS function!')
     
     ### Import modules
     import numpy as np
@@ -68,9 +68,9 @@ def readLENS(directory,threshold):
     else:
         sit[np.where(sit < threshold)] = np.nan
         sit[np.where(sit < 0)] = np.nan
-    print 'Masking SIT data < %s m!' % threshold
+    print('Masking SIT data < %s m!' % threshold)
 
-    print '*Completed: Read SIT data!'   
+    print('*Completed: Read SIT data!')
     
     return lats,lons,sit
     
@@ -101,7 +101,7 @@ def readLENSEnsemble(directory,threshold,version):
     lats,lons,sit = readLENS(directory,threshold,version)
     """
     
-    print '\n>>> Using readLENS function!'
+    print('\n>>> Using readLENS function!')
     
     ### Import modules
     import numpy as np
@@ -129,7 +129,7 @@ def readLENSEnsemble(directory,threshold,version):
             sitq[i,:,:,:] = data.variables['SIT'][:,:,:]
             data.close()
             
-            print 'Completed reading historical LENS ensemble #%s!' % ens[i]
+            print('Completed reading historical LENS ensemble #%s!' % ens[i])
             
     elif version == 'rcp85':   
         sitq = np.empty((len(ens),75*12,180,360))
@@ -159,10 +159,10 @@ def readLENSEnsemble(directory,threshold,version):
             
             data.close()
             
-            print 'Completed reading RCP8.5 LENS ensemble #%s!' % ens[i]
+            print('Completed reading RCP8.5 LENS ensemble #%s!' % ens[i])
         
-    sit = np.reshape(sitq,(len(ens),sitq.shape[1]/12,12,
-                           lats.shape[0],lons.shape[0]))
+    sit = np.reshape(sitq,(len(ens),int(sitq.shape[1]//12),12,
+                           int(lats.shape[0]),int(lons.shape[0])))
     del sitq                        
     sit = np.squeeze(np.asarray(sit))
     
@@ -175,8 +175,8 @@ def readLENSEnsemble(directory,threshold,version):
 #        sit[np.where(sit < 0)] = 0.
 #        sit[np.where(sit > 12)] = 12.
         
-    print 'Masking SIT data < %s m!' % threshold
+    print('Masking SIT data < %s m!' % threshold)
 
-    print '*Completed: Read SIT data!' 
+    print('*Completed: Read SIT data!')
     
     return sit,lats,lons
