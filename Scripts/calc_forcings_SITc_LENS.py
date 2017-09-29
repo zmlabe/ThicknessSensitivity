@@ -27,14 +27,15 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print '\n' '----Calculate forcing file SIT constant - %s----' % titletime 
+print('\n' '----Calculate forcing file SIT constant - %s----' % titletime)
 
 ### Set all values to 2 m
 ### Used NCO by:
 # ncap2 -s 'where(ice_thick>0) ice_thick=2;' SST-SIT_lens_CTL.nc test.nc
+# ncap2 -s 'where(ice_thick>0) ice_thick=2;' SST-SIC-SIT_lens_2051-2080.nc  SST-SIC_lens_2051-2080_FICT.nc
 
 ### Read in data 
-data = Dataset(directorydata + 'test.nc')
+data = Dataset(directorydata + 'SST-SIC_lens_2051-2080_FICT.nc')
 lon = data.variables['lon'][:]
 lat = data.variables['lat'][:]
 sit = data.variables['ice_thick'][:]
@@ -51,7 +52,7 @@ ax = plt.subplot(111)
 
 m = Basemap(projection='ortho',lon_0=300,lat_0=90,resolution='l')
          
-var = sit[9]
+var = sit[1]
           
 m.drawmapboundary(fill_color='white')
 m.drawcoastlines(color='dimgrey',linewidth=0.3)
@@ -61,10 +62,9 @@ m.drawparallels(parallels,labels=[True,True,True,True],
                 linewidth=0.3,color='k',fontsize=6)
 m.drawmeridians(meridians,labels=[True,True,True,True],
                 linewidth=0.3,color='k',fontsize=6)
-m.drawlsmask(land_color='darkgrey',ocean_color='mintcream')
 
-cs = m.contourf(lons,lats,var,np.arange(0,5,1),latlon=True,extend='both')
-cs1 = m.contour(lons,lats,var,np.arange(0,5,1),linewidths=0.2,colors='darkgrey',
+cs = m.contourf(lons,lats,var,np.arange(0,3,0.1),latlon=True,extend='both')
+cs1 = m.contour(lons,lats,var,np.arange(0,3,0.1),linewidths=0.2,colors='darkgrey',
                 linestyles='-',latlon=True)
                 
 cs.set_cmap('cubehelix')
@@ -74,8 +74,8 @@ cbar = plt.colorbar(cs,extend='both')
 cbar.set_label(r'\textbf{SIT (m)}')  
 ticks = np.arange(0,5,1)
 cbar.set_ticks(ticks)
-cbar.set_ticklabels(map(str,ticks))     
+cbar.set_ticklabels(list(map(str,ticks)))     
 
 plt.savefig(directoryfigure + 'test_sitconstant.png',dpi=300)
 
-print 'Completed: Script done!'
+print('Completed: Script done!')
