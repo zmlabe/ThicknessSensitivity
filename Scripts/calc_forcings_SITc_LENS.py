@@ -32,7 +32,7 @@ print('\n' '----Calculate forcing file SIT constant - %s----' % titletime)
 ### Set all values to 2 m
 ### Used NCO by:
 # ncap2 -s 'where(ice_thick>0) ice_thick=2;' SST-SIT_lens_CTL.nc test.nc
-# ncap2 -s 'where(ice_thick>0) ice_thick=2;' SST-SIC-SIT_lens_2051-2080.nc  SST-SIC_lens_2051-2080_FICT.nc
+# ncap2 -s 'where(ice_thick>0) ice_thick=2;' SST-SIC-SIT_lens_2051-2080_FICT.nc  SST-SIC_lens_2051-2080_FIC.nc
 
 ### Read in data 
 data = Dataset(directorydata + 'SST-SIC_lens_2051-2080_FICT.nc')
