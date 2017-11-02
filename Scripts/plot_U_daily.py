@@ -38,9 +38,9 @@ years = np.arange(year1,year2+1,1)
 
 ### Call function for zonal wind profile data for polar cap
 lat,lon,time,lev,U_h = DO.readMeanExperi(directorydata,'U',
-                                        'CIT','profile')
+                                        'HIT','profile')
 lat,lon,time,lev,U_f = DO.readMeanExperi(directorydata,'U',
-                                        'FIC','profile')
+                                        'FIT','profile')
                                         
 #### Calculate significance
 stat,pvalue = UT.calc_indttest(U_h,U_f)

@@ -36,7 +36,7 @@ year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-varnames = ['Z500','Z50','Z30','SLP','T2M','U10']
+varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,tashit = MO.readExperi(directorydata,
@@ -55,6 +55,9 @@ for v in range(len(varnames)):
     
     ### Concatonate runs
     runnames = [r'HIT',r'FIT',r'CIT',r'FIC',r'FICT']
+    experiments = [r'\textbf{FIT--HIT}',r'\textbf{FIT--CIT}',
+               r'\textbf{HIT--CIT}',r'\textbf{FIC--CIT}',
+               r'\textbf{FICT--FIT}',r'\textbf{FICT--HIT}']
     runs = [tashit,tasfit,tascit,tasfic,tasfict]
     
     ### Separate per periods (ON,DJ,FM)
@@ -71,20 +74,20 @@ for v in range(len(varnames)):
     diff_FITCIT = np.nanmean(tas_on[1] - tas_on[2],axis=0)
     diff_HITCIT = np.nanmean(tas_on[0] - tas_on[2],axis=0)
     diff_FICCIT = np.nanmean(tas_on[3] - tas_on[2],axis=0)
-    diff_FICFIT = np.nanmean(tas_on[3] - tas_on[1],axis=0)
+    diff_FICTFIT = np.nanmean(tas_on[4] - tas_on[1],axis=0)
     diff_FICTHIT = np.nanmean(tas_on[4] - tas_on[0],axis=0)
     diffruns_on = np.asarray([diff_FITHIT,diff_FITCIT,diff_HITCIT,diff_FICCIT,
-                              diff_FICFIT,diff_FICTHIT])
+                              diff_FICTFIT,diff_FICTHIT])
     
     ### Calculate significance for FM
     stat_FITHIT,pvalue_FITHIT = UT.calc_indttest(tas_on[1],tas_on[0])
     stat_FITCIT,pvalue_FITCIT = UT.calc_indttest(tas_on[1],tas_on[2])
     stat_HITCIT,pvalue_HITCIT = UT.calc_indttest(tas_on[0],tas_on[2])
     stat_FICCIT,pvalue_FICCIT = UT.calc_indttest(tas_on[3],tas_on[2])
-    stat_FICFIT,pvalue_FICFIT = UT.calc_indttest(tas_on[3],tas_on[1])
+    stat_FICTFIT,pvalue_FICTFIT = UT.calc_indttest(tas_on[4],tas_on[1])
     stat_FICTHIT,pvalue_FICTHIT = UT.calc_indttest(tas_on[4],tas_on[0])
     pruns_on = np.asarray([pvalue_FITHIT,pvalue_FITCIT,pvalue_HITCIT,pvalue_FICCIT,
-                           pvalue_FICFIT,pvalue_FICTHIT])
+                           pvalue_FICTFIT,pvalue_FICTHIT])
     
     ###########################################################################
     ###########################################################################
@@ -112,30 +115,42 @@ for v in range(len(varnames)):
     elif varnames[v] == 'U10':
         limit = np.arange(-10,10.1,1)
         barlim = np.arange(-10,11,5)
+    elif varnames[v] == 'RNET':    
+        limit = np.arange(-50,50.1,1)
+        barlim = np.arange(-50,51,25)
+    elif varnames[v] == 'P':
+        limit = np.arange(-2,2.1,0.05)
+        barlim = np.arange(-2,3,1) 
+    elif varnames[v] == 'THICK':
+        limit = np.arange(-60,60.1,3)
+        barlim = np.arange(-60,61,30)
     
     fig = plt.figure()
     for i in range(len(diffruns_on)):
         var = diffruns_on[i]
         pvar = pruns_on[i]
         
+        if varnames[v] == 'RNET':
+            var = var*-1.
+        
         ax1 = plt.subplot(2,3,i+1)
         m = Basemap(projection='ortho',lon_0=0,lat_0=89,resolution='l',
                     area_thresh=10000.)
         
-    #    var, lons_cyclic = addcyclic(diff_on, lon)
-    #    var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
-    #    lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
-    #    x, y = m(lon2d, lat2d)
+        var, lons_cyclic = addcyclic(var, lon)
+        var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
+        lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
+        x, y = m(lon2d, lat2d)
         
-    #    pvalue_onq,lons_cyclic = addcyclic(pvalue_on, lon)
-    #    pvalue_onq,lons_cyclic = shiftgrid(180.,pvalue_onq,lons_cyclic,start=False)
+        pvar,lons_cyclic = addcyclic(pvar, lon)
+        pvar,lons_cyclic = shiftgrid(180.,pvar,lons_cyclic,start=False)
                   
         m.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
         m.drawcoastlines(color='dimgray',linewidth=0.8)
         
-        cs = m.contourf(lon2,lat2,var,limit,extend='both',latlon=True)
-        cs1 = m.contourf(lon2,lat2,pvar,colors='None',hatches=['....'],
-                     linewidths=0.4,latlon=True)
+        cs = m.contourf(x,y,var,limit,extend='both')
+        cs1 = m.contourf(x,y,pvar,colors='None',hatches=['....'],
+                     linewidths=0.4)
         
         if varnames[v] == 'T2M':
             cmap = ncm.cmap('NCV_blu_red')           
@@ -155,6 +170,31 @@ for v in range(len(varnames)):
         elif varnames[v] == 'U10':
             cmap = ncm.cmap('temp_diff_18lev')           
             cs.set_cmap(cmap)  
+        elif varnames[v] == 'RNET':
+            cmap = ncm.cmap('NCV_blu_red')           
+            cs.set_cmap(cmap) 
+        elif varnames[v] == 'P':
+            cmap = ncm.cmap('precip4_diff_19lev')            
+            cs.set_cmap(cmap) 
+        elif varnames[v] == 'THICK':
+            cmap = ncm.cmap('NCV_blu_red')           
+            cs.set_cmap(cmap)
+            
+        if varnames[v] == 'RNET':
+            m.drawcoastlines(color='darkgray',linewidth=0.3)
+            m.fillcontinents(color='dimgrey')
+        else:
+            m.drawcoastlines(color='dimgray',linewidth=0.8)
+            
+        ### Add experiment text to subplot
+        if i >= 4:
+            ax1.annotate(r'%s' % experiments[i],xy=(0,0),xytext=(0.88,0.885),
+                         textcoords='axes fraction',color='k',
+                         fontsize=11,rotation=319,ha='center',va='center')
+        else:
+            ax1.annotate(r'%s' % experiments[i],xy=(0,0),xytext=(0.865,0.90),
+                         textcoords='axes fraction',color='k',fontsize=11,
+                         rotation=320,ha='center',va='center')
                 
     ###########################################################################
     cbar_ax = fig.add_axes([0.312,0.1,0.4,0.03])                
@@ -172,6 +212,12 @@ for v in range(len(varnames)):
         cbar.set_label(r'\textbf{hPa}',fontsize=11,color='dimgray')  
     elif varnames[v] == 'U10':
         cbar.set_label(r'\textbf{m/s}',fontsize=11,color='dimgray')  
+    elif varnames[v] == 'RNET':
+        cbar.set_label(r'\textbf{W/m$^{\bf{2}}$}',fontsize=11,color='dimgray') 
+    elif varnames[v] == 'P':
+        cbar.set_label(r'\textbf{mm/day}',fontsize=11,color='dimgray') 
+    elif varnames[v] == 'THICK':
+        cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray') 
 
     cbar.set_ticks(barlim)
     cbar.set_ticklabels(list(map(str,barlim)))
