@@ -36,7 +36,7 @@ year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK']
+varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK','U300']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,tashit = MO.readExperi(directorydata,
@@ -112,7 +112,7 @@ for v in range(len(varnames)):
     elif varnames[v] == 'SLP':
         limit = np.arange(-6,6.1,0.5)
         barlim = np.arange(-6,7,3)
-    elif varnames[v] == 'U10':
+    elif varnames[v] == 'U10' or varnames[v] == 'U300':
         limit = np.arange(-10,10.1,1)
         barlim = np.arange(-10,11,5)
     elif varnames[v] == 'RNET':    
@@ -172,7 +172,7 @@ for v in range(len(varnames)):
         elif varnames[v] == 'SLP':
             cmap = ncm.cmap('nrl_sirkes')           
             cs.set_cmap(cmap)  
-        elif varnames[v] == 'U10':
+        elif varnames[v] == 'U10' or varnames[v] == 'U300':
             cmap = ncm.cmap('temp_diff_18lev')           
             cs.set_cmap(cmap)  
         elif varnames[v] == 'RNET':
@@ -210,7 +210,7 @@ for v in range(len(varnames)):
         cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')  
     elif varnames[v] == 'SLP':
         cbar.set_label(r'\textbf{hPa}',fontsize=11,color='dimgray')  
-    elif varnames[v] == 'U10':
+    elif varnames[v] == 'U10' or varnames[v] == 'U300':
         cbar.set_label(r'\textbf{m/s}',fontsize=11,color='dimgray')  
     elif varnames[v] == 'RNET':
         cbar.set_label(r'\textbf{W/m$^{\bf{2}}$}',fontsize=11,color='dimgray') 

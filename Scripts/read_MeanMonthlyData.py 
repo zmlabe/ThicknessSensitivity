@@ -52,9 +52,6 @@ def readExperi(directory,varid,experi,level):
     totaldirectory = directory + experi + '/monthly/'
     filename = totaldirectory + varid + '_1900-2000.nc'
     
-    if varid == 'EGR':
-        filename = totaldirectory + varid + '_500_850.nc'
-    
     ### Read in Data
     if level == 'surface': # 3d variables
         data = Dataset(filename,'r')
@@ -74,7 +71,7 @@ def readExperi(directory,varid,experi,level):
         data.close()
     else:
         print(ValueError('Selected wrong height - (surface or profile!)!'))    
-    print('Completed: Read data for *%s* : %s!' % (experi[:4],varid))
+    print('Completed: Read data for *%s* : %s!' % (experi[:3],varid))
     
     ### Reshape to split years and months
     months = 12

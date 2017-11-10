@@ -55,7 +55,7 @@ def readMeanExperi(directory,varid,experi,level):
     
     ### Call files
     if level == 'surface': # 1d variable
-        var = np.empty((ENS,212))
+        var = np.empty((ENS,212,96,144))
     elif level == 'profile': # 2d variable
         var = np.empty((ENS,212,17))
         
@@ -64,6 +64,9 @@ def readMeanExperi(directory,varid,experi,level):
                         '%s/' % (i+1)
         filename = totaldirectory + varid + '_%s_' % (i+1) + 'mean.nc'
         
+        if varid == 'Z500':
+            filename = totaldirectory + varid + '_%s.nc' % (i+1)
+        
         ### Read in Data
         if level == 'surface': # 3d variables
             data = Dataset(filename,'r')
@@ -71,7 +74,7 @@ def readMeanExperi(directory,varid,experi,level):
             lev = 'surface'
             lat = data.variables['latitude'][:]
             lon = data.variables['longitude'][:]
-            var[i,:] = data.variables['%s' % varid][:]
+            var[i,:,:,:] = data.variables['%s' % varid][:].squeeze()
             data.close()
         elif level == 'profile': # 4d variables
             data = Dataset(filename,'r')
@@ -91,7 +94,7 @@ def readMeanExperi(directory,varid,experi,level):
         
 #### Test function -- no need to use    
 #directory = '/surtsey/zlabe/simu/'
-#varid = 'GEOP'
+#varid = 'V'
 #experi = 'FIT'
 #level = 'profile'  
 #lat,lon,time,lev,var = readMeanExperi(directory,varid,experi,level)

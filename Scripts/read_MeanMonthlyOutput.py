@@ -1,5 +1,5 @@
 """
-Script reads in monthly data from WACCM4 experiments (CIT,HIT,FIT)
+Script reads in MEAN monthly data from WACCM4 experiments (CIT,HIT,FIT)
  
 Notes
 -----
@@ -8,10 +8,10 @@ Notes
     
 Usage
 -----
-    readExperi(directory,varid,experi,level)
+    readMeanExperi(directory,varid,experi,level)
 """
 
-def readExperi(directory,varid,experi,level):
+def readMeanExperi(directory,varid,experi,level):
     """
     Function reads monthly data from WACCM4 simulations
 
@@ -22,7 +22,7 @@ def readExperi(directory,varid,experi,level):
     varid : string
         variable name to read
     experi : string
-        experiment name (CIT or HIT or FIT)
+        experiment name (CIT or HIT or FIT or FIC or FICT)
     level : string
         Height of variable (surface or profile)
         
@@ -35,14 +35,14 @@ def readExperi(directory,varid,experi,level):
         longitudes
     time : 1d numpy array
         standard time (days since 1870-1-1, 00:00:00)
-    var : 4d numpy array or 5d numpy array 
-        [year,month,lat,lon] or [year,month,level,lat,lon]
+    var : 2d numpy array or 3d numpy array 
+        [year,month] or [year,month,level]
 
     Usage
     -----
-    lat,lon,time,lev,var = readExperi(directory,varid,experi,level)
+    lat,lon,time,lev,var = readMeanExperi(directory,varid,experi,level)
     """
-    print('\n>>> Using readExperi function! \n')
+    print('\n>>> Using readMeanExperi function!')
     
     ### Import modules
     import numpy as np
@@ -50,13 +50,10 @@ def readExperi(directory,varid,experi,level):
     
     ### Call files
     totaldirectory = directory + experi + '/monthly/'
-    filename = totaldirectory + varid + '_1900-2000.nc'
-    
-    if varid == 'EGR':
-        filename = totaldirectory + varid + '_500_850.nc'
+    filename = totaldirectory + varid + '_mean.nc'
     
     ### Read in Data
-    if level == 'surface': # 3d variables
+    if level == 'surface': # 1d variables
         data = Dataset(filename,'r')
         time = data.variables['time'][:]
         lev = 'surface'
@@ -64,7 +61,7 @@ def readExperi(directory,varid,experi,level):
         lon = data.variables['longitude'][:]
         varq = data.variables['%s' % varid][:]
         data.close()
-    elif level == 'profile': # 4d variables
+    elif level == 'profile': # 2d variables
         data = Dataset(filename,'r')
         time = data.variables['time'][:]
         lev = data.variables['level'][:]
@@ -78,12 +75,10 @@ def readExperi(directory,varid,experi,level):
     
     ### Reshape to split years and months
     months = 12
-    if level == 'surface': # 3d variables
-        var = np.reshape(varq,(int(varq.shape[0]/12),months,
-                              int(lat.shape[0]),int(lon.shape[0])))
-    elif level == 'profile': # 4d variables
-        var = np.reshape(varq,(int(varq.shape[0]/12),months,int(lev.shape[0]),
-                      int(lat.shape[0]),int(lon.shape[0])))
+    if level == 'surface': # 2d variables
+        var = np.reshape(varq,((varq.shape[0]//12),months))
+    elif level == 'profile': # 3d variables
+        var = np.reshape(varq,((varq.shape[0]//12),months,int(lev.shape[0])))
     else:
         print(ValueError('Selected wrong height - (surface or profile!)!')) 
     print('Completed: Reshaped %s array!' % (varid))
@@ -93,14 +88,12 @@ def readExperi(directory,varid,experi,level):
         var = var - 273.15 # Kelvin to degrees Celsius 
         print('Completed: Changed units (K to C)!')
 
-    print('\n*Completed: Finished readExperi function!')
+    print('*Completed: Finished readExperi function!')
     return lat,lon,time,lev,var
 
 ### Test function -- no need to use    
-#directory = '/surtsey/zlabe/simu/'
-#varid = 'T2M'
-##varid = 'TEMP'
-#experi = 'HIT'
-#level = 'surface'
-#    
-#lat,lon,time,lev,var = readExperi(directory,varid,experi,level)
+directory = '/surtsey/zlabe/simu/'
+varid = 'LHFLX'
+experi = 'FIT'
+level = 'surface'
+lat,lon,time,lev,var = readMeanExperi(directory,varid,experi,level)

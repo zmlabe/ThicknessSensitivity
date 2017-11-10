@@ -201,7 +201,7 @@ def calcDecJanFeb(varx,vary,lat,lon,level,levsq):
     else:
         print(ValueError('Selected wrong height - (surface or profile!)!'))    
                                 
-    print('Completed: Organized data by months (ON,DJ,FM)!')
+    print('Completed: Organized data by months (DJF)!')
 
     print('*Completed: Finished calcDecJanFeb function!')
     return varx_djf,vary_djf
