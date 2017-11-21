@@ -36,7 +36,8 @@ year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK','U300']
+varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK','U300',
+            'Z300']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,tashit = MO.readExperi(directorydata,
@@ -100,7 +101,7 @@ for v in range(len(varnames)):
     if varnames[v] == 'T2M':
         limit = np.arange(-10,10.1,0.5)
         barlim = np.arange(-10,11,5)
-    elif varnames[v] == 'Z500':
+    elif varnames[v] == 'Z500' or varnames[v] == 'Z300':
         limit = np.arange(-60,60.1,1)
         barlim = np.arange(-60,61,30) 
     elif varnames[v] == 'Z50':
@@ -154,7 +155,7 @@ for v in range(len(varnames)):
         if varnames[v] == 'T2M':
             cmap = ncm.cmap('NCV_blu_red')           
             cs.set_cmap(cmap)   
-        elif varnames[v] == 'Z500':
+        elif varnames[v] == 'Z500' or varnames[v] == 'Z300':
             cmap = ncm.cmap('nrl_sirkes')           
             cs.set_cmap(cmap)  
         elif varnames[v] == 'Z50':
@@ -201,7 +202,7 @@ for v in range(len(varnames)):
                         extend='max',extendfrac=0.07,drawedges=False)
     if varnames[v] == 'T2M':
         cbar.set_label(r'\textbf{$^\circ$C}',fontsize=11,color='dimgray')  
-    elif varnames[v] == 'Z500':
+    elif varnames[v] == 'Z500' or varnames[v] == 'Z300':
         cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')  
     elif varnames[v] == 'Z50':
         cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray')  

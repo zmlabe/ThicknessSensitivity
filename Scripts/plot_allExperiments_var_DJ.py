@@ -37,6 +37,7 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK','U300']
+varnames = ['Z30']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,tashit = MO.readExperi(directorydata,
@@ -68,6 +69,15 @@ for v in range(len(varnames)):
         tas_on[i] = np.nanmean(runs[i][:,9:11,:,:],axis=1)    
         tas_dj[i],tas_dj[i] = UT.calcDecJan(runs[i],runs[i],lat,lon,'surface',1)    
         tas_fm[i] = np.nanmean(runs[i][:,1:3,:,:],axis=1)
+    
+    ### Compute climatology    
+    climofit = np.nanmean(tas_dj[0],axis=0)
+    climohit = np.nanmean(tas_dj[1],axis=0)
+    climocit = np.nanmean(tas_dj[2],axis=0)
+    climofic = np.nanmean(tas_dj[3],axis=0)
+    climofict = np.nanmean(tas_dj[4],axis=0)
+    
+    climo = [climohit,climocit,climocit,climocit,climofit,climohit]
     
     ### Compute comparisons for FM - taken ensemble average
     diff_FITHIT = np.nanmean(tas_dj[1] - tas_dj[0],axis=0)
@@ -107,7 +117,7 @@ for v in range(len(varnames)):
         limit = np.arange(-60,60.1,1)
         barlim = np.arange(-60,61,30) 
     elif varnames[v] == 'Z30':
-        limit = np.arange(-60,60.1,1)
+        limit = np.arange(-60,60.1,5)
         barlim = np.arange(-60,61,30) 
     elif varnames[v] == 'SLP':
         limit = np.arange(-6,6.1,0.5)
@@ -144,13 +154,17 @@ for v in range(len(varnames)):
         
         pvar,lons_cyclic = addcyclic(pvar, lon)
         pvar,lons_cyclic = shiftgrid(180.,pvar,lons_cyclic,start=False)
+        climoq,lons_cyclic = addcyclic(climo[i], lon)
+        climoq,lons_cyclic = shiftgrid(180.,climoq,lons_cyclic,start=False)
                   
         m.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
         
         cs = m.contourf(x,y,var,limit,extend='both')
         cs1 = m.contourf(x,y,pvar,colors='None',hatches=['....'],
                          linewidths=0.4)
-
+        if varnames[v] == 'Z30': # the interval is 250 m 
+            cs2 = m.contour(x,y,climoq,np.arange(21900,23500,250),
+                            colors='k',linewidths=1.5,zorder=10)
         if varnames[v] == 'RNET':
             m.drawcoastlines(color='darkgray',linewidth=0.3)
             m.fillcontinents(color='dimgrey')

@@ -59,7 +59,7 @@ varh = (sith[0] + sith[1] + sith[-1])/3.
 sitf[np.where(sitf == 0)] = np.nan            
 varf = (sitf[0] + sitf[1] + sitf[-1])/3.
 sich[np.where(sich == 0)] = np.nan            
-varch = ((sich[0] + sich[1] + sicf[-1])/3.)*100 # convert SIC to 1-100%
+varch = ((sich[0] + sich[1] + sich[-1])/3.)*100 # convert SIC to 1-100%
 sicf[np.where(sicf == 0)] = np.nan            
 varcf = ((sicf[0] + sicf[1] + sicf[-1])/3.)*100 # convert SIC to 1-100%
 
@@ -101,9 +101,9 @@ m1.drawcoastlines(color='darkgrey',linewidth=0.1)
 
 cst = m1.contourf(lons2,lats2,varf,limsit,extend='max',latlon=True)
 
-ax.annotate(r'\textbf{FIT}',xy=(0.5,0.82),
-             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
-             ha='center') 
+#ax.annotate(r'\textbf{FIT}',xy=(0.5,0.82),
+#             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
+#             ha='center') 
 m1.fillcontinents(color='dimgray')  
 cst.set_cmap('cubehelix')
 
@@ -117,9 +117,9 @@ m2.drawcoastlines(color='darkgrey',linewidth=0.1)
 cstt = m2.contourf(lons2,lats2,varh,limsit,extend='max',latlon=True)
 
 m2.fillcontinents(color='dimgray')
-ax.annotate(r'\textbf{HIT}',xy=(0.5,0.82),
-             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
-             ha='center')    
+#ax.annotate(r'\textbf{HIT}',xy=(0.5,0.82),
+#             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
+#             ha='center')    
 cstt.set_cmap('cubehelix') 
 
 ###############################################################################
@@ -136,9 +136,9 @@ cstd = m3.contourf(lons2,lats2,diffsit,limdiff,latlon=True)
 
 cmap = cmocean.cm.ice   
 cstd.set_cmap(cmap)
-ax.annotate(r'\textbf{FIT-HIT}',xy=(0.5,0.82),
-             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
-             ha='center') 
+#ax.annotate(r'\textbf{FIT-HIT}',xy=(0.5,0.82),
+#             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
+#             ha='center') 
 m3.fillcontinents(color='dimgray')
 
 ###############################################################################
@@ -151,9 +151,9 @@ m1.drawcoastlines(color='darkgrey',linewidth=0.1)
 csc = m1.contourf(lons2,lats2,varcf,limsic,latlon=True)
 
 m1.fillcontinents(color='dimgray')
-ax.annotate(r'\textbf{FIC}',xy=(0.5,0.82),
-             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
-             ha='center')         
+#ax.annotate(r'\textbf{FIC}',xy=(0.5,0.82),
+#             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
+#             ha='center')         
 cmap = cmocean.cm.dense    
 csc.set_cmap(cmap)
 
@@ -167,9 +167,9 @@ m2.drawcoastlines(color='darkgrey',linewidth=0.1)
 
 cscc = m2.contourf(lons2,lats2,varch,limsic,latlon=True)
 
-ax.annotate(r'\textbf{HIT}',xy=(0.5,0.82),
-             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
-             ha='center') 
+#ax.annotate(r'\textbf{HIT}',xy=(0.5,0.82),
+#             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
+#             ha='center') 
 m2.fillcontinents(color='dimgray')
 cmap = cmocean.cm.dense    
 cscc.set_cmap(cmap)
@@ -188,9 +188,9 @@ cscd = m3.contourf(lons2,lats2,diffsic,limsicdiff,latlon=True)
 
 cmap = cmocean.cm.ice   
 cscd.set_cmap(cmap)
-ax.annotate(r'\textbf{FIC-HIT}',xy=(0.5,0.82),
-             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
-             ha='center') 
+#ax.annotate(r'\textbf{FIC-HIT}',xy=(0.5,0.82),
+#             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
+#             ha='center') 
 m3.fillcontinents(color='dimgray')
 
 ### Add text boxes
@@ -201,6 +201,15 @@ plt.annotate(r'\textbf{THICKNESS}',xy=(-2.5,1.92),
 plt.annotate(r'\textbf{CONCENTRATION}',xy=(-2.5,0.93),
              xycoords='axes fraction',color='k',fontsize=13,alpha=1,
              rotation=90,ha='right') 
+plt.annotate(r'\textbf{F}',xy=(-1.885,2.3),
+             xycoords='axes fraction',color='k',fontsize=20,alpha=1,
+             ha='center') 
+plt.annotate(r'\textbf{H}',xy=(-0.7,2.3),
+             xycoords='axes fraction',color='k',fontsize=20,alpha=1,
+             ha='center') 
+plt.annotate(r'\textbf{F--H}',xy=(0.5,2.3),
+             xycoords='axes fraction',color='k',fontsize=20,alpha=1,
+             ha='center') 
 
 ### Add thickness colorbar
 cbar_ax = fig.add_axes([0.28,0.505,0.2,0.02])                
