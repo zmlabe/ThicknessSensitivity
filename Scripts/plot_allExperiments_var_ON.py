@@ -16,6 +16,7 @@ import nclcmaps as ncm
 import datetime
 import read_MonthlyOutput as MO
 import calc_Utilities as UT
+import cmocean
 
 ### Define directories
 directorydata = '/surtsey/zlabe/simu/'
@@ -29,14 +30,16 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting 2-m temperature - %s----' % titletime)
+print('\n' '----Plotting ON variable data - %s----' % titletime)
 
 ### Alott time series
 year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK','U300']
+varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK','U300',
+            'SWE']
+varnames = ['SWE']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,tashit = MO.readExperi(directorydata,
@@ -92,7 +95,7 @@ for v in range(len(varnames)):
     ###########################################################################
     ###########################################################################
     ###########################################################################
-    ### Plot surface temperature
+    ### Plot various variables for ON
     plt.rc('text',usetex=True)
     plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
     
@@ -124,6 +127,9 @@ for v in range(len(varnames)):
     elif varnames[v] == 'THICK':
         limit = np.arange(-60,60.1,3)
         barlim = np.arange(-60,61,30)
+    elif varnames[v] == 'SWE':
+        limit = np.arange(-25,25.1,1)
+        barlim = np.arange(-25,26,25)
     
     fig = plt.figure()
     for i in range(len(diffruns_on)):
@@ -179,6 +185,9 @@ for v in range(len(varnames)):
         elif varnames[v] == 'THICK':
             cmap = ncm.cmap('NCV_blu_red')           
             cs.set_cmap(cmap)
+        elif varnames[v] == 'SWE':
+            cmap = cmap = cmocean.cm.balance
+            cs.set_cmap(cmap)
             
         if varnames[v] == 'RNET':
             m.drawcoastlines(color='darkgray',linewidth=0.3)
@@ -218,6 +227,8 @@ for v in range(len(varnames)):
         cbar.set_label(r'\textbf{mm/day}',fontsize=11,color='dimgray') 
     elif varnames[v] == 'THICK':
         cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray') 
+    elif varnames[v] == 'SWE':
+        cbar.set_label(r'\textbf{mm}',fontsize=11,color='dimgray')
 
     cbar.set_ticks(barlim)
     cbar.set_ticklabels(list(map(str,barlim)))

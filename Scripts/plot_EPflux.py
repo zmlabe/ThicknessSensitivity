@@ -11,8 +11,6 @@ Notes
 ### Import modules
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.colors as c
-from mpl_toolkits.basemap import Basemap, addcyclic, shiftgrid
 import nclcmaps as ncm
 import datetime
 import read_MonthlyLatOutput as MO
@@ -30,7 +28,7 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting temperature - %s----' % titletime)
+print('\n' '----Plotting EP flux- %s----' % titletime)
 
 ### Alott time series
 year1 = 1900
@@ -38,9 +36,9 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 ### Call function for vertical temperature data
-lat,lon,time,lev,epy_h = MO.readExperi(directorydata,'EPY','HIT','profile')
-lat,lon,time,lev,epz_h = MO.readExperi(directorydata,'EPZ','HIT','profile')
-lat,lon,time,lev,div_h = MO.readExperi(directorydata,'DEPF','HIT','profile')
+lat,lon,time,lev,epy_h = MO.readExperi(directorydata,'EPY','FIT','profile')
+lat,lon,time,lev,epz_h = MO.readExperi(directorydata,'EPZ','FIT','profile')
+lat,lon,time,lev,div_h = MO.readExperi(directorydata,'DEPF','FIT','profile')
 
 lat,lon,time,lev,epy_f = MO.readExperi(directorydata,'EPY','FICT','profile')
 lat,lon,time,lev,epz_f = MO.readExperi(directorydata,'EPZ','FICT','profile')
@@ -144,7 +142,7 @@ cbar.set_ticks(barlim)
 cbar.set_ticklabels(list(map(str,barlim))) 
 cbar.ax.tick_params(axis='x', size=.01)
            
-plt.annotate(r'\textbf{FICT--HIT}',
+plt.annotate(r'\textbf{FICT--FIT}',
         xy=(0, 0),xytext=(0.045,0.535),xycoords='figure fraction',
         fontsize=17,color='k',rotation=90,
         ha='center',va='center')        
@@ -153,6 +151,6 @@ plt.subplots_adjust(hspace=0.33)
 plt.subplots_adjust(bottom=0.18)
 plt.subplots_adjust(wspace=0.3)
 
-plt.savefig(directoryfigure + 'ep_flux_FICT-HIT.png',dpi=300)
+plt.savefig(directoryfigure + 'ep_flux_FICT-FIT.png',dpi=300)
 print('Completed: Script done!')
 

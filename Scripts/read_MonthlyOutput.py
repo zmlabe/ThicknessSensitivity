@@ -92,6 +92,9 @@ def readExperi(directory,varid,experi,level):
     if varid in ('TEMP','T2M'):
         var = var - 273.15 # Kelvin to degrees Celsius 
         print('Completed: Changed units (K to C)!')
+    elif varid == 'SWE':
+        var = var*1000. # Meters to Millimeters 
+        print('Completed: Changed units (m to mm)!')
 
     print('\n*Completed: Finished readExperi function!')
     return lat,lon,time,lev,var

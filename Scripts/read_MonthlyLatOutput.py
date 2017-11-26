@@ -101,9 +101,9 @@ def readExperi(directory,varid,experi,level):
     return lat,lon,time,lev,var
 
 ### Test function -- no need to use    
-directory = '/surtsey/zlabe/simu/'
-varid = 'EPZ'
-experi = 'HIT'
-level = 'profile'
-    
-lat,lon,time,lev,var = readExperi(directory,varid,experi,level)
+#directory = '/surtsey/zlabe/simu/'
+#varid = 'EPZ'
+#experi = 'HIT'
+#level = 'profile'
+#    
+#lat,lon,time,lev,var = readExperi(directory,varid,experi,level)
