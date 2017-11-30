@@ -113,6 +113,7 @@ def adjust_spines(ax, spines):
     else:
         ax.xaxis.set_ticks([]) 
 
+
 fig = plt.figure()
 ax = plt.subplot(111)
 
@@ -149,111 +150,69 @@ plt.xlim([0,5])
 ax.yaxis.grid(zorder=1,color='dimgrey',alpha=0.7)
 
 plt.savefig(directoryfigure + 'patterncorrs_monthly.png',dpi=300)
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#    
-##    ### Calculate pearsonr correlation point by point
-##    patternco = np.empty((len(months), diff_fithit.shape[2],
-##                          diff_fithit.shape[3]))
-##    patternpval = np.empty((len(months), diff_fithit.shape[2],
-##                      diff_fithit.shape[3]))
-##    for mo in range(len(months)):
-##        for x in range(diff_fithit.shape[2]):
-##            for y in range(diff_fithit.shape[3]):
-##               patternco[mo,x,y],patternpval[mo,x,y] = sts.pearsonr(
-##                                                       diff_fithit[:,mo,x,y],
-##                                                       diff_fictfit[:,mo,x,y])
-##               
-##        print('Completed: pattern correlation for -- %s!' % months[mo])
-##    
-#################################################################################
-#################################################################################
-#################################################################################
-##### Plot figure
-##    plt.rc('text',usetex=True)
-##    plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
-##    
-##    ### Set limits for contours and colorbars
-##    limit = np.arange(-1,1.05,0.05)
-##    barlim = np.arange(-1,2,1)
-##    
-##    fig = plt.figure()
-##    for i in range(len(months)):
-##        
-##        var = patternco[i]
-###        pvar = pruns_djf[i]
-##            
-##        ax1 = plt.subplot(2,3,i+1)
-##        m = Basemap(projection='ortho',lon_0=0,lat_0=90,resolution='l',
-##                    area_thresh=10000.)
-##        
-##        var, lons_cyclic = addcyclic(var, lon)
-##        var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
-##        lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
-##        x, y = m(lon2d, lat2d)
-##        
-###        pvar,lons_cyclic = addcyclic(pvar, lon)
-###        pvar,lons_cyclic = shiftgrid(180.,pvar,lons_cyclic,start=False)
-##                  
-##        m.drawmapboundary(fill_color='white',color='dimgrey',linewidth=0.7)
-##        m.drawcoastlines(color='dimgray',linewidth=0.65)
-##        
-##        cs = m.contourf(x,y,var,limit,extend='both')
-###        cs1 = m.contourf(x,y,pvar,colors='None',hatches=['....'])
-##        
-##        cmap = cmocean.cm.balance  
-##        cs.set_cmap(cmap)
-##            
-##        m.drawcoastlines(color='dimgray',linewidth=0.8)
-##        
-##        ### Add experiment text to subplot
-##        ax1.annotate(r'\textbf{%s}' % months[i],xy=(0,0),xytext=(0.865,0.90),
-##                     textcoords='axes fraction',color='dimgrey',fontsize=11,
-##                     rotation=320,ha='center',va='center')
-##    
-##    cbar_ax = fig.add_axes([0.312,0.1,0.4,0.03])                
-##    cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
-##                        extend='max',extendfrac=0.07,drawedges=False)
-##    cbar.set_label(r'\textbf{Pattern Correlation (r)}',fontsize=11,
-##                             color='dimgray')
-##    cbar.set_ticks(barlim)
-##    cbar.set_ticklabels(list(map(str,barlim))) 
-##    cbar.ax.tick_params(axis='x', size=.01)
-##    cbar.outline.set_edgecolor('dimgrey')
-##    
-##    plt.subplots_adjust(wspace=0.01)
-##    plt.subplots_adjust(hspace=0.01)
-##    plt.subplots_adjust(bottom=0.15)
-##    
-##    plt.savefig(directoryfigure + '%s_patterncorr.png' % varnames[v],
-##                dpi=300)
+
+###############################################################################
+###############################################################################
+###############################################################################
+fig = plt.figure()
+ax = plt.subplot(111)
+
+ax.spines['top'].set_color('none')
+ax.spines['right'].set_color('none')
+ax.spines['bottom'].set_color('none')
+ax.spines['left'].set_color('none')
+ax.get_xaxis().set_tick_params(direction='out', width=0,length=0,
+            color='w')
+
+plt.tick_params(
+    axis='x',          # changes apply to the x-axis
+    which='both',      # both major and minor ticks are affected
+    bottom='on',      # ticks along the bottom edge are off
+    top='off',         # ticks along the top edge are off
+    labelbottom='on')
+plt.tick_params(
+    axis='y',          # changes apply to the x-axis
+    which='both',      # both major and minor ticks are affected
+    left='off',      # ticks along the bottom edge are off
+    right='off',         # ticks along the top edge are off
+    labelleft='on')
+
+cs = plt.pcolormesh(corrvar,shading='faceted',edgecolor='w',
+                    linewidth=0.3,vmin=-1,vmax=1)
+
+for i in range(corrvar.shape[0]):
+    for j in range(corrvar.shape[1]):
+        plt.text(j+0.5,i+0.5,'%+1.2f' % corrvar[i,j],fontsize=6,
+                 color='k',va='center',ha='center')
+
+cs.set_cmap(cmocean.cm.curl)
+
+ylabels = [r'\textbf{U10}',r'\textbf{Z30}',r'\textbf{U300}',r'\textbf{Z500}',
+           r'\textbf{SLP}',r'\textbf{T2M}',r'\textbf{THICK}',
+           r'\textbf{RNET}']
+plt.yticks(np.arange(0.5,8.5,1),ylabels,ha='right',color='dimgrey',
+           va='center')
+yax = ax.get_yaxis()
+yax.set_tick_params(pad=0.7)
+
+xlabels = [r'\textbf{OCT}',r'\textbf{NOV}',r'\textbf{DEC}',
+           r'\textbf{JAN}',r'\textbf{FEB}',r'\textbf{MAR}']
+plt.xticks(np.arange(0.5,6.5,1),xlabels,ha='center',color='dimgrey',
+           va='center')
+xax = ax.get_xaxis()
+xax.set_tick_params(pad=8)
+plt.xlim([0,6])
+
+cbar = plt.colorbar(cs,orientation='horizontal',aspect=50)
+ticks = np.arange(-1,2,1)
+labels = list(map(str,np.arange(-1,2,1)))
+cbar.set_ticks(ticks)
+cbar.set_ticklabels(labels)
+cbar.ax.tick_params(axis='x', size=.001)
+cbar.outline.set_edgecolor('dimgrey')
+cbar.set_label(r'\textbf{Pattern Correlation [R]}',
+               color='dimgrey',labelpad=3,fontsize=12)
+
+plt.subplots_adjust(top=0.8)
+
+plt.savefig(directoryfigure + 'patterncorrs_monthly_mesh.png',dpi=300)

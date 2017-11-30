@@ -36,6 +36,7 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 varnames = ['Z300']
+qbophase = ['pos','non','neg']
 for v in range(len(varnames)):
     ### Call function for geopotential height data from reach run
     lat,lon1,time,lev,varhit = MO.readExperi(directorydata,
@@ -51,12 +52,31 @@ for v in range(len(varnames)):
     experiments = [r'\textbf{FIT--HIT}']
     runs = [varhit,varfit]
     
+    ### Read in QBO phases 
+    filenamefitp = directorydata + 'FIT/monthly/QBO_%s_FIT.txt' % qbophase[0]
+    filenamefitno = directorydata + 'FIT/monthly/QBO_%s_FIT.txt' % qbophase[1]
+    filenamefitn = directorydata + 'FIT/monthly/QBO_%s_FIT.txt' % qbophase[2]
+    pos_fit = np.genfromtxt(filenamefitp,unpack=True,usecols=[0],dtype='int')
+    non_fit = np.genfromtxt(filenamefitno,unpack=True,usecols=[0],dtype='int')
+    neg_fit = np.genfromtxt(filenamefitn,unpack=True,usecols=[0],dtype='int')
+    
     ### Separate per periods (Feb,Mar)
     varh_f = runs[0][:,1,:,:]
+#    varh_f = varh_f[pos_fit,:,:]
     varh_m = runs[0][:,2,:,:]
+#    varh_m = varh_m[pos_fit,:,:]
+    
+    filenamehitp = directorydata + 'HIT/monthly/QBO_%s_HIT.txt' % qbophase[0]
+    filenamehitno = directorydata + 'HIT/monthly/QBO_%s_HIT.txt' % qbophase[1]
+    filenamehitn = directorydata + 'HIT/monthly/QBO_%s_HIT.txt' % qbophase[2]
+    pos_hit = np.genfromtxt(filenamehitp,unpack=True,usecols=[0],dtype='int')
+    non_hit = np.genfromtxt(filenamehitno,unpack=True,usecols=[0],dtype='int')
+    neg_hit = np.genfromtxt(filenamehitn,unpack=True,usecols=[0],dtype='int')
     
     varf_f = runs[1][:,1,:,:]
+#    varf_f = varf_f[pos_hit,:,:]
     varf_m = runs[1][:,2,:,:]
+#    varf_m = varf_m[pos_hit,:,:]
     
     ### Compute comparisons for FM - taken ensemble average
     diff_feb = np.nanmean(varf_f - varh_f,axis=0)
