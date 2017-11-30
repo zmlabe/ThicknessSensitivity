@@ -36,8 +36,7 @@ year1 = 1900
 year2 = 2000
 years = np.arange(year1,year2+1,1)
 
-varnames = ['U','TEMP','GEOP']
-varnames = ['GEOP']
+varnames = ['U','TEMP','GEOP','EGR']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,varhit = MO.readExperi(directorydata,

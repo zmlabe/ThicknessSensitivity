@@ -12,6 +12,7 @@ Usage
     [2] calcDecJanFeb(varx,vary,lat,lon,level,levsq)
     [3] calc_indttest(varx,vary)
     [4] calc_weightedAve(var,lats)
+    [5] calc_spatialCorr(varx,vary,lats,lons,weight)
 """
 
 def calcDecJan(varx,vary,lat,lon,level,levsq):
@@ -106,6 +107,10 @@ def calcDecJan(varx,vary,lat,lon,level,levsq):
 
     print('*Completed: Finished calcDecJan function!')
     return varx_dj,vary_dj
+
+###############################################################################
+###############################################################################
+###############################################################################
 
 def calcDecJanFeb(varx,vary,lat,lon,level,levsq):
     """
@@ -205,6 +210,10 @@ def calcDecJanFeb(varx,vary,lat,lon,level,levsq):
 
     print('*Completed: Finished calcDecJanFeb function!')
     return varx_djf,vary_djf
+
+###############################################################################
+###############################################################################
+###############################################################################
     
 def calc_indttest(varx,vary):
     """
@@ -240,6 +249,10 @@ def calc_indttest(varx,vary):
     
     print('*Completed: Finished calc_ttest function!')
     return stat,pvalue
+
+###############################################################################
+###############################################################################
+###############################################################################
 
 def calc_weightedAve(var,lats):
     """
@@ -299,3 +312,81 @@ def calc_weightedAve(var,lats):
     
     print('*Completed: Finished calc_weightedAve function!')
     return meanvar
+
+###############################################################################
+###############################################################################
+###############################################################################
+    
+def calc_spatialCorr(varx,vary,lats,lons,weight):
+    """
+    Calculates spatial correlation from pearson correlation coefficient
+    
+    Parameters
+    ----------
+    varx : 2d array
+    vary : 2d array
+    lons : 1d array of latitude
+    weight : string (yes or no)
+    
+    Returns
+    -------
+    corrcoef : 1d array of correlation coefficient (pearson r)
+    
+    Usage
+    -----
+    corrcoef = calc_spatialCorr(varx,vary,lats,lons)
+    """
+    
+    print('\n>>> Using calc_spatialCorr function!')
+    ### Import modules
+    import numpy as np
+    
+    if weight == 'yes': # Computed weighted correlation coefficient   
+#        ### mask test
+#        mask = 'yes'
+#        if mask == 'yes':
+#            latq = np.where(lats > 40)[0]
+#            lats = lats[latq]
+#            varx = varx[latq,:]
+#            vary = vary[latq,:]
+#            print('MASKING LATITUDES!')
+        
+        ### Create 2d meshgrid for weights 
+        lon2,lat2 = np.meshgrid(lons,lats)
+        
+        ### Create 2d array of weights based on latitude
+        gw = np.cos(np.deg2rad(lat2))
+        
+        def m(x, w):
+            """Weighted Mean"""
+    
+            wave = np.sum(x * w) / np.sum(w)
+            print('Completed: Computed weighted average!') 
+            return wave
+        
+        def cov(x, y, w):
+            """Weighted Covariance"""
+            
+            wcov = np.sum(w * (x - m(x, w)) * (y - m(y, w))) / np.sum(w)
+            print('Completed: Computed weighted covariance!')
+            return wcov
+        
+        def corr(x, y, w):
+            """Weighted Correlation"""
+            
+            wcor = cov(x, y, w) / np.sqrt(cov(x, x, w) * cov(y, y, w))
+            print('Completed: Computed weighted correlation!')
+            return wcor
+        
+        corrcoef = corr(varx,vary,gw)
+        
+    elif weight == 'no':   
+        ### Correlation coefficient from numpy function (not weighted)
+        corrcoef= np.corrcoef(varx.ravel(),vary.ravel())[0][1]
+        print('Completed: Computed NON-weighted correlation!')
+        
+    else:
+        ValueError('Wrong weighted arguement in function!')
+    
+    print('*Completed: Finished calc_SpatialCorr function!')
+    return corrcoef

@@ -1,0 +1,21 @@
+# U10  Z30  Z500  SLP  T2M  THICK
+# 
+
+-0.04,-0.39,-0.06,0.03,0.11,-0.01
+
+0.17,-0.07,0.20,-0.10,0.17,-0.02
+
+0.34,0.07,0.18,-0.01,0.33,-0.02
+
+-0.41,-0.58,0.12,0.20,0.74,0.23
+
+0.16,0.48,0.01,-0.12,0.66,-0.16
+
+0.62,0.92,-0.51,-0.42,0.75,-0.30
+
+# 
+#  File contains pearsonr correlation coefficients
+#  between FIT-HIT and FICT-FIT to get the relative 
+#  contributions of SIT and SIC [monthly, OCT-MAR]. 
+# This is for composites of QBO-W
+

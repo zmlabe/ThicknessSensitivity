@@ -30,7 +30,7 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting 2-m temperature - %s----' % titletime)
+print('\n' '----Plotting all variables DJ - %s----' % titletime)
 
 ### Alott time series
 year1 = 1900
