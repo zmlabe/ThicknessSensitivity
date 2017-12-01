@@ -199,11 +199,11 @@ for r in range(len(corrvar)):
     adjust_spines(ax, ['left', 'bottom'])
     ax.spines['top'].set_color('none')
     ax.spines['right'].set_color('none')
-    ax.spines['left'].set_color('darkgrey')
-    ax.spines['bottom'].set_color('darkgrey')
+    ax.spines['left'].set_color('dimgrey')
+    ax.spines['bottom'].set_color('dimgrey')
     ax.spines['left'].set_linewidth(2)
     ax.spines['bottom'].set_linewidth(2)
-    ax.tick_params('both',length=4,width=2,which='major',color='darkgrey')
+    ax.tick_params('both',length=4,width=2,which='major',color='dimgrey')
     
     if r < 2:
         ax.spines['bottom'].set_color('w')
@@ -214,12 +214,12 @@ for r in range(len(corrvar)):
     color=iter(ncm.cmap('MPL_gnuplot2')(np.linspace(0,0.8,len(corrvar[r]))))
     for i in range(len(corrvar[r])):
         c=next(color)
-        plt.plot(corrvar[r][i],linewidth=1.2,color=c,alpha=1,
+        plt.plot(corrvar[r][i],linewidth=1.5,color=c,alpha=1,
                  label = r'\textbf{%s}' % varnames[i],linestyle='-',
                  marker='o',markersize=3)
         
     if r == 1:
-        plt.ylabel(r'\textbf{Pattern Correlation [r]}',color='dimgrey',
+        plt.ylabel(r'\textbf{Pattern Correlation [R]}',color='dimgrey',
                              fontsize=13)
     if r == 2:
         plt.legend(shadow=False,fontsize=9,loc='lower center',
