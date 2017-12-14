@@ -38,10 +38,11 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 ### Call arguments
-varnames = ['Z500','Z30','SLP','T2M','U10','U300','SWE','THICK','P','EGR']
+varnames = ['Z500','Z30','SLP','T2M','U10','U300','SWE','THICK','P','EGR',
+            'RNET']
 runnames = [r'CIT',r'FIC',r'FICT']
 experiments = [r'\textbf{FIC--CIT}',r'\textbf{FICT--FIT}',r'\textbf{difference}']
-period = 'FM'
+period = 'ON'
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,tascit = MO.readExperi(directorydata,
@@ -153,10 +154,16 @@ for v in range(len(varnames)):
         elif varnames[v] == 'EGR':
             limit = np.arange(-0.2,0.21,0.02)
             barlim = np.arange(-0.2,0.3,0.2)
+        elif varnames[v] == 'RNET':    
+            limit = np.arange(-50,50.1,1)
+            barlim = np.arange(-50,51,25)
             
         ax1 = plt.subplot(1,3,i+1)
         m = Basemap(projection='ortho',lon_0=0,lat_0=90,resolution='l',
                     area_thresh=10000.)
+        
+        if varnames[v] == 'RNET':
+            var = var*-1.
         
         var, lons_cyclic = addcyclic(var, lon)
         var, lons_cyclic = shiftgrid(180., var, lons_cyclic, start=False)
@@ -169,13 +176,17 @@ for v in range(len(varnames)):
         climoq,lons_cyclic = shiftgrid(180.,climoq,lons_cyclic,start=False)
                   
         m.drawmapboundary(fill_color='white',color='dimgrey',linewidth=0.7)
-        m.drawcoastlines(color='dimgray',linewidth=0.65)
         
         cs = m.contourf(x,y,var,limit,extend='both')
         cs1 = m.contourf(x,y,pvar,colors='None',hatches=['....'])
         if varnames[v] == 'Z30': # the interval is 250 m 
             cs2 = m.contour(x,y,climoq,np.arange(21900,23500,250),
                             colors='k',linewidths=1.5,zorder=10)
+        if varnames[v] == 'RNET':
+            m.drawcoastlines(color='darkgray',linewidth=0.3)
+            m.fillcontinents(color='dimgrey')
+        else:
+            m.drawcoastlines(color='dimgray',linewidth=0.8)
         
         if varnames[v] == 'T2M':
             cmap = ncm.cmap('NCV_blu_red')           
@@ -205,8 +216,9 @@ for v in range(len(varnames)):
         elif varnames[v] == 'EGR':
             cmap = cmocean.cm.curl
             cs.set_cmap(cmap)  
-            
-        m.drawcoastlines(color='dimgray',linewidth=0.8)
+        elif varnames[v] == 'RNET':
+            cmap = ncm.cmap('NCV_blu_red')           
+            cs.set_cmap(cmap) 
         
         ### Add experiment text to subplot
         ax1.annotate(r'\textbf{%s}' % experiments[i],xy=(0,0),xytext=(0.5,1.1),
@@ -234,6 +246,8 @@ for v in range(len(varnames)):
         cbar.set_label(r'\textbf{m}',fontsize=11,color='dimgray') 
     elif varnames[v] == 'EGR':
         cbar.set_label(r'\textbf{1/day}',fontsize=11,color='dimgray')
+    elif varnames[v] == 'RNET':
+        cbar.set_label(r'\textbf{W/m$^{\bf{2}}$}',fontsize=11,color='dimgray') 
     
     cbar.set_ticks(barlim)
     cbar.set_ticklabels(list(map(str,barlim)))    
