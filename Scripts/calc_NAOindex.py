@@ -40,7 +40,7 @@ years = np.arange(year1,year2+1,1)
 
 ### Call function for Z500 data (daily)
 lat,lon,time,lev,z500_h = DO.readMeanExperi(directorydata,'Z500',
-                                        'CIT','surface')
+                                        'FIC','surface')
 lat,lon,time,lev,z500_f = DO.readMeanExperi(directorydata,'Z500',
                                         'FICT','surface')
                                         
@@ -80,30 +80,45 @@ eof1 = solver.eofsAsCovariance(neofs=1).squeeze()
 pc1 = solver.pcs(npcs=1, pcscaling=1).squeeze()
 
 ### Calculate NAO index
-def NAOIndex(anomz5,eofpattern):
+def NAOIndex(anomz5,eofpattern,members):
     """
     Calculate NAO index by regressing Z500 onto the EOF1 pattern
     """
     print('\n>>> Using NAO Index function!')       
     
-    nao = np.empty((anomz5.shape[0],anomz5.shape[1]))
-    for i in range(anomz5.shape[0]):
-        print('Regressing ensemble ---> %s!' % (i+1))
-        for j in range(anomz5.shape[1]):
-            varx = np.ravel(anomz5[i,j,:,:])
+    if members == True:
+        nao = np.empty((anomz5.shape[0],anomz5.shape[1]))
+        for i in range(anomz5.shape[0]):
+            print('Regressing ensemble ---> %s!' % (i+1))
+            for j in range(anomz5.shape[1]):
+                varx = np.ravel(anomz5[i,j,:,:])
+                vary = np.ravel(eofpattern[:,:])
+                mask = np.isfinite(varx) & np.isfinite(vary)     
+                
+                nao[i,j],intercept,r,p_value,std_err = sts.stats.linregress(
+                                                                      varx[mask],
+                                                                      vary[mask]) 
+    elif members == False:   
+        nao = np.empty((anomz5.shape[0]))
+        for i in range(anomz5.shape[0]):
+            varx = np.ravel(anomz5[i,:,:])
             vary = np.ravel(eofpattern[:,:])
             mask = np.isfinite(varx) & np.isfinite(vary)     
             
-            nao[i,j],intercept,r,p_value,std_err = sts.stats.linregress(
+            nao[i],intercept,r,p_value,std_err = sts.stats.linregress(
                                                                   varx[mask],
                                                                   vary[mask]) 
+        print('Completed: Regressed ensemble mean!')
+    else:
+        ValueError('Please select [True] or [False] for averageing!')
+        
     print('*Completed: finished with NAO function!')
     return nao
             
 ### Calculate NAO index
-naoindex = NAOIndex(z5_diffnao,eof1)
-pc1 = (naoindex+np.mean(naoindex))/np.std(naoindex)
-pc1 = np.nanmean(pc1,axis=0)
+naoindex = NAOIndex(np.nanmean(z5_diffnao,axis=0),eof1,False)
+pc1 = (naoindex-np.mean(naoindex))/np.std(naoindex)
+#pc1 = np.nanmean(pc1,axis=0)
     
 #### Plot figure
 plt.rc('text',usetex=True)
@@ -138,7 +153,7 @@ cs1 = m.contour(lon2,lat2,varf,
                 linewidths=0.1,colors='darkgrey',
                 linestyles='-',latlon=True)
         
-cmap = ncm.cmap('nrl_sirkes')         
+cmap = cmocean.cm.balance         
 cs.set_cmap(cmap) 
 
 cbar = m.colorbar(cs,drawedges=True,location='right',pad = 0.55)                    
@@ -146,7 +161,7 @@ cbar = m.colorbar(cs,drawedges=True,location='right',pad = 0.55)
 #cbar.set_ticklabels(list(map(str,barlim)))  
 cbar.ax.tick_params(labelsize=8)   
 
-plt.savefig(directoryfigure + 'testeof1_FICT.png',dpi=300)
+plt.savefig(directoryfigure + 'testeof1_FIC.png',dpi=300)
 
 ############################################################################
 ############################################################################
@@ -205,6 +220,6 @@ plt.ylim([-3,3])
 
 xlabels = [r'Dec',r'Jan',r'Feb',r'Mar',r'Apr'] 
 plt.xticks(np.arange(0,121,30),xlabels,fontsize=9)
-plt.xlim([0,121])
+plt.xlim([0,120])
 
-plt.savefig(directoryfigure + 'NAO_Index_FIT-HIT.png',dpi=300)
+plt.savefig(directoryfigure + 'NAO_Index_FICT-FIC.png',dpi=300)
