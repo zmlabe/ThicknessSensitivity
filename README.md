@@ -6,6 +6,8 @@
 Zachary Labe - [Research Website](http://sites.uci.edu/zlabe/) - [@ZLabe](https://twitter.com/ZLabe)
 
 ## Description
+Most atmospheric general circulation model (AGCM) experiments assessing the linkages between sea ice anomalies and atmospheric teleconnections prescribe SIT as a constant (usually 2-m). Here we evaluate the influence of realistically representing the magnitude and spatial pattern of SIT. Further, we conducted idealized experiments (WACCM4) to isolate the role of thinning sea ice vs. sea ice concentration on the atmosphere.
+
 + ```Literature/```: Associated documents and research notes for current project
 + ```Scripts/```: Main [Python](https://www.python.org/) scripts/functions used in data analysis and plotting
 + ```requirements.txt```: List of environments and modules associated with the most recent version of this project. A Python [Anaconda3 Distribution](https://docs.continuum.io/anaconda/) was used for our analysis. All AGCM experiments were processed through resources on CISL's [Cheyenne](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne) supercomputer. Tools including [NCL](https://www.ncl.ucar.edu/), [CDO](https://code.mpimet.mpg.de/projects/cdo), and [NCO](http://nco.sourceforge.net/) were also used for initial data manipulation.
