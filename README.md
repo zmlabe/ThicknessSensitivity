@@ -18,6 +18,7 @@ Zachary Labe - [Research Website](http://sites.uci.edu/zlabe/) - [@ZLabe](https:
 
 
 ## Publications
++ Labe, Z.M., et al., 2018. Contributions of sea ice thickness to the atmospheric response from late twenty-first century Arctic sea ice loss, *in prep*
 
 
 ## Conferences
