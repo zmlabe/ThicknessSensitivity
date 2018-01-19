@@ -1,4 +1,5 @@
-# Arctic sea ice thickness - perturbation study [![DOI](https://zenodo.org/badge/97876586.svg)](https://zenodo.org/badge/latestdoi/97876586)
+# Arctic sea ice thickness - perturbation study [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1154986.svg)](https://doi.org/10.5281/zenodo.1154986)
+
 
 ###### Under construction... ```[Python 3.6]```
 
