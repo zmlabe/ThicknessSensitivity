@@ -49,9 +49,9 @@ for v in range(len(varnames)):
     lat,lon,time,lev,varfit = MO.readExperi(directorydata,
                                             '%s' % varnames[v],'FIT','surface')
     lat,lon,time,lev,varfict = MO.readExperi(directorydata,
-                                             '%s' % varnames[v],'FICT','surface')
-    lat,lon,time,lev,varfic = MO.readExperi(directorydata,
                                              '%s' % varnames[v],'FIC','surface')
+    lat,lon,time,lev,varfic = MO.readExperi(directorydata,
+                                             '%s' % varnames[v],'CIT','surface')
     
     ### Create 2d array of latitude and longitude
     lon2,lat2 = np.meshgrid(lon,lat)
@@ -87,7 +87,7 @@ corrvar = np.asarray(corrvar)
 np.savetxt(directorydata2 + 'patterncorr.txt',corrvar.transpose(),delimiter=',',
            fmt='%3.2f',header='  '.join(varnames)+'\n',
            footer='\n File contains pearsonr correlation coefficients' \
-           '\n between FIT-HIT and FICT-FIT to get the relative \n' \
+           '\n between FIT-HIT and FIC-CIT to get the relative \n' \
            ' contributions of SIT and SIC [monthly, OCT-MAR]',newline='\n\n')
 
 ###############################################################################

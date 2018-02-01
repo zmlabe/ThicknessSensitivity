@@ -342,14 +342,14 @@ def calc_spatialCorr(varx,vary,lats,lons,weight):
     import numpy as np
     
     if weight == 'yes': # Computed weighted correlation coefficient   
-#        ### mask test
-#        mask = 'yes'
-#        if mask == 'yes':
-#            latq = np.where(lats > 40)[0]
-#            lats = lats[latq]
-#            varx = varx[latq,:]
-#            vary = vary[latq,:]
-#            print('MASKING LATITUDES!')
+        ### mask test
+        mask = 'yes'
+        if mask == 'yes':
+            latq = np.where(lats > 30)[0]
+            lats = lats[latq]
+            varx = varx[latq,:]
+            vary = vary[latq,:]
+            print('MASKING LATITUDES!')
         
         ### Create 2d meshgrid for weights 
         lon2,lat2 = np.meshgrid(lons,lats)
