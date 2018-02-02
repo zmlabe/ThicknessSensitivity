@@ -99,7 +99,7 @@ m1 = Basemap(projection='ortho',lon_0=0,lat_0=90,resolution='l')
 m1.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)       
 m1.drawcoastlines(color='darkgrey',linewidth=0.1)
 
-cst = m1.contourf(lons2,lats2,varf,limsit,extend='max',latlon=True)
+cst = m1.contourf(lons2,lats2,varh,limsit,extend='max',latlon=True)
 
 #ax.annotate(r'\textbf{FIT}',xy=(0.5,0.82),
 #             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
@@ -114,7 +114,7 @@ m2 = Basemap(projection='ortho',lon_0=0,lat_0=90,resolution='l')
 m2.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)        
 m2.drawcoastlines(color='darkgrey',linewidth=0.1)
 
-cstt = m2.contourf(lons2,lats2,varh,limsit,extend='max',latlon=True)
+cstt = m2.contourf(lons2,lats2,varf,limsit,extend='max',latlon=True)
 
 m2.fillcontinents(color='dimgray')
 #ax.annotate(r'\textbf{HIT}',xy=(0.5,0.82),
@@ -148,7 +148,7 @@ m1 = Basemap(projection='ortho',lon_0=0,lat_0=90,resolution='l')
 m1.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)       
 m1.drawcoastlines(color='darkgrey',linewidth=0.1)
 
-csc = m1.contourf(lons2,lats2,varcf,limsic,latlon=True)
+csc = m1.contourf(lons2,lats2,varch,limsic,latlon=True)
 
 m1.fillcontinents(color='dimgray')
 #ax.annotate(r'\textbf{FIC}',xy=(0.5,0.82),
@@ -165,7 +165,7 @@ m2 = Basemap(projection='ortho',lon_0=0,lat_0=90,resolution='l')
 m2.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)        
 m2.drawcoastlines(color='darkgrey',linewidth=0.1)
 
-cscc = m2.contourf(lons2,lats2,varch,limsic,latlon=True)
+cscc = m2.contourf(lons2,lats2,varcf,limsic,latlon=True)
 
 #ax.annotate(r'\textbf{HIT}',xy=(0.5,0.82),
 #             xycoords='axes fraction',color='k',fontsize=14,alpha=1,
@@ -201,10 +201,10 @@ plt.annotate(r'\textbf{THICKNESS}',xy=(-2.5,1.92),
 plt.annotate(r'\textbf{CONCENTRATION}',xy=(-2.5,0.93),
              xycoords='axes fraction',color='k',fontsize=13,alpha=1,
              rotation=90,ha='right') 
-plt.annotate(r'\textbf{F}',xy=(-1.885,2.3),
+plt.annotate(r'\textbf{H}',xy=(-1.885,2.3),
              xycoords='axes fraction',color='k',fontsize=20,alpha=1,
              ha='center') 
-plt.annotate(r'\textbf{H}',xy=(-0.7,2.3),
+plt.annotate(r'\textbf{F}',xy=(-0.7,2.3),
              xycoords='axes fraction',color='k',fontsize=20,alpha=1,
              ha='center') 
 plt.annotate(r'\textbf{F--H}',xy=(0.5,2.3),

@@ -51,9 +51,9 @@ for v in range(len(varnames)):
     lat,lon,time,lev,tasfit = MO.readExperi(directorydata,
                                             '%s' % varnames[v],'FIT','surface')
     lat,lon,time,lev,tasfict = MO.readExperi(directorydata,
-                                             '%s' % varnames[v],'FICT','surface')
-    lat,lon,time,lev,tasfic = MO.readExperi(directorydata,
                                              '%s' % varnames[v],'FIC','surface')
+    lat,lon,time,lev,tasfic = MO.readExperi(directorydata,
+                                             '%s' % varnames[v],'CIT','surface')
     
     ### Create 2d array of latitude and longitude
     lon2,lat2 = np.meshgrid(lon,lat)

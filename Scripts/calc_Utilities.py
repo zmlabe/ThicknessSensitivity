@@ -13,6 +13,7 @@ Usage
     [3] calc_indttest(varx,vary)
     [4] calc_weightedAve(var,lats)
     [5] calc_spatialCorr(varx,vary,lats,lons,weight)
+    [6] calc_RMSE(varx,vary,lats,lons,weight)
 """
 
 def calcDecJan(varx,vary,lat,lon,level,levsq):
@@ -342,7 +343,7 @@ def calc_spatialCorr(varx,vary,lats,lons,weight):
     import numpy as np
     
     if weight == 'yes': # Computed weighted correlation coefficient   
-        ### mask test
+        ### mask 
         mask = 'yes'
         if mask == 'yes':
             latq = np.where(lats > 30)[0]
@@ -390,3 +391,63 @@ def calc_spatialCorr(varx,vary,lats,lons,weight):
     
     print('*Completed: Finished calc_SpatialCorr function!')
     return corrcoef
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+def calc_RMSE(varx,vary,lats,lons,weight):
+        """
+        Calculates root mean square weighted average
+        
+        Parameters
+        ----------
+        varx : 2d array
+        vary : 2d array
+        lons : 1d array of latitude
+        weight : string (yes or no)
+        
+        Returns
+        -------
+        rmse : 1d array
+        
+        Usage
+        -----
+        rmse = calc_RMSE(varx,vary,lats,lons)
+        """
+        
+        print('\n>>> Using calc_RMSE function!')
+        ### Import modules
+        import numpy as np
+        from sklearn.metrics import mean_squared_error
+        
+        if weight == 'yes': # Computed weighted correlation coefficient   
+            ### mask
+            mask = 'yes'
+            if mask == 'yes':
+                latq = np.where(lats > 30)[0]
+                lats = lats[latq]
+                varx = varx[latq,:]
+                vary = vary[latq,:]
+                print('MASKING LATITUDES!')
+            
+            ### Create 2d meshgrid for weights 
+            lon2,lat2 = np.meshgrid(lons,lats)
+            
+            ### Create 2d array of weights based on latitude
+            gw = np.cos(np.deg2rad(lat2))
+            
+            ### Calculate rmse 
+            sq_err = (varx - vary)**2
+            rmse = np.sqrt((np.sum(sq_err*gw))/np.sum(gw))
+     
+        elif weight == 'no':   
+            ### Root mean square error from sklearn (not weighted)
+            rmse = np.sqrt(mean_squared_error(varx.ravel(),vary.ravel()))
+            print('Completed: Computed NON-weighted correlation!')
+            
+        else:
+            ValueError('Wrong weighted arguement in function!')
+        
+        print('*Completed: Finished calc_RMSE function!')
+        return rmse

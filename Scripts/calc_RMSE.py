@@ -12,11 +12,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 import read_MonthlyOutput as MO
-import cmocean
-import scipy.stats as sts
-from mpl_toolkits.basemap import Basemap, addcyclic, shiftgrid
-import nclcmaps as ncm
 import calc_Utilities as UT
+import cmocean
 
 ### Define directories
 directorydata = '/surtsey/zlabe/simu/'
@@ -41,16 +38,16 @@ years = np.arange(year1,year2+1,1)
 months = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR']
 varnames = ['U10','Z30','U300','Z500','SLP','T2M','THICK','RNET']
 
-corrvar = []
+rootvar = []
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,varhit = MO.readExperi(directorydata,
                                             '%s' % varnames[v],'HIT','surface')
     lat,lon,time,lev,varfit = MO.readExperi(directorydata,
                                             '%s' % varnames[v],'FIT','surface')
-    lat,lon,time,lev,varfict = MO.readExperi(directorydata,
-                                             '%s' % varnames[v],'FIC','surface')
     lat,lon,time,lev,varfic = MO.readExperi(directorydata,
+                                             '%s' % varnames[v],'FIC','surface')
+    lat,lon,time,lev,varcit = MO.readExperi(directorydata,
                                              '%s' % varnames[v],'CIT','surface')
     
     ### Create 2d array of latitude and longitude
@@ -58,35 +55,34 @@ for v in range(len(varnames)):
     
     ### Concatonate runs
     runnames = [r'HIT',r'FIT',r'FICT',r'FIC']
-    experiments = [r'\textbf{FIT--HIT}',r'\textbf{FICT--FIC}']
-    runs = [varhit,varfit,varfict,varfic]
+    experiments = [r'\textbf{FIT--HIT}',r'\textbf{FIC--CIT}']
+    runs = [varhit,varfit,varfic,varcit]
     
     ### Separate per months
     varmo_fit = np.append(varfit[:,9:,:,:],varfit[:,0:3,:,:],
              axis=1)
     varmo_hit = np.append(varhit[:,9:,:,:],varhit[:,0:3,:,:],
              axis=1)
-    varmo_fict = np.append(varfict[:,9:,:,:],varfict[:,0:3,:,:],
-              axis=1)
     varmo_fic = np.append(varfic[:,9:,:,:],varfic[:,0:3,:,:],
+              axis=1)
+    varmo_cit = np.append(varcit[:,9:,:,:],varcit[:,0:3,:,:],
           axis=1)
     
     ### Calculate differences [FIT-HIT and FICT - FIT]
     diff_fithit = np.nanmean(varmo_fit - varmo_hit,axis=0)
-    diff_fictfit = np.nanmean(varmo_fict - varmo_fic,axis=0) 
+    diff_ficcit= np.nanmean(varmo_fic - varmo_cit,axis=0) 
     
-    corrs = []
+    root = []
     for i in range(len(diff_fithit)):
-        corrsq = UT.calc_spatialCorr(diff_fithit[i],diff_fictfit[i],
-                                     lat,lon,'yes')
-        corrs.append(corrsq)
-    corrvar.append(corrs)
-corrvar = np.asarray(corrvar)
+        rootq = UT.calc_RMSE(diff_fithit[i],diff_ficcit[i],lat,lon,'yes')
+        root.append(rootq)
+    rootvar.append(root)
+rootvar = np.asarray(rootvar)
 
-#### Save file
-np.savetxt(directorydata2 + 'patterncorr.txt',corrvar.transpose(),delimiter=',',
+##### Save file
+np.savetxt(directorydata2 + 'rmse.txt',rootvar.transpose(),delimiter=',',
            fmt='%3.2f',header='  '.join(varnames)+'\n',
-           footer='\n File contains pearsonr correlation coefficients' \
+           footer='\n File contains root mean square error ' \
            '\n between FIT-HIT and FIC-CIT to get the relative \n' \
            ' contributions of SIT and SIC [monthly, OCT-MAR]',newline='\n\n')
 
@@ -97,63 +93,6 @@ np.savetxt(directorydata2 + 'patterncorr.txt',corrvar.transpose(),delimiter=',',
 plt.rc('text',usetex=True)
 plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
 
-def adjust_spines(ax, spines):
-    for loc, spine in ax.spines.items():
-        if loc in spines:
-            spine.set_position(('outward', 5))
-        else:
-            spine.set_color('none')  
-    if 'left' in spines:
-        ax.yaxis.set_ticks_position('left')
-    else:
-        ax.yaxis.set_ticks([])
-
-    if 'bottom' in spines:
-        ax.xaxis.set_ticks_position('bottom')
-    else:
-        ax.xaxis.set_ticks([]) 
-
-
-fig = plt.figure()
-ax = plt.subplot(111)
-
-adjust_spines(ax, ['left', 'bottom'])
-ax.spines['top'].set_color('none')
-ax.spines['right'].set_color('none')
-ax.spines['left'].set_color('darkgrey')
-ax.spines['bottom'].set_color('darkgrey')
-ax.spines['left'].set_linewidth(2)
-ax.spines['bottom'].set_linewidth(2)
-ax.tick_params('both',length=4,width=2,which='major',color='darkgrey')
-
-plt.plot([0]*len(corrvar),linewidth=3,color='dimgrey',linestyle='--')
-
-color=iter(ncm.cmap('MPL_gnuplot2')(np.linspace(0,0.85,len(corrvar))))
-for i in range(len(corrvar)):
-    c=next(color)
-    corrvar[np.where(corrvar == 0.)] = np.nan
-    plt.plot(corrvar[i],linewidth=2.5,color=c,alpha=1,
-             label = r'\textbf{%s}' % varnames[i],linestyle='-',
-             marker='o',markersize=9)
-
-plt.legend(shadow=False,fontsize=9,loc='lower center',
-           fancybox=True,frameon=False,ncol=4)
-plt.ylabel(r'\textbf{Pattern Correlation [r]}',color='dimgrey',fontsize=13)
-
-plt.yticks(np.arange(-1,1.1,0.5),list(map(str,np.arange(-1,1.1,0.5))))
-plt.ylim([-1,1])
-
-xlabels = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR',r'APR']
-plt.xticks(np.arange(0,6,1),xlabels)
-plt.xlim([0,5])
-
-ax.yaxis.grid(zorder=1,color='dimgrey',alpha=0.7)
-
-plt.savefig(directoryfigure + 'patterncorrs_monthly.png',dpi=300)
-
-###############################################################################
-###############################################################################
-###############################################################################
 fig = plt.figure()
 ax = plt.subplot(111)
 
@@ -177,15 +116,15 @@ plt.tick_params(
     right='off',         # ticks along the top edge are off
     labelleft='on')
 
-cs = plt.pcolormesh(corrvar,shading='faceted',edgecolor='w',
-                    linewidth=0.3,vmin=-1,vmax=1)
+cs = plt.pcolormesh(rootvar,shading='faceted',edgecolor='w',
+                    linewidth=0.3,vmin=0,vmax=60)
 
-for i in range(corrvar.shape[0]):
-    for j in range(corrvar.shape[1]):
-        plt.text(j+0.5,i+0.5,'%+1.2f' % corrvar[i,j],fontsize=6,
-                 color='k',va='center',ha='center')
+for i in range(rootvar.shape[0]):
+    for j in range(rootvar.shape[1]):
+        plt.text(j+0.5,i+0.5,r'\textbf{%1.2f}' % rootvar[i,j],fontsize=6,
+                 color='tomato',va='center',ha='center')
 
-cs.set_cmap(cmocean.cm.curl)
+cs.set_cmap(cmocean.cm.ice_r)
 
 ylabels = [r'\textbf{U10}',r'\textbf{Z30}',r'\textbf{U300}',r'\textbf{Z500}',
            r'\textbf{SLP}',r'\textbf{T2M}',r'\textbf{THICK}',
@@ -204,15 +143,16 @@ xax.set_tick_params(pad=8)
 plt.xlim([0,6])
 
 cbar = plt.colorbar(cs,orientation='horizontal',aspect=50)
-ticks = np.arange(-1,2,1)
-labels = list(map(str,np.arange(-1,2,1)))
+ticks = np.arange(0,61,30)
+labels = list(map(str,np.arange(0,61,30)))
 cbar.set_ticks(ticks)
 cbar.set_ticklabels(labels)
 cbar.ax.tick_params(axis='x', size=.001)
 cbar.outline.set_edgecolor('dimgrey')
-cbar.set_label(r'\textbf{Pattern Correlation [R]}',
+cbar.set_label(r'\textbf{Root Mean Square Error [RMSE]}',
                color='dimgrey',labelpad=3,fontsize=12)
 
 plt.subplots_adjust(top=0.8)
 
-plt.savefig(directoryfigure + 'patterncorrs_monthly_mesh.png',dpi=300)
+plt.savefig(directoryfigure + 'rmse_monthly_mesh.png',dpi=300)
+

@@ -39,7 +39,6 @@ years = np.arange(year1,year2+1,1)
 
 varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK','U300',
             'Z300','SWE']
-varnames = ['SWE']
 for v in range(len(varnames)):
     ### Call function for variable data from reach run
     lat,lon,time,lev,tashit = MO.readExperi(directorydata,
@@ -71,6 +70,15 @@ for v in range(len(varnames)):
         tas_on[i] = np.nanmean(runs[i][:,9:11,:,:],axis=1)    
         tas_dj[i],tas_dj[i] = UT.calcDecJan(runs[i],runs[i],lat,lon,'surface',1)    
         tas_fm[i] = np.nanmean(runs[i][:,1:3,:,:],axis=1)
+        
+    ### Compute climatology    
+    climofit = np.nanmean(tas_dj[0],axis=0)
+    climohit = np.nanmean(tas_dj[1],axis=0)
+    climocit = np.nanmean(tas_dj[2],axis=0)
+    climofic = np.nanmean(tas_dj[3],axis=0)
+    climofict = np.nanmean(tas_dj[4],axis=0)
+    
+    climo = [climohit,climocit,climocit,climocit,climofit,climohit]
     
     ### Compute comparisons for FM - taken ensemble average
     diff_FITHIT = np.nanmean(tas_fm[1] - tas_fm[0],axis=0)
@@ -148,6 +156,9 @@ for v in range(len(varnames)):
         lon2d, lat2d = np.meshgrid(lons_cyclic, lat)
         x, y = m(lon2d, lat2d)
         
+        climoq,lons_cyclic = addcyclic(climo[i], lon)
+        climoq,lons_cyclic = shiftgrid(180.,climoq,lons_cyclic,start=False)
+        
         pvar,lons_cyclic = addcyclic(pvar, lon)
         pvar,lons_cyclic = shiftgrid(180.,pvar,lons_cyclic,start=False)
                   
@@ -188,6 +199,9 @@ for v in range(len(varnames)):
             cmap = cmap = cmocean.cm.balance
             cs.set_cmap(cmap)
             
+        if varnames[v] == 'Z30': # the interval is 250 m 
+            cs2 = m.contour(x,y,climoq,np.arange(21900,23500,250),
+                            colors='k',linewidths=1.5,zorder=10)    
         if varnames[v] == 'RNET':
             m.drawcoastlines(color='darkgray',linewidth=0.3)
             m.fillcontinents(color='dimgrey')
