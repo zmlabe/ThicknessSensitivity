@@ -91,9 +91,9 @@ def readMeanExperi(directory,varid,experi,level):
     print('*Completed: Finished readExperi function!')
     return lat,lon,time,lev,var
 
-### Test function -- no need to use    
-directory = '/surtsey/zlabe/simu/'
-varid = 'LHFLX'
-experi = 'FIT'
-level = 'surface'
-lat,lon,time,lev,var = readMeanExperi(directory,varid,experi,level)
+#### Test function -- no need to use    
+#directory = '/surtsey/zlabe/simu/'
+#varid = 'LHFLX'
+#experi = 'FIT'
+#level = 'surface'
+#lat,lon,time,lev,var = readMeanExperi(directory,varid,experi,level)
