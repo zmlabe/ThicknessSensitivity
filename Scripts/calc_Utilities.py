@@ -299,7 +299,7 @@ def calc_weightedAve(var,lats):
                 areamask = np.cos(np.deg2rad(lats[mask]))
                 meanvar[i,j] = np.nansum(varmask*areamask)/np.sum(areamask)
     elif var.ndim == 3:
-        meanvar = np.empty((var.shape[0],var.shape[1]))
+        meanvar = np.empty((var.shape[0]))
         for i in range(var.shape[0]):
             varq = var[i,:,:]
             mask = np.isfinite(varq) & np.isfinite(lats)

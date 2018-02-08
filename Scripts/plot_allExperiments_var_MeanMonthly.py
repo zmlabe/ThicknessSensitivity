@@ -84,6 +84,7 @@ def readData(varnames):
 diffruns_lh,runs_lh,lat,lon = readData('LHFLX')
 diffruns_sh,runs_sh,lat,lon = readData('SHFLX')
 diffruns_long,runs_long,lat,lon = readData('FLNS')
+diffruns_rnet,runs_rnet,lat,lon = readData('RNET')
 
 ### Create 2d array of latitude and longitude
 lon2,lat2 = np.meshgrid(lon,lat)

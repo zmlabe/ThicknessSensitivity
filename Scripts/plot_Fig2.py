@@ -25,6 +25,7 @@ import cmocean
 
 ### Define directories
 directorydata = '/surtsey/zlabe/simu/'
+directorydata2 = '/home/zlabe/Documents/Research/SITperturb/Data/'
 directoryfigure = '/home/zlabe/Desktop/'
 #directoryfigure = '/home/zlabe/Documents/Research/SITperturb/Figures/'
 
@@ -134,29 +135,17 @@ def readFlux(varnames):
     
     return diffruns,runs,lat,lon
 
-### Call function to read data for selected variable
-diffruns_lh,runs_lh,lat,lon = readFlux('LHFLX')
-diffruns_sh,runs_sh,lat,lon = readFlux('SHFLX')
-diffruns_long,runs_long,lat,lon = readFlux('FLNS')
-
+###########################################################################
+###########################################################################
+###########################################################################
+# Read data for net surface energy budget
+difftotallhshq = np.genfromtxt(directorydata2+'weightedsic_rnets.txt',
+                              skip_header=2,delimiter=',')
+difftotallhsh = difftotallhshq.transpose()
 temps,ptemps,lat,lon = readTemp(varnames)
 
 ### Create 2d array of latitude and longitude
 lon2,lat2 = np.meshgrid(lon,lat)
-
-### Calculate net surface heat flux 
-total_hitq = np.nanmean(runs_lh[0],axis=0) + np.nanmean(runs_sh[0],axis=0)
-total_fitq = np.nanmean(runs_lh[1],axis=0) + np.nanmean(runs_sh[1],axis=0) 
-total_citq = np.nanmean(runs_lh[2],axis=0) + np.nanmean(runs_sh[2],axis=0) 
-total_ficq = np.nanmean(runs_lh[3],axis=0) + np.nanmean(runs_sh[3],axis=0) 
-total_fictq = np.nanmean(runs_lh[4],axis=0) + np.nanmean(runs_sh[4],axis=0) 
-
-total_hit = np.append(total_hitq[8:],total_hitq[:3])
-total_fit = np.append(total_fitq[8:],total_fitq[:3])
-total_cit = np.append(total_citq[8:],total_citq[:3])
-total_fic = np.append(total_ficq[8:],total_ficq[:3])
-total_fict = np.append(total_fictq[8:],total_fictq[:3])    
-totallhsh = [total_hit,total_fit,total_cit,total_fic,total_fict]
     
 ###########################################################################
 ###########################################################################
@@ -366,18 +355,18 @@ ax.spines['left'].set_linewidth(2)
 ax.spines['bottom'].set_linewidth(2)
 ax.tick_params('both',length=4,width=2,which='major',color='dimgrey',pad=1)
 
-color=iter(cmocean.cm.matter(np.linspace(0.1,1,len(totallhsh))))
-for i in range(len(runnames)):
+color=iter(cmocean.cm.matter(np.linspace(0.3,1,len(difftotallhsh))))
+for i in range(len(difftotallhsh)):
     c=next(color)
-    plt.plot(totallhsh[i],linewidth=2,color=c,alpha=1,
-             label = r'\textbf{%s}' % runnames[i],linestyle='-',
+    plt.plot(difftotallhsh[i],linewidth=2,color=c,alpha=1,
+             label = r'\textbf{%s}' % experiments[i],linestyle='-',
              marker='o',markersize=4)
 
 plt.legend(shadow=False,fontsize=5,loc='lower left',
-           fancybox=True,frameon=False,ncol=3,bbox_to_anchor=(0.03, -0.05))
+           fancybox=True,frameon=False,ncol=2,bbox_to_anchor=(0.07, 0.82))
 
-plt.yticks(np.arange(25,56,5),list(map(str,np.arange(25,56,5))),fontsize=6)
-plt.ylim([25,45])
+plt.yticks(np.arange(0,126,25),list(map(str,np.arange(0,126,25))),fontsize=6)
+plt.ylim([0,125])
 
 xlabels = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR',r'APR']
 plt.xticks(np.arange(0,7,1),xlabels,fontsize=6)
