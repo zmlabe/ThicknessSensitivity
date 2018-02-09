@@ -139,7 +139,7 @@ def readFlux(varnames):
 ###########################################################################
 ###########################################################################
 # Read data for net surface energy budget
-difftotallhshq = np.genfromtxt(directorydata2+'weightedsic_rnets.txt',
+difftotallhshq = np.genfromtxt(directorydata2+'weightedsic_SHLH.txt',
                               skip_header=2,delimiter=',')
 difftotallhsh = difftotallhshq.transpose()
 temps,ptemps,lat,lon = readTemp(varnames)
@@ -366,7 +366,7 @@ plt.legend(shadow=False,fontsize=5,loc='lower left',
            fancybox=True,frameon=False,ncol=2,bbox_to_anchor=(0.07, 0.82))
 
 plt.yticks(np.arange(0,126,25),list(map(str,np.arange(0,126,25))),fontsize=6)
-plt.ylim([0,125])
+plt.ylim([0,100])
 
 xlabels = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR',r'APR']
 plt.xticks(np.arange(0,7,1),xlabels,fontsize=6)
