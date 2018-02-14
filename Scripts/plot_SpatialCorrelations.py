@@ -39,7 +39,7 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 months = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR']
-varnames = ['U10','Z30','U300','Z500','SLP','T2M','THICK','RNET']
+varnames = ['U10','Z30','U300','Z500','SLP','T2M','RNET']
 
 corrvar = []
 for v in range(len(varnames)):
@@ -182,14 +182,13 @@ cs = plt.pcolormesh(corrvar,shading='faceted',edgecolor='w',
 
 for i in range(corrvar.shape[0]):
     for j in range(corrvar.shape[1]):
-        plt.text(j+0.5,i+0.5,'%+1.2f' % corrvar[i,j],fontsize=6,
+        plt.text(j+0.5,i+0.5,r'\textbf{%+1.2f}' % corrvar[i,j],fontsize=6,
                  color='k',va='center',ha='center')
 
 cs.set_cmap(cmocean.cm.curl)
 
 ylabels = [r'\textbf{U10}',r'\textbf{Z30}',r'\textbf{U300}',r'\textbf{Z500}',
-           r'\textbf{SLP}',r'\textbf{T2M}',r'\textbf{THICK}',
-           r'\textbf{RNET}']
+           r'\textbf{SLP}',r'\textbf{T2M}',r'\textbf{RNET}']
 plt.yticks(np.arange(0.5,8.5,1),ylabels,ha='right',color='dimgrey',
            va='center')
 yax = ax.get_yaxis()
@@ -212,7 +211,5 @@ cbar.ax.tick_params(axis='x', size=.001)
 cbar.outline.set_edgecolor('dimgrey')
 cbar.set_label(r'\textbf{Pattern Correlation [R]}',
                color='dimgrey',labelpad=3,fontsize=12)
-
-plt.subplots_adjust(top=0.8)
 
 plt.savefig(directoryfigure + 'patterncorrs_monthly_mesh.png',dpi=300)

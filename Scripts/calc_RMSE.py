@@ -36,7 +36,7 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 months = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR']
-varnames = ['U10','Z30','U300','Z500','SLP','T2M','THICK','RNET']
+varnames = ['U10','Z30','U300','Z500','SLP','T2M','RNET']
 
 rootvar = []
 for v in range(len(varnames)):
@@ -127,8 +127,7 @@ for i in range(rootvar.shape[0]):
 cs.set_cmap(cmocean.cm.ice_r)
 
 ylabels = [r'\textbf{U10}',r'\textbf{Z30}',r'\textbf{U300}',r'\textbf{Z500}',
-           r'\textbf{SLP}',r'\textbf{T2M}',r'\textbf{THICK}',
-           r'\textbf{RNET}']
+           r'\textbf{SLP}',r'\textbf{T2M}',r'\textbf{RNET}']
 plt.yticks(np.arange(0.5,8.5,1),ylabels,ha='right',color='dimgrey',
            va='center')
 yax = ax.get_yaxis()
