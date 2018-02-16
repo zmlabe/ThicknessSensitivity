@@ -10,5 +10,5 @@
 # 
 #  File contains ratio values of relative contributions
 #  between FIT-HIT and FIC-CIT to get the relative 
-#  contributions of SIT and SIC [monthly, OCT-MAR]
+#  contributions of SIT and SIC [bimonth, ON,DJ,FM]
 
