@@ -306,8 +306,15 @@ def calc_weightedAve(var,lats):
             varmask = varq[mask]
             areamask = np.cos(np.deg2rad(lats[mask]))
             meanvar[i] = np.nansum(varmask*areamask)/np.sum(areamask)
+    elif var.ndim == 2:
+        meanvar = np.empty((var.shape[0]))
+        varq = var[:,:]
+        mask = np.isfinite(varq) & np.isfinite(lats)
+        varmask = varq[mask]
+        areamask = np.cos(np.deg2rad(lats[mask]))
+        meanvar = np.nansum(varmask*areamask)/np.sum(areamask)
     else:
-        ValueError('Variable has the wrong dimensions!')
+        print(ValueError('Variable has the wrong dimensions!'))
      
     print('Completed: Weighted variable average!')
     

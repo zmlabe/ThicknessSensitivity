@@ -53,6 +53,11 @@ def readExperi(directory,varid,experi,level):
     totaldirectory = directory + experi + '/monthly/'
     filename = totaldirectory + varid + '_1900-2000.nc'
     
+    if any([experi == 'FPOL',experi == 'FSUB']):
+        directory = '/home/zlabe/green/simu/'
+        totaldirectory = directory + experi + '/monthly/'
+        filename = totaldirectory + varid + '_1900-2000.nc'
+    
     ### Read in Data
     if level == 'surface': # 3d variables
         data = Dataset(filename,'r')

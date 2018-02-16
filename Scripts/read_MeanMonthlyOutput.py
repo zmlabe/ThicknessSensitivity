@@ -52,6 +52,11 @@ def readMeanExperi(directory,varid,experi,level):
     totaldirectory = directory + experi + '/monthly/'
     filename = totaldirectory + varid + '_mean.nc'
     
+    if any([experi == 'FPOL',experi == 'FSUB']):
+        directory = '/home/zlabe/green/simu/'
+        totaldirectory = directory + experi + '/monthly/'
+        filename = totaldirectory + varid + '_mean.nc'
+    
     ### Read in Data
     if level == 'surface': # 1d variables
         data = Dataset(filename,'r')

@@ -52,6 +52,11 @@ def readExperi(directory,varid,experi,level):
     totaldirectory = directory + experi + '/monthly/'
     filename = totaldirectory + varid + '_1900-2000.nc'
     
+    if any([experi == 'FPOL',experi == 'FSUB']):
+        directory = '/home/zlabe/green/simu/'
+        totaldirectory = directory + experi + '/monthly/'
+        filename = totaldirectory + varid + '_1900-2000.nc'
+    
     if varid == 'EGR' and level == 'surface':
         filename = totaldirectory + varid + '_500_850.nc'
     

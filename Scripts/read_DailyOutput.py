@@ -60,6 +60,9 @@ def readMeanExperi(directory,varid,experi,level):
         var = np.empty((ENS,212,17))
         
     for i in range(0,ENS,1):
+        if any([experi == 'FPOL',experi == 'FSUB']):
+            directory = '/home/zlabe/green/simu/'
+        
         totaldirectory = directory + experi + '/daily/' + experi + \
                         '%s/' % (i+1)
         filename = totaldirectory + varid + '_%s_' % (i+1) + 'mean.nc'

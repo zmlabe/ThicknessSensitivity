@@ -1,0 +1,14 @@
+# U10  Z30  U300  Z500  SLP  T2M  RNET
+# 
+
+4.47,8.87,68.55,27.01,13.83,20.60,22.14
+
+0.00,5.55,14.70,15.32,10.01,30.41,22.40
+
+0.00,0.00,22.94,9.11,25.82,34.98,19.89
+
+# 
+#  File contains ratio values of relative contributions
+#  between FIT-HIT and FIC-CIT to get the relative 
+#  contributions of SIT and SIC [monthly, OCT-MAR]
+
