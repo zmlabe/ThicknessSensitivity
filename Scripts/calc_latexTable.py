@@ -57,7 +57,7 @@ def readData(vari):
     elif vari == 'patterncorr':
         filename = directorydata2 + 'patterncorr.txt'
     elif vari == 'ratio':
-        filename = directorydata2 + 'meanratio.txt'
+        filename = directorydata2 + 'sicsitratio.txt'
     else:
         ValueError('Variable statistics not calculated!')
     
@@ -67,14 +67,14 @@ def readData(vari):
     
     ### Transpose table so it is [variables,months]. This allows for months
     ### as the column headers
-    if data.shape[0] == 6:
+    if any([data.shape[0] == 6, data.shape[0] == 3]):
         data = data.transpose()
     
     print('*Completed: Finished readData function!')
     return data
 
 ### Select variable for script
-vari = 'RMSE'
+vari = 'ratio'
 
 ### Call function read in variable for table
 datay = readData(vari)
@@ -88,7 +88,15 @@ datay = readData(vari)
 rowIDs = ['U10','Z30','U300','Z500','SLP','T2M','RNET']
 
 ### Enter column titles
-cols = ['October','November','December','January','February','March']
+
+if datay.shape[1] == 6:
+    cols = ['October','November','December','January','February','March']
+elif datay.shape[1] == 3:
+    cols = ['OCT-NOV','DEC-JAN','FEB-MAR']
+elif datay.shape[1] == 1:
+    cols = ['DJF']
+else:
+    print(ValueError('Something is wrong with the data!'))
 
 ### Build table
 table = tabulate(datay,tablefmt='latex',showindex=rowIDs,headers=cols,
