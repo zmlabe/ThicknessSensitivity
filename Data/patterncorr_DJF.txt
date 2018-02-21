@@ -1,0 +1,22 @@
+# U10  Z30  U300  Z500  SLP  T2M  RNET
+# 
+
+-0.00
+
+0.20
+
+0.48
+
+0.65
+
+0.51
+
+0.89
+
+0.55
+
+# 
+#  File contains pearsonr correlation coefficients
+#  between FIT-HIT and FIC-CIT to get the relative 
+#  contributions of SIT and SIC [DJF]
+

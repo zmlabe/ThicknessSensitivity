@@ -1,10 +1,10 @@
 """
-Compute ratio (%) between SIT and SIC responses for DJF
+Compute spatial correlation (r) between SIT and SIC responses for DJF
 
 Notes
 -----
     Author : Zachary Labe
-    Date   : 15 February 2018
+    Date   : 21 February 2018
 """
 
 ### Import modules
@@ -28,7 +28,7 @@ currentdy = str(now.day)
 currentyr = str(now.year)
 currenttime = currentmn + '_' + currentdy + '_' + currentyr
 titletime = currentmn + '/' + currentdy + '/' + currentyr
-print('\n' '----Plotting DJF SIT-SIC ratio - %s----' % titletime)
+print('\n' '----Plotting DJF SIT-SIC spatial correlations - %s----' % titletime)
 
 ### Alott time series
 year1 = 1900
@@ -38,7 +38,7 @@ years = np.arange(year1,year2+1,1)
 months = [r'DJF']
 varnames = ['U10','Z30','U300','Z500','SLP','T2M','RNET']
 
-ratiovar = []
+corrvar = []
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,varhit = MO.readExperi(directorydata,
@@ -68,91 +68,17 @@ for v in range(len(varnames)):
     diff_fithit_djf = np.nanmean(varmo_djf[1] - varmo_djf[0],axis=0)
     diff_ficcit_djf = np.nanmean(varmo_djf[2] - varmo_djf[3],axis=0)
     
-    ### Calculate significance 
-    stat_FITHITdjf,pvalue_FITHITdjf = UT.calc_indttest(varmo_djf[1],varmo_djf[0])
-    stat_FICCITdjf,pvalue_FICCITdjf = UT.calc_indttest(varmo_djf[2],varmo_djf[3])
-    
-    ### Create mask of significant values
-    pvalue_FITHITdjf[np.where(np.isnan(pvalue_FITHITdjf))] = 0.0
-    pvalue_FICCITdjf[np.where(np.isnan(pvalue_FICCITdjf))] = 0.0
-        
-    pvalue_FITHIT = [pvalue_FITHITdjf]
-    pvalue_FICCIT = [pvalue_FICCITdjf]
-    
-    ### Create mask of shared significant values
-    mask = np.asarray(pvalue_FITHIT) * np.asarray(pvalue_FICCIT)
-    
-    ### Slice out lats below 40
-    latq = np.where(lat>40)[0]
-    latqq = lat[latq]
-    
-    ### Create 2nd meshgrid with lats > 40N
-    lonnew,latnew=np.meshgrid(lon,latqq)
-    
-    ### Create mask for ON, DJ, FM
-    mask = mask[:,latq,:]
-    
-    ### Keep only values significant in both SIT and SIC responses    
-    diff_fithit_djfq = diff_fithit_djf[latq,:] * pvalue_FITHITdjf[latq,:]
-    
-    diff_ficcit_djfq = diff_ficcit_djf[latq,:] * pvalue_FICCITdjf[latq,:]
-    
-    fithit = [diff_fithit_djfq]
-    ficcit = [diff_ficcit_djfq]
-    
-    def calc_iceRatio(varx,vary,maske,up,down):
-        """
-        Compute relative % difference
-        """
-        print('\n>>> Using calc_iceRatio function!')
-        
-        ### Mask extremes
-        if maske == True:
-            print('MASKING EXTREMES!')
-            
-            varxup = np.nanpercentile(varx,up)
-            varxdo = np.nanpercentile(varx,down)
-            
-            varyup = np.nanpercentile(vary,up)
-            varydo = np.nanpercentile(vary,down)
-            
-            print(varxup,varxdo)
-            print(varyup,varydo)
-            
-            varx[np.where((varx >= varxup) | (varx <= varxdo))] = np.nan
-            vary[np.where((vary >= varyup) | (vary <= varydo))] = np.nan
-        
-        percchange = (abs(varx)/abs(vary)) * 100.
-        
-        ### Test if real values
-        if np.isnan(percchange).all() == True:
-            percchange[np.where(np.isnan(percchange))] = 0.0
-        if percchange > 500:
-            percchange = 0.0
-                
-        print('*Completed: Finished calc_iceRatio function!')
-        return percchange,varx,vary
-    
-    fithitave = np.empty((3))
-    ficcitave = np.empty((3))
-    for i in range(len(fithit)):
-        fithitave[i] = UT.calc_weightedAve(abs(fithit[i]),latnew)
-        ficcitave[i] = UT.calc_weightedAve(abs(ficcit[i]),latnew)
-
-    ratio = []
-    for i in range(len(fithit)):
-        percchangeq,varx,vary = calc_iceRatio(fithitave[i],ficcitave[i],False,95,5)
-        
-        ratio.append(percchangeq)
-    ratiovar.append(ratio)
-meanratiovar = np.asarray(ratiovar).squeeze()
+    ### Calculate spatial correlation
+    corrs = UT.calc_spatialCorr(diff_fithit_djf,diff_ficcit_djf,lat,lon,'yes')
+    corrvar.append(corrs)
+corrvar = np.asarray(corrvar)
     
 #### Save file
-np.savetxt(directorydata2 + 'sicsitratio_DJF.txt',np.round(meanratiovar.transpose(),1),delimiter=',',
-           fmt='%3.1f',header='  '.join(varnames)+'\n',
-           footer='\n File contains ratio values of relative contributions' \
+np.savetxt(directorydata2 + 'patterncorr_DJF.txt',corrvar.transpose(),
+           delimiter=',',fmt='%3.2f',header='  '.join(varnames)+'\n',
+           footer='\n File contains pearsonr correlation coefficients' \
            '\n between FIT-HIT and FIC-CIT to get the relative \n' \
-           ' contributions of SIT and SIC [bimonth, DJF]',newline='\n\n')
+           ' contributions of SIT and SIC [DJF]',newline='\n\n')
 
 ###############################################################################
 ###############################################################################
@@ -184,42 +110,40 @@ plt.tick_params(
     right='off',         # ticks along the top edge are off
     labelleft='on')
 
-vals,rat = np.meshgrid(np.arange(2),meanratiovar)
+vals,cor = np.meshgrid(np.arange(2),corrvar)
 
-cs = plt.pcolormesh(rat,shading='faceted',edgecolor='w',
-                    linewidth=0.3,vmin=0,vmax=50)
+cs = plt.pcolormesh(cor,shading='faceted',edgecolor='w',
+                    linewidth=0.3,vmin=-1,vmax=1)
 
-for i in range(rat.shape[0]):
-    for j in range(rat.shape[1]):
-        plt.text(j+0.5,i+0.5,r'\textbf{%3.1f}' % rat[i,j],fontsize=6,
-                 color='r',va='center',ha='center')
+for i in range(cor.shape[0]):
+    for j in range(cor.shape[1]):
+        plt.text(j+0.5,i+0.5,r'\textbf{%+1.2f}' % cor[i,j],fontsize=6,
+                 color='k',va='center',ha='center')
 
-cs.set_cmap(cmocean.cm.tempo)
+cs.set_cmap(cmocean.cm.curl)
 
 ylabels = [r'\textbf{U10}',r'\textbf{Z30}',r'\textbf{U300}',r'\textbf{Z500}',
            r'\textbf{SLP}',r'\textbf{T2M}',r'\textbf{RNET}']
-plt.yticks(np.arange(0.5,7.5,1),ylabels,ha='right',color='dimgrey',
+plt.yticks(np.arange(0.5,8.5,1),ylabels,ha='right',color='dimgrey',
            va='center')
 yax = ax.get_yaxis()
 yax.set_tick_params(pad=0.7)
 
 xlabels = [r'\textbf{DJF}']
-plt.xticks(np.arange(0.5,4.5,1),xlabels,ha='center',color='dimgrey',
+plt.xticks(np.arange(0.5,6.5,1),xlabels,ha='center',color='dimgrey',
            va='center')
 xax = ax.get_xaxis()
 xax.set_tick_params(pad=8)
 plt.xlim([0,1])
 
 cbar = plt.colorbar(cs,orientation='horizontal',aspect=50)
-ticks = np.arange(0,51,50)
-labels = list(map(str,np.arange(0,51,50)))
+ticks = np.arange(-1,2,1)
+labels = list(map(str,np.arange(-1,2,1)))
 cbar.set_ticks(ticks)
 cbar.set_ticklabels(labels)
 cbar.ax.tick_params(axis='x', size=.001)
 cbar.outline.set_edgecolor('dimgrey')
-cbar.set_label(r'\textbf{Ratio [\%]}',
+cbar.set_label(r'\textbf{Pattern Correlation [R]}',
                color='dimgrey',labelpad=3,fontsize=12)
 
-plt.subplots_adjust(top=0.8)
-
-plt.savefig(directoryfigure + 'SITSIC_ratio_mesh_DJF.png',dpi=300)
+plt.savefig(directoryfigure + 'patterncorrs_DJF_mesh.png',dpi=300)
