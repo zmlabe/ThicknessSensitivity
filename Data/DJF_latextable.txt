@@ -1,0 +1,13 @@
+\begin{tabular}{lcc}
+\hline
+      &  Pattern Correlations (r)  &  Response Contribution (\%)  \\
+\hline
+ U10  &            3.1             &              -0              \\
+ Z30  &            1.8             &             0.2              \\
+ U300 &            28.1            &             0.48             \\
+ Z500 &            17.9            &             0.65             \\
+ SLP  &            25.9            &             0.51             \\
+ T2M  &            33.3            &             0.89             \\
+ RNET &            23.1            &             0.55             \\
+\hline
+\end{tabular}
