@@ -255,6 +255,9 @@ m.drawcoastlines(color='dimgrey',linewidth=0.7)
 ax1.annotate(r'%s' % experiments[0],xy=(0,0),xytext=(0.1,0.90),
              textcoords='axes fraction',color='k',fontsize=11,
              rotation=45,ha='center',va='center')
+ax1.annotate(r'\textbf{[%s]}' % 'a',xy=(0,0),
+        xytext=(0.89,0.9),xycoords='axes fraction',
+        color='dimgrey',fontsize=7)
 
 ###############################################################################
 ### Set limits
@@ -289,6 +292,9 @@ m.drawcoastlines(color='dimgrey',linewidth=0.7)
 ax1.annotate(r'%s' % experiments[1],xy=(0,0),xytext=(0.1,0.90),
              textcoords='axes fraction',color='k',fontsize=11,
              rotation=45,ha='center',va='center')
+ax1.annotate(r'\textbf{[%s]}' % 'b',xy=(0,0),
+        xytext=(0.89,0.9),xycoords='axes fraction',
+        color='dimgrey',fontsize=7)
 
 ###############################################################################
 ### Set limits
@@ -323,9 +329,12 @@ m.drawcoastlines(color='dimgrey',linewidth=0.7)
 ax1.annotate(r'%s' % experiments[2],xy=(0,0),xytext=(0.08,0.88),
              textcoords='axes fraction',color='k',fontsize=11,
              rotation=45,ha='center',va='center')
-ax1.annotate(r'\textbf{[W/m${^{2}}$]}',xy=(0,0),xytext=(1.18,1.01),
+ax1.annotate(r'\textbf{[W/m${^{2}}$]}',xy=(0,0),xytext=(1.18,1),
      textcoords='axes fraction',color='dimgrey',fontsize=7,
      rotation=0,ha='center',va='center')
+ax1.annotate(r'\textbf{[%s]}' % 'c',xy=(0,0),
+        xytext=(0.89,0.9),xycoords='axes fraction',
+        color='dimgrey',fontsize=7)
 
 ###############################################################################
 ax = plt.axes([.543, .183, .24, .31]) 
@@ -363,7 +372,8 @@ for i in range(len(difftotallhsh)):
              marker='o',markersize=4)
 
 plt.legend(shadow=False,fontsize=5,loc='lower left',
-           fancybox=True,frameon=False,ncol=2,bbox_to_anchor=(0.07, 0.82))
+           fancybox=True,frameon=False,ncol=2,bbox_to_anchor=(0.07, 0.82),
+           labelspacing=0.2,columnspacing=0.2)
 
 plt.yticks(np.arange(0,126,25),list(map(str,np.arange(0,126,25))),fontsize=6)
 plt.ylim([0,100])
@@ -371,6 +381,10 @@ plt.ylim([0,100])
 xlabels = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR',r'APR']
 plt.xticks(np.arange(0,7,1),xlabels,fontsize=6)
 plt.xlim([0,6])
+
+ax.annotate(r'\textbf{[%s]}' % 'd',xy=(0,0),
+        xytext=(0.89,0.9),xycoords='axes fraction',
+        color='dimgrey',fontsize=7)
     
 cbar_ax = fig.add_axes([0.31,0.09,0.4,0.03])                
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',

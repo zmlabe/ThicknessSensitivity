@@ -98,7 +98,7 @@ if datay.shape[1] == 6:
 elif datay.shape[1] == 3:
     cols = ['OCT-NOV','DEC-JAN','FEB-MAR']
 elif datay.shape[1] == 2:
-    cols = ['Pattern Correlations (r)','Response Contribution (\%)']
+    cols = ['Response Contribution (\%)','Pattern Correlations (r)']
 else:
     print(ValueError('Something is wrong with the data!'))
 

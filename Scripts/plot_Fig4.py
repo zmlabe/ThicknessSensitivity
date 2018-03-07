@@ -167,7 +167,7 @@ for v in range(len(varnames)):
                         extend='max',extendfrac=0.07,drawedges=False)
     
     if varnames[v] == 'U':
-        cbar.set_label(r'\textbf{m/s}',fontsize=11,color='dimgrey')
+        cbar.set_label(r'\textbf{[U] m/s}',fontsize=11,color='dimgrey')
         
     cbar.set_ticks(barlim)
     cbar.set_ticklabels(list(map(str,barlim))) 
