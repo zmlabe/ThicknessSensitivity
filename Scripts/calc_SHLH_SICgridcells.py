@@ -44,7 +44,7 @@ experiments = ['FIT--HIT','FICT2--HIT2','FICT--HIT']
 ### Read in SIC data
 lat,lon,time,lev,sic = MO.readExperi(directorydata,'SIC','HIT','surface')
 
-### Find where ice is < 15% (values are 0 to 100 in sic array)
+### Find where ice is < 10% (values are 0 to 100 in sic array)
 sicq = sic[5,:,:,:].copy()
 sicq[np.where(sicq < 10)] = 0.0
 sicq[np.where((sicq >= 10) & (sicq <= 100))] = 1.
@@ -111,8 +111,8 @@ difftotal_FICCIT = np.append(difftotal_FICCITq[8:],difftotal_FICCITq[:3],axis=0)
 difftotal_FICTHIT = np.append(difftotal_FICTHITq[8:],difftotal_FICTHITq[:3],axis=0)
 difftotallhsh = [difftotal_FITHIT,difftotal_FICCIT,difftotal_FICTHIT]
 
-#### Take average above 40N
-latq = np.where(lat > 40)[0]
+#### Take average above 30N
+latq = np.where(lat > 30)[0]
 latslice = lat[latq]
 lon2,lat2 = np.meshgrid(lon,latslice)
 
@@ -134,7 +134,7 @@ for i in range(len(rnetvals)):
 np.savetxt(directorydata2 + 'weightedsic_SHLH.txt',weightedrnet.transpose(),
            delimiter=',',header='  '.join(experiments)+'\n',
        footer='\n File contains net turbulet energy flux response' \
-       '\n which are weighted above 40N for SIC cells >10% \n' \
+       '\n which are weighted above 30N for SIC cells >10% \n' \
        ' in all months of the year',newline='\n\n')
 
 print('Completed: Script done!')
