@@ -36,6 +36,7 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 varnames = ['U','TEMP','GEOP','EGR','V']
+varnames = ['U']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,varcit = MO.readExperi(directorydata,
@@ -159,6 +160,7 @@ for v in range(len(varnames)):
         cmap = cmocean.cm.curl           
         cs.set_cmap(cmap) 
     
+    plt.xlabel(r'\textbf{Latitude ($^{\circ}$N)',fontsize=8,labelpad=0)
     ax1.annotate(r'\textbf{FSUB--HIT2}',
                 xy=(0, 0),xytext=(0.1,1.02),xycoords='axes fraction',
                 fontsize=25,color='dimgrey',rotation=0)
@@ -209,17 +211,20 @@ for v in range(len(varnames)):
     elif varnames[v] == 'EGR':
         cmap = cmocean.cm.curl           
         cs.set_cmap(cmap) 
-    
+        
+    plt.ylabel(r'\textbf{Pressure (hPa)',fontsize=13)
+    plt.xlabel(r'\textbf{Latitude ($^{\circ}$N)',fontsize=8,labelpad=0)
     ax3.annotate(r'\textbf{FPOL-HIT2}',
                 xy=(0, 0),xytext=(0.1,1.02),xycoords='axes fraction',
                 fontsize=25,color='dimgrey',rotation=0)
     
-    cbar_ax = fig.add_axes([0.312,0.1,0.4,0.03])                
+    cbar_ax = fig.add_axes([0.312,0.09,0.4,0.03])                
     cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                         extend='max',extendfrac=0.07,drawedges=False)
     
     if varnames[v] == 'U':
-        cbar.set_label(r'\textbf{m/s}',fontsize=11,color='dimgray')
+        cbar.set_label(r'\textbf{[U] m/s}',fontsize=11,color='dimgray',
+                                 labelpad=0)
     elif varnames[v] == 'TEMP':
         cbar.set_label(r'\textbf{$^\circ$C}',fontsize=11,color='dimgray')
     elif varnames[v] == 'GEOP':
@@ -232,6 +237,6 @@ for v in range(len(varnames)):
     plt.subplots_adjust(wspace=0.3)
     plt.subplots_adjust(bottom=0.21)
     
-    plt.savefig(directoryfigure + 'real_DJF_vertical_regional_%s.png' % varnames[v],dpi=300)
+    plt.savefig(directoryfigure + 'DJF_vertical_regional_%s.png' % varnames[v],dpi=300)
 print('Completed: Script done!')
 
