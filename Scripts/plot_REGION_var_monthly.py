@@ -166,7 +166,7 @@ for v in range(len(varnames)):
             ax1.tick_params(labelbottom='off') 
             
         if varnames[v] == 'U':
-            cmap = ncm.cmap('temp_diff_18lev')            
+            cmap = ncm.cmap('NCV_blu_red')            
             cs.set_cmap(cmap) 
         elif varnames[v] == 'TEMP':
             cmap = ncm.cmap('NCV_blu_red')            

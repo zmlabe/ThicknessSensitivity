@@ -45,8 +45,8 @@ years = np.arange(year1,year2+1,1)
 
 ### Define constants
 varnames = ['T2M']
-experiments = [r'\textbf{FIT--HIT}',r'\textbf{FICT2--HIT2}',
-               r'\textbf{FICT--HIT}']
+experiments = [r'\textbf{$\Delta$SIT}',r'\textbf{$\Delta$SIC}',
+               r'\textbf{$\Delta$NET}']
 runnames = [r'HIT',r'FIT',r'HIT2',r'FICT2',r'FICT']
 
 ### Functions to read temperature
@@ -253,7 +253,7 @@ cs.set_cmap(cmap)
 m.drawcoastlines(color='dimgrey',linewidth=0.7)
 
 ax1.annotate(r'%s' % experiments[0],xy=(0,0),xytext=(0.1,0.90),
-             textcoords='axes fraction',color='k',fontsize=11,
+             textcoords='axes fraction',color='k',fontsize=16,
              rotation=45,ha='center',va='center')
 ax1.annotate(r'\textbf{[%s]}' % 'a',xy=(0,0),
         xytext=(0.89,0.9),xycoords='axes fraction',
@@ -290,7 +290,7 @@ cs.set_cmap(cmap)
 m.drawcoastlines(color='dimgrey',linewidth=0.7)
 
 ax1.annotate(r'%s' % experiments[1],xy=(0,0),xytext=(0.1,0.90),
-             textcoords='axes fraction',color='k',fontsize=11,
+             textcoords='axes fraction',color='k',fontsize=16,
              rotation=45,ha='center',va='center')
 ax1.annotate(r'\textbf{[%s]}' % 'b',xy=(0,0),
         xytext=(0.89,0.9),xycoords='axes fraction',
@@ -327,7 +327,7 @@ cs.set_cmap(cmap)
 m.drawcoastlines(color='dimgrey',linewidth=0.7)
 
 ax1.annotate(r'%s' % experiments[2],xy=(0,0),xytext=(0.08,0.88),
-             textcoords='axes fraction',color='k',fontsize=11,
+             textcoords='axes fraction',color='k',fontsize=16,
              rotation=45,ha='center',va='center')
 ax1.annotate(r'\textbf{[W/m${^{2}}$]}',xy=(0,0),xytext=(1.18,1),
      textcoords='axes fraction',color='dimgrey',fontsize=7,
@@ -372,8 +372,9 @@ for i in range(len(difftotallhsh)):
              marker='o',markersize=4)
 
 plt.legend(shadow=False,fontsize=5,loc='lower left',
-           fancybox=True,frameon=False,ncol=2,bbox_to_anchor=(0.07, 0.82),
-           labelspacing=0.2,columnspacing=0.2)
+           fancybox=True,frameon=True,ncol=3,bbox_to_anchor=(0.05, 0.13),
+           labelspacing=0.2,columnspacing=1,handletextpad=0.4,
+           edgecolor='dimgrey')
 
 plt.yticks(np.arange(0,126,25),list(map(str,np.arange(0,126,25))),fontsize=6)
 plt.ylim([0,100])
@@ -390,8 +391,8 @@ cbar_ax = fig.add_axes([0.31,0.09,0.4,0.03])
 cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                     extend='max',extendfrac=0.07,drawedges=False)
 
-cbar.set_label(r'\textbf{$^\circ$C}',
-               fontsize=11,color='dimgrey',labelpad=2)
+cbar.set_label(r'\textbf{[T2M]$^\circ$C}',
+               fontsize=13,color='dimgrey',labelpad=2)
     
 cbar.set_ticks(barlim)
 cbar.set_ticklabels(list(map(str,barlim))) 

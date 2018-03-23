@@ -39,7 +39,7 @@ varnames = ['U','TEMP','GEOP','EGR','V']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,varcit = MO.readExperi(directorydata,
-                                            '%s' % varnames[v],'HIT','profile')
+                                            '%s' % varnames[v],'CIT','profile')
     lat,lon,time,lev,varFSUB = MO.readExperi(directorydata,
                                             '%s' % varnames[v],'FSUB','profile')
     lat,lon,time,lev,varFPOL = MO.readExperi(directorydata,
@@ -50,7 +50,7 @@ for v in range(len(varnames)):
     
     ### Concatonate runs
     runnames = [r'CIT',r'FSUB',r'FPOL']
-    experiments = [r'\textbf{FPOL--CIT}',r'\textbf{FPOL--CIT}']
+    experiments = [r'\textbf{FPOL--HIT2}',r'\textbf{FPOL--HIT2}']
     runs = [varcit,varFSUB,varFPOL]
     
     ### Separate per periods (DJF)
@@ -159,7 +159,7 @@ for v in range(len(varnames)):
         cmap = cmocean.cm.curl           
         cs.set_cmap(cmap) 
     
-    ax1.annotate(r'\textbf{FSUB--HIT}',
+    ax1.annotate(r'\textbf{FSUB--HIT2}',
                 xy=(0, 0),xytext=(0.1,1.02),xycoords='axes fraction',
                 fontsize=25,color='dimgrey',rotation=0)
 
@@ -210,7 +210,7 @@ for v in range(len(varnames)):
         cmap = cmocean.cm.curl           
         cs.set_cmap(cmap) 
     
-    ax3.annotate(r'\textbf{FPOL-HIT}',
+    ax3.annotate(r'\textbf{FPOL-HIT2}',
                 xy=(0, 0),xytext=(0.1,1.02),xycoords='axes fraction',
                 fontsize=25,color='dimgrey',rotation=0)
     

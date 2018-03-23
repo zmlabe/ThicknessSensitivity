@@ -175,13 +175,13 @@ for v in range(len(varnames)):
     cbar.outline.set_edgecolor('dimgrey')
     cbar.outline.set_linewidth(0.5)
           
-    plt.annotate(r'\textbf{FIT--HIT}',
-            xy=(0, 0),xytext=(0.045,0.73),xycoords='figure fraction',
-            fontsize=17,color='k',rotation=90,
+    plt.annotate(r'\textbf{$\Delta$SIT}',
+            xy=(0, 0),xytext=(0.055,0.73),xycoords='figure fraction',
+            fontsize=21,color='k',rotation=90,
             ha='center',va='center')        
-    plt.annotate(r'\textbf{FICT--HIT}',
-        xy=(0, 0),xytext=(0.045,0.36),xycoords='figure fraction',
-        fontsize=17,color='k',rotation=90,
+    plt.annotate(r'\textbf{$\Delta$NET}',
+        xy=(0, 0),xytext=(0.055,0.36),xycoords='figure fraction',
+        fontsize=21,color='k',rotation=90,
         ha='center',va='center')  
 
     plt.subplots_adjust(hspace=0.2)

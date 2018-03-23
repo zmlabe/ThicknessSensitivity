@@ -41,7 +41,8 @@ year2 = 2000
 years = np.arange(year1,year2+1,1)
 
 varnamesn = np.repeat(['SLP','Z500','Z30'],3)
-experimentsn = [r'\textbf{FIT--HIT}',r'\textbf{FICT2-HIT2}',r'\textbf{FICT--HIT}']
+experimentsn = [r'\textbf{$\Delta$SIT}',r'\textbf{$\Delta$SIC}',
+               r'\textbf{$\Delta$NET}']
 runnamesn = [r'HIT',r'FIT',r'CIT',r'FIC',r'FICT']
 letters = ["a","b","c","d","e","f","g","h","i"]
 def calcVarResp(varnames):
@@ -86,14 +87,14 @@ def calcVarResp(varnames):
     return diffruns_djf,pruns_djf,climo_djf,lat,lon
 
 ### Call variables
-#diffslp,pslp,climoslp,lat,lon = calcVarResp('SLP')
-#diffz500,pz500,climoz500,lat,lon = calcVarResp('Z500')
-#diffz30,pz30,climoz30,lat,lon = calcVarResp('Z30')
-#
-### Create lists for plotting
-#variables = list(itertools.chain(*[diffslp,diffz500,diffz30]))
-#pvalues = list(itertools.chain(*[pslp,pz500,pz30]))
-#climos = list(itertools.chain(*[climoslp,climoz500,climoz30]))
+diffslp,pslp,climoslp,lat,lon = calcVarResp('SLP')
+diffz500,pz500,climoz500,lat,lon = calcVarResp('Z500')
+diffz30,pz30,climoz30,lat,lon = calcVarResp('Z30')
+
+## Create lists for plotting
+variables = list(itertools.chain(*[diffslp,diffz500,diffz30]))
+pvalues = list(itertools.chain(*[pslp,pz500,pz30]))
+climos = list(itertools.chain(*[climoslp,climoz500,climoz30]))
     
 ###########################################################################
 ###########################################################################

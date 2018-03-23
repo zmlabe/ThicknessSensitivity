@@ -39,6 +39,7 @@ years = np.arange(year1,year2+1,1)
 
 varnames = ['Z500','Z50','Z30','SLP','T2M','U10','RNET','P','THICK','U300',
             'SWE']
+varnames = ['U10']
 for v in range(len(varnames)):
     ### Call function for surface temperature data from reach run
     lat,lon,time,lev,tashit = MO.readExperi(directorydata,
