@@ -74,7 +74,7 @@ def readData(vari):
     return data
 
 ### Select variable for script
-vari = 'ratio'
+vari = 'patterncorr'
 
 ### Call function read in variable for table
 datay = readData(vari)

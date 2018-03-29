@@ -68,12 +68,28 @@ for v in range(len(varnames)):
     diff_fithit_djf = np.nanmean(varmo_djf[1] - varmo_djf[0],axis=0)
     diff_ficcit_djf = np.nanmean(varmo_djf[2] - varmo_djf[3],axis=0)
     
+    ### Calculate significance 
+    stat_FITHITdjf,pvalue_FITHITdjf = UT.calc_indttest(varmo_djf[1],varmo_djf[0])
+    stat_FICCITdjf,pvalue_FICCITdjf = UT.calc_indttest(varmo_djf[2],varmo_djf[3])
+    
+    ### Create mask of significant values
+    pvalue_FITHITdjf[np.where(np.isnan(pvalue_FITHITdjf))] = 0.0
+    pvalue_FICCITdjf[np.where(np.isnan(pvalue_FICCITdjf))] = 0.0
+        
+    pvalue_FITHIT = pvalue_FITHITdjf
+    pvalue_FICCIT = pvalue_FICCITdjf
+    
+    ### Keep only values significant in both SIT and SIC responses    
+    diff_fithit_djfq = diff_fithit_djf * pvalue_FITHITdjf
+    
+    diff_ficcit_djfq = diff_ficcit_djf * pvalue_FICCITdjf
+    
     ### Calculate spatial correlation
-    corrs = UT.calc_spatialCorr(diff_fithit_djf,diff_ficcit_djf,lat,lon,'yes')
+    corrs = UT.calc_spatialCorr(diff_fithit_djfq,diff_ficcit_djfq,lat,lon,'yes')
     corrvar.append(corrs)
 corrvar = np.asarray(corrvar)
     
-#### Save file
+### Save file
 np.savetxt(directorydata2 + 'patterncorr_DJF.txt',corrvar.transpose(),
            delimiter=',',fmt='%3.2f',header='  '.join(varnames)+'\n',
            footer='\n File contains pearsonr correlation coefficients' \
