@@ -432,7 +432,7 @@ def calc_RMSE(varx,vary,lats,lons,weight):
             ### mask
             mask = 'yes'
             if mask == 'yes':
-                latq = np.where(lats > 30)[0]
+                latq = np.where(lats > 40)[0]
                 lats = lats[latq]
                 varx = varx[latq,:]
                 vary = vary[latq,:]
