@@ -1,7 +1,6 @@
 """
-Plot figure 3 in manuscript for dynamical responses to sea ice loss in WACCM4
-experiments [FIT-HIT, FIC-CIT, FICT-HIT]. Current variables include SLP,
-Z500, and Z30. Time period includes December through February [DJF].
+Plot for NCAR Arctic Systems workshop poster. Graph is DJF sea ice volume
+from PIOMAS over the satellite era.
 
 Notes
 -----
