@@ -182,7 +182,7 @@ for v in range(len(varnames)):
     plt.xlabel(r'\textbf{Latitude ($^{\circ}$N)',fontsize=8,labelpad=0)
     ax1.annotate(r'\textbf{$\Delta$SIT}',
                 xy=(0, 0),xytext=(0.5,1.06),xycoords='axes fraction',
-                fontsize=25,color='dimgrey',rotation=0,ha='center',
+                fontsize=19,color='dimgrey',rotation=0,ha='center',
                 va='center')
     
     #############################################################################
@@ -222,7 +222,7 @@ for v in range(len(varnames)):
     plt.xlabel(r'\textbf{Latitude ($^{\circ}$N)',fontsize=8,labelpad=0)
     ax2.annotate(r'\textbf{$\Delta$SIC}',
                 xy=(0, 0),xytext=(0.5,1.06),xycoords='axes fraction',
-                fontsize=25,color='dimgrey',rotation=0,ha='center',
+                fontsize=19,color='dimgrey',rotation=0,ha='center',
                 va='center')
     
     if varnames[v] == 'U':
@@ -282,7 +282,7 @@ for v in range(len(varnames)):
     plt.xlabel(r'\textbf{Latitude ($^{\circ}$N)',fontsize=8,labelpad=0)
     ax3.annotate(r'\textbf{$\Delta$NET}',
                 xy=(0, 0),xytext=(0.5,1.06),xycoords='axes fraction',
-                fontsize=25,color='dimgrey',rotation=0,ha='center',
+                fontsize=19,color='dimgrey',rotation=0,ha='center',
                 va='center')
     
     cbar_ax = fig.add_axes([0.312,0.09,0.4,0.03])                

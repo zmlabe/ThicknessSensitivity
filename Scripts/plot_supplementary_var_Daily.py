@@ -182,7 +182,7 @@ for v in range(len(varnames)):
     ### Add y-label
     plt.annotate(r'\textbf{Pressure (hPa)}',xy=(0,0),xytext=(0.05,0.54),
              textcoords='figure fraction',color='k',
-             fontsize=16,ha='center',va='center',rotation=90)
+             fontsize=13,ha='center',va='center',rotation=90)
     
     plt.subplots_adjust(wspace=0.3)
     plt.subplots_adjust(hspace=0.35)

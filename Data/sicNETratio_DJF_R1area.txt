@@ -1,0 +1,22 @@
+# U10  Z30  U300  Z500  SLP  T2M  RNET
+# 
+
+113.9
+
+115.5
+
+64.2
+
+92.6
+
+76.4
+
+89.5
+
+101.5
+
+# 
+#  File contains ratio values of relative contributions
+#  between FIC-CIT and FICT-HIT to get the relative 
+#  contributions of SIT and SIC [bimonth, DJF]
+

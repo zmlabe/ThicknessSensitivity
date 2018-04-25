@@ -34,58 +34,58 @@ months = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR',
            r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR']
 
 ### Read in HIT forcing file
-#data = Dataset(directorydata + 'SST-SIT_lens_1976-2005.nc')
-#lons = data.variables['lon'][:]
-#lats = data.variables['lat'][:]
-#sith = data.variables['ice_thick'][:,:,:]
-#sich = data.variables['ice_cov'][:,:,:]
-#data.close()
-#
-#### Read in FIT forcing file
-#data = Dataset(directorydata + 'SST-SIT_lens_2051-2080.nc')
-#sitf = data.variables['ice_thick'][:,:,:]
-#data.close()
-#
-#### Read in FIC forcing file
-#data = Dataset(directorydata + 'SST-SIC-SIT_lens_2051-2080_FIC.nc')
-#sicf = data.variables['ice_cov'][:,:,:]
-#data.close()
-#
-#lons2,lats2 = np.meshgrid(lons,lats)
-#
-#print('Completed: Data read!')
-#
-#### Create 2d array of latitude and longitude
-#lons2,lats2 = np.meshgrid(lons,lats)
-#
-#### Average over DJF 
-#sith[np.where(sith == 0)] = np.nan            
-#varh = sith
-#sitf[np.where(sitf == 0)] = np.nan            
-#varf = sitf
-#
-#sich[np.where(sich == 0)] = np.nan            
-#varch = sich*100 # convert SIC to 1-100%
-#sicf[np.where(sicf == 0)] = np.nan            
-#varcf = sicf*100 # convert SIC to 1-100%
-#
-#### Use land/Arctic mask
-#varh[np.where(varh == 2.)] = np.nan
-#varhtemp = varh.copy()
-#varhtemp[np.where(varhtemp > 0)] = 1.
-#varf = varf*varhtemp
-#varf[np.where(varf == 2.)] = np.nan
-#
-#### Calculate differences 
-#diffsitq = varf - varh
-#diffsicq = varcf - varch
-#
-#diffsit = np.append(diffsitq[9:],diffsitq[:3],axis=0)
-#diffsic = np.append(diffsicq[9:],diffsicq[:3],axis=0)
-#
-#diffs = np.append(diffsit,diffsic,axis=0)
-#
-#print('Completed: Data processed!')
+data = Dataset(directorydata + 'SST-SIT_lens_1976-2005.nc')
+lons = data.variables['lon'][:]
+lats = data.variables['lat'][:]
+sith = data.variables['ice_thick'][:,:,:]
+sich = data.variables['ice_cov'][:,:,:]
+data.close()
+
+### Read in FIT forcing file
+data = Dataset(directorydata + 'SST-SIT_lens_2051-2080.nc')
+sitf = data.variables['ice_thick'][:,:,:]
+data.close()
+
+### Read in FIC forcing file
+data = Dataset(directorydata + 'SST-SIC-SIT_lens_2051-2080_FIC.nc')
+sicf = data.variables['ice_cov'][:,:,:]
+data.close()
+
+lons2,lats2 = np.meshgrid(lons,lats)
+
+print('Completed: Data read!')
+
+### Create 2d array of latitude and longitude
+lons2,lats2 = np.meshgrid(lons,lats)
+
+### Average over DJF 
+sith[np.where(sith == 0)] = np.nan            
+varh = sith
+sitf[np.where(sitf == 0)] = np.nan            
+varf = sitf
+
+sich[np.where(sich == 0)] = np.nan            
+varch = sich*100 # convert SIC to 1-100%
+sicf[np.where(sicf == 0)] = np.nan            
+varcf = sicf*100 # convert SIC to 1-100%
+
+### Use land/Arctic mask
+varh[np.where(varh == 2.)] = np.nan
+varhtemp = varh.copy()
+varhtemp[np.where(varhtemp > 0)] = 1.
+varf = varf*varhtemp
+varf[np.where(varf == 2.)] = np.nan
+
+### Calculate differences 
+diffsitq = varf - varh
+diffsicq = varcf - varch
+
+diffsit = np.append(diffsitq[9:],diffsitq[:3],axis=0)
+diffsic = np.append(diffsicq[9:],diffsicq[:3],axis=0)
+
+diffs = np.append(diffsit,diffsic,axis=0)
+
+print('Completed: Data processed!')
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -130,6 +130,8 @@ for i in range(len(months)):
         extendq = 'max'
         
     cs = m.contourf(lons2,lats2,var,limit,extend=extendq,latlon=True)
+    cs1 = m.contour(lons2,lats2,lats2,np.arange(66.6,67.6,1),linewidths=1,colors='r',
+                linestyles='--',latlon=True)
     
     cmap = cmocean.cm.dense_r 
     cs.set_cmap(cmap)
@@ -166,4 +168,4 @@ for i in range(len(months)):
 plt.subplots_adjust(hspace=-0.35)
 plt.subplots_adjust(wspace=0)
         
-plt.savefig(directoryfigure + 'monthly_seaiceanoms.png',dpi=300)
+plt.savefig(directoryfigure + 'monthly_seaiceanoms.png',dpi=900)

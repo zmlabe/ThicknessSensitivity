@@ -133,6 +133,8 @@ m3.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
 m3.drawcoastlines(color='darkgrey',linewidth=0.1)
 
 cstd = m3.contourf(lons2,lats2,diffsit,limdiff,latlon=True)
+cs1 = m2.contour(lons2,lats2,lats2,np.arange(66.6,67.6,1),linewidths=1,colors='r',
+                linestyles='--',latlon=True)
 
 cmap = cmocean.cm.ice   
 cstd.set_cmap(cmap)
@@ -185,6 +187,8 @@ m3.drawmapboundary(fill_color='white',color='dimgray',linewidth=0.7)
 m3.drawcoastlines(color='darkgrey',linewidth=0.1)
 
 cscd = m3.contourf(lons2,lats2,diffsic,limsicdiff,latlon=True)
+cs1 = m2.contour(lons2,lats2,lats2,np.arange(66.6,67.6,1),linewidths=1,colors='r',
+                linestyles='--',latlon=True)
 
 cmap = cmocean.cm.ice   
 cscd.set_cmap(cmap)
@@ -247,6 +251,6 @@ cbar.outline.set_edgecolor('dimgray')
 print('Completed: Subplot done!')
 
 ### Save figure
-plt.savefig(directoryfigure + 'seaice_forcingfiles.png',dpi=300)
+plt.savefig(directoryfigure + 'seaice_forcingfiles.png',dpi=900)
 
 print('Completed: Script done!')

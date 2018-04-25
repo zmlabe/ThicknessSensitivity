@@ -37,60 +37,60 @@ years = np.arange(year1,year2+1,1)
 
 varnames = ['U']
 for v in range(len(varnames)):
-#    ### Call function for surface temperature data from reach run
-#    lat,lon,time,lev,varhit = MO.readExperi(directorydata,
-#                                            '%s' % varnames[v],'HIT','profile')
-#    lat,lon,time,lev,varfit = MO.readExperi(directorydata,
-#                                            '%s' % varnames[v],'FIT','profile')
-#    lat,lon,time,lev,varfict = MO.readExperi(directorydata,
-#                                             '%s' % varnames[v],'FICT','profile')
-#    
-#    ### Create 2d array of latitude and longitude
-#    lon2,lat2 = np.meshgrid(lon,lat)
-#    
-#    ### Concatonate runs
-#    runnames = [r'HIT',r'FIT',r'FICT']
-#    experiments = [r'\textbf{FIT--HIT}',r'\textbf{FICT--HIT}']
-#    runs = [varhit,varfit,varfict]
-#    
-#    ### Separate per months
-#    varmo_fit = np.append(varfit[:,9:,:,:,:],varfit[:,0:3,:,:,:],
-#             axis=1)
-#    varmo_hit = np.append(varhit[:,9:,:,:,:],varhit[:,0:3,:,:,:],
-#             axis=1)
-#    varmo_fict = np.append(varfict[:,9:,:,:,:],varfict[:,0:3,:,:,:],
-#              axis=1)
-#    
-#    ### Compute comparisons for FM - taken ensemble average
-#    diff_FITHIT = np.nanmean(varmo_fit - varmo_hit,axis=0)
-#    diff_FICTHIT = np.nanmean(varmo_fict - varmo_hit,axis=0)
-#    diffruns_djf = [diff_FITHIT,diff_FICTHIT]
-#        
-#    ### Calculate zonal mean
-#    zdiff_FITHIT = np.nanmean(diff_FITHIT,axis=3)
-#    zdiff_FICTHIT = np.nanmean(diff_FICTHIT,axis=3)
-#    zdiffruns = np.append(zdiff_FITHIT,zdiff_FICTHIT,axis=0)
-#    
-#    ## Calculate climo
-#    zclimo_hit1 = np.nanmean(varhit,axis=0)
-#    zclimo_hit2 = np.nanmean(zclimo_hit1,axis=3)
-#    zclimoq = np.append(zclimo_hit2[9:,:,:],zclimo_hit2[0:3,:,:],axis=0)
-#    zclimo = np.append(zclimoq,zclimoq,axis=0)
-#    
-#    ### Calculate significance for each month
-#    stat_FITHIT = np.empty((12,len(lev),len(lat)))
-#    stat_FICTHIT = np.empty((12,len(lev),len(lat)))
-#    pvalue_FITHIT = np.empty((12,len(lev),len(lat)))
-#    pvalue_FICTHIT = np.empty((12,len(lev),len(lat)))
-#    for i in range(12):
-#        stat_FITHIT[i],pvalue_FITHIT[i] = UT.calc_indttest(np.nanmean(varfit[:,i,:,:,:],axis=3),
-#                                                     np.nanmean(varhit[:,i,:,:,:],axis=3))
-#        stat_FICTHIT[i],pvalue_FICTHIT[i] = UT.calc_indttest(np.nanmean(varfict[:,i,:,:,:],axis=3),
-#                                                     np.nanmean(varhit[:,i,:,:,:],axis=3))
-#    pruns_FITHIT = np.append(pvalue_FITHIT[9:],pvalue_FITHIT[0:3],axis=0)
-#    pruns_FICTHIT = np.append(pvalue_FICTHIT[9:],pvalue_FICTHIT[0:3],axis=0)
-#    
-#    pruns = np.append(pruns_FITHIT,pruns_FICTHIT,axis=0)
+    ### Call function for surface temperature data from reach run
+    lat,lon,time,lev,varhit = MO.readExperi(directorydata,
+                                            '%s' % varnames[v],'HIT','profile')
+    lat,lon,time,lev,varfit = MO.readExperi(directorydata,
+                                            '%s' % varnames[v],'FIT','profile')
+    lat,lon,time,lev,varfict = MO.readExperi(directorydata,
+                                             '%s' % varnames[v],'FICT','profile')
+    
+    ### Create 2d array of latitude and longitude
+    lon2,lat2 = np.meshgrid(lon,lat)
+    
+    ### Concatonate runs
+    runnames = [r'HIT',r'FIT',r'FICT']
+    experiments = [r'\textbf{FIT--HIT}',r'\textbf{FICT--HIT}']
+    runs = [varhit,varfit,varfict]
+    
+    ### Separate per months
+    varmo_fit = np.append(varfit[:,9:,:,:,:],varfit[:,0:3,:,:,:],
+             axis=1)
+    varmo_hit = np.append(varhit[:,9:,:,:,:],varhit[:,0:3,:,:,:],
+             axis=1)
+    varmo_fict = np.append(varfict[:,9:,:,:,:],varfict[:,0:3,:,:,:],
+              axis=1)
+    
+    ### Compute comparisons for FM - taken ensemble average
+    diff_FITHIT = np.nanmean(varmo_fit - varmo_hit,axis=0)
+    diff_FICTHIT = np.nanmean(varmo_fict - varmo_hit,axis=0)
+    diffruns_djf = [diff_FITHIT,diff_FICTHIT]
+        
+    ### Calculate zonal mean
+    zdiff_FITHIT = np.nanmean(diff_FITHIT,axis=3)
+    zdiff_FICTHIT = np.nanmean(diff_FICTHIT,axis=3)
+    zdiffruns = np.append(zdiff_FITHIT,zdiff_FICTHIT,axis=0)
+    
+    ## Calculate climo
+    zclimo_hit1 = np.nanmean(varhit,axis=0)
+    zclimo_hit2 = np.nanmean(zclimo_hit1,axis=3)
+    zclimoq = np.append(zclimo_hit2[9:,:,:],zclimo_hit2[0:3,:,:],axis=0)
+    zclimo = np.append(zclimoq,zclimoq,axis=0)
+    
+    ### Calculate significance for each month
+    stat_FITHIT = np.empty((12,len(lev),len(lat)))
+    stat_FICTHIT = np.empty((12,len(lev),len(lat)))
+    pvalue_FITHIT = np.empty((12,len(lev),len(lat)))
+    pvalue_FICTHIT = np.empty((12,len(lev),len(lat)))
+    for i in range(12):
+        stat_FITHIT[i],pvalue_FITHIT[i] = UT.calc_indttest(np.nanmean(varfit[:,i,:,:,:],axis=3),
+                                                     np.nanmean(varhit[:,i,:,:,:],axis=3))
+        stat_FICTHIT[i],pvalue_FICTHIT[i] = UT.calc_indttest(np.nanmean(varfict[:,i,:,:,:],axis=3),
+                                                     np.nanmean(varhit[:,i,:,:,:],axis=3))
+    pruns_FITHIT = np.append(pvalue_FITHIT[9:],pvalue_FITHIT[0:3],axis=0)
+    pruns_FICTHIT = np.append(pvalue_FICTHIT[9:],pvalue_FICTHIT[0:3],axis=0)
+    
+    pruns = np.append(pruns_FITHIT,pruns_FICTHIT,axis=0)
     
     ###########################################################################
     ###########################################################################
@@ -159,7 +159,7 @@ for v in range(len(varnames)):
         if i < 6:
             ax1.annotate(r'\textbf{%s}' % labelmonths[i],
                         xy=(0, 0),xytext=(0.5,1.08),xycoords='axes fraction',
-                        fontsize=17,color='dimgrey',rotation=0,
+                        fontsize=13,color='dimgrey',rotation=0,
                         ha='center',va='center')
     
     cbar_ax = fig.add_axes([0.312,0.09,0.4,0.03])                
@@ -175,14 +175,15 @@ for v in range(len(varnames)):
     cbar.ax.tick_params(axis='x', size=.01)
     cbar.outline.set_edgecolor('dimgrey')
     cbar.outline.set_linewidth(0.5)
+    cbar.ax.tick_params(labelsize=8)
           
     plt.annotate(r'\textbf{$\Delta$SIT}',
             xy=(0, 0),xytext=(0.055,0.73),xycoords='figure fraction',
-            fontsize=21,color='k',rotation=90,
+            fontsize=15,color='k',rotation=90,
             ha='center',va='center')        
     plt.annotate(r'\textbf{$\Delta$NET}',
         xy=(0, 0),xytext=(0.055,0.36),xycoords='figure fraction',
-        fontsize=21,color='k',rotation=90,
+        fontsize=15,color='k',rotation=90,
         ha='center',va='center')  
     plt.annotate(r'\textbf{Latitude ($^{\circ}$N)',
         xy=(0, 0),xytext=(0.515,0.15),xycoords='figure fraction',

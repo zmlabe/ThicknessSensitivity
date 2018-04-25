@@ -92,7 +92,7 @@ for v in range(len(varnames)):
     
     ### Set limits for contours and colorbars
     if varnames[v] == 'U':
-        limit = np.arange(-3,3.1,0.25)
+        limit = np.arange(-3,3.1,0.1)
         barlim = np.arange(-3,4,1)
     elif varnames[v] == 'TEMP':
         limit = np.arange(-4,4.1,0.1)
@@ -161,9 +161,9 @@ for v in range(len(varnames)):
         cs.set_cmap(cmap) 
     
     plt.xlabel(r'\textbf{Latitude ($^{\circ}$N)',fontsize=8,labelpad=0)
-    ax1.annotate(r'\textbf{FSUB--HIT2}',
-                xy=(0, 0),xytext=(0.1,1.02),xycoords='axes fraction',
-                fontsize=25,color='dimgrey',rotation=0)
+    ax1.annotate(r'\textbf{$\Delta$Subpolar}',
+                xy=(0, 0),xytext=(0.19,1.02),xycoords='axes fraction',
+                fontsize=18,color='dimgrey',rotation=0)
 
     ###########################################################################
     ax3 = plt.subplot(121)
@@ -212,11 +212,11 @@ for v in range(len(varnames)):
         cmap = cmocean.cm.curl           
         cs.set_cmap(cmap) 
         
-    plt.ylabel(r'\textbf{Pressure (hPa)',fontsize=13)
+    plt.ylabel(r'\textbf{Pressure (hPa)',fontsize=12)
     plt.xlabel(r'\textbf{Latitude ($^{\circ}$N)',fontsize=8,labelpad=0)
-    ax3.annotate(r'\textbf{FPOL-HIT2}',
-                xy=(0, 0),xytext=(0.1,1.02),xycoords='axes fraction',
-                fontsize=25,color='dimgrey',rotation=0)
+    ax3.annotate(r'\textbf{$\Delta$Polar}',
+                xy=(0, 0),xytext=(0.3,1.02),xycoords='axes fraction',
+                fontsize=18,color='dimgrey',rotation=0)
     
     cbar_ax = fig.add_axes([0.312,0.09,0.4,0.03])                
     cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
@@ -233,6 +233,7 @@ for v in range(len(varnames)):
     cbar.set_ticks(barlim)
     cbar.set_ticklabels(list(map(str,barlim))) 
     cbar.ax.tick_params(axis='x', size=.01)
+    cbar.ax.tick_params(labelsize=8)
     
     plt.subplots_adjust(wspace=0.3)
     plt.subplots_adjust(bottom=0.21)
