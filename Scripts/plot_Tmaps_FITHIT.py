@@ -226,7 +226,7 @@ for v in range(len(variables)):
     ax.set_aspect('equal')
             
     ###########################################################################
-    if v == 1:
+    if v == 55:
         cbar_ax = fig.add_axes([0.74,0.65,0.015,0.2])                
         cbar = fig.colorbar(cs,cax=cbar_ax,orientation='vertical',
                             extend='both',extendfrac=0.07,drawedges=False)    
@@ -270,7 +270,7 @@ for v in range(len(variables)):
         cbar.outline.set_edgecolor('dimgrey')
         cbar.outline.set_linewidth(0.5)
         
-    elif v == 5:
+    elif v == 55:
         cbar_ax = fig.add_axes([0.74,0.15,0.015,0.2])                
         cbar = fig.colorbar(cs,cax=cbar_ax,orientation='vertical',
                             extend='both',extendfrac=0.07,drawedges=False)    
