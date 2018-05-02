@@ -114,7 +114,7 @@ for v in range(len(varnames)):
     ###########################################################################
     #### Plot U
     plt.rc('text',usetex=True)
-    plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) 
+    plt.rc('font',**{'family':'sans-serif','sans-serif':['Avant Garde']}) z
     
     ### Set limits for contours and colorbars
     if varnames[v] == 'U':
