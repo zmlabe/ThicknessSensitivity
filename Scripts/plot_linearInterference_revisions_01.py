@@ -92,7 +92,8 @@ for i in range(3):
     ax1 = plt.subplot(3,1,i+1)
     
     ### Calculate correlations
-    corr = np.corrcoef(historicalforced[i].ravel(),futureforced[i].ravel())[0][1]
+    corr = UT.calc_spatialCorrHeight(historicalforced[i],futureforced[i],
+                                lev,lonss[i],'yes')
     
     lonq,levq = np.meshgrid(lonss[i],lev)
     
