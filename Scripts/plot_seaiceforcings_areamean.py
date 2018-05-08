@@ -124,12 +124,12 @@ def adjust_spines(ax, spines):
     else:
         ax.xaxis.set_ticks([]) 
         
-fig = plt.figure()
+fig = plt.figure(figsize=(5,6))
 ax = plt.subplot(211)
 
-plt.plot(sithmean,linewidth=3,marker='o',markersize=6,
+plt.plot(sithmean,linewidth=4.5,marker='o',markersize=7,
          color=cmocean.cm.balance(0.2),label='Historical')
-plt.plot(sitfmean,linewidth=3,marker='o',markersize=6,
+plt.plot(sitfmean,linewidth=4.5,marker='o',markersize=7,
          color=cmocean.cm.balance(0.8),label='Future')
 
 adjust_spines(ax, ['left', 'bottom'])
@@ -149,7 +149,7 @@ plt.xlim([0,5])
 
 ax.yaxis.grid(zorder=1,color='dimgrey',alpha=0.45)
 
-plt.ylabel(r'\textbf{Sea Ice Thickness (m)}',color='k',fontsize=8,labelpad=9)
+plt.ylabel(r'\textbf{Sea Ice Thickness (m)}',color='k',fontsize=10,labelpad=9)
 
 #######################
 #######################
@@ -157,10 +157,10 @@ plt.ylabel(r'\textbf{Sea Ice Thickness (m)}',color='k',fontsize=8,labelpad=9)
 
 ax = plt.subplot(212)
 
-plt.plot(sichmean,linewidth=3,marker='o',markersize=6,
-         color=cmocean.cm.balance(0.2),label='Historical')
-plt.plot(sicfmean,linewidth=3,marker='o',markersize=6,
-         color=cmocean.cm.balance(0.8),label='Future')
+plt.plot(sichmean,linewidth=4.5,marker='o',markersize=7,
+         color=cmocean.cm.balance(0.2),label=r'\textbf{Historical}')
+plt.plot(sicfmean,linewidth=4.5,marker='o',markersize=7,
+         color=cmocean.cm.balance(0.8),label=r'\textbf{Future}')
 
 adjust_spines(ax, ['left', 'bottom'])
 ax.spines['top'].set_color('none')
@@ -177,12 +177,12 @@ xlabels = [r'OCT',r'NOV',r'DEC',r'JAN',r'FEB',r'MAR',r'APR']
 plt.xticks(np.arange(0,7,1),xlabels)
 plt.xlim([0,5])
 
-plt.ylabel(r'\textbf{Sea Ice Concentration (\%)}',color='k',fontsize=8)
+plt.ylabel(r'\textbf{Sea Ice Concentration (\%)}',color='k',fontsize=10)
 
-plt.legend(shadow=False,fontsize=6,loc='lower right',
-           fancybox=True,frameon=False,ncol=1)
+plt.legend(shadow=False,fontsize=10,loc='upper center',
+           bbox_to_anchor=(0.5, 1.225),fancybox=True,frameon=False,ncol=2)
 ax.yaxis.grid(zorder=1,color='dimgrey',alpha=0.45)
 
 fig.subplots_adjust(hspace=0.4)
         
-plt.savefig(directoryfigure + 'monthly_seaiceanoms.png_areamean.png',dpi=300)
+plt.savefig(directoryfigure + 'monthly_seaiceanoms.png_areamean.png',dpi=900)

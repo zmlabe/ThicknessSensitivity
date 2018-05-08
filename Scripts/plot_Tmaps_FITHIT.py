@@ -211,11 +211,11 @@ for v in range(len(variables)):
             
     ### Add experiment text to subplot
     if any([v == 0,v == 2,v == 4]):
-        ax.annotate(r'\textbf{%s}' % varnamesn[v],xy=(0,0),xytext=(-0.18,0.5),
+        ax.annotate(r'\textbf{%s}' % varnamesn[v],xy=(0,0),xytext=(-0.14,0.5),
                      textcoords='axes fraction',color='k',
                      fontsize=16,rotation=90,ha='center',va='center')
     if any([v == 0,v == 1]):
-        ax.annotate(r'\textbf{%s}' % experimentsn[v],xy=(0,0),xytext=(0.5,1.12),
+        ax.annotate(r'\textbf{%s}' % experimentsn[v],xy=(0,0),xytext=(0.5,1.09),
                      textcoords='axes fraction',color='k',
                      fontsize=13,rotation=0,ha='center',va='center')
         
@@ -249,24 +249,24 @@ for v in range(len(variables)):
         cbar.outline.set_linewidth(0.5)
         
     elif v == 3:
-        cbar_ax = fig.add_axes([0.74,0.40,0.015,0.2])                
-        cbar = fig.colorbar(cs,cax=cbar_ax,orientation='vertical',
+        cbar_ax = fig.add_axes([0.365,0.09,0.3,0.023])                
+        cbar = fig.colorbar(cs,cax=cbar_ax,orientation='horizontal',
                             extend='both',extendfrac=0.07,drawedges=False)    
         if varnamesn[v] == 'T2M':
-            cbar.set_label(r'\textbf{[T2M]$^\circ$C}',
-                           fontsize=9,color='dimgrey',labelpad=1.2)
+            cbar.set_label(r'\textbf{$^\circ$C}',
+                           fontsize=13,color='dimgrey',labelpad=2.)
         elif varnamesn[v] == 'T925':
-            cbar.set_label(r'\textbf{[T2M]$^\circ$C}',
-                           fontsize=9,color='dimgrey',labelpad=1.2)
+            cbar.set_label(r'\textbf{$^\circ$C}',
+                           fontsize=13,color='dimgrey',labelpad=2.)
         elif varnamesn[v] == 'T850':
-            cbar.set_label(r'\textbf{[T2M]$^\circ$C}',
-                           fontsize=9,color='dimgrey',labelpad=1.2)     
+            cbar.set_label(r'\textbf{$^\circ$C}',
+                           fontsize=13,color='dimgrey',labelpad=2.)     
         cbar.set_ticks(barlim)
         cbar.set_ticklabels(list(map(str,barlim)))
-        cbar.ax.tick_params(labelsize=6,pad=8) 
-        ticklabs = cbar.ax.get_yticklabels()
-        cbar.ax.set_yticklabels(ticklabs,ha='center')
-        cbar.ax.tick_params(axis='y', size=.001)
+        cbar.ax.tick_params(labelsize=8,pad=2.1) 
+        ticklabs = cbar.ax.get_xticklabels()
+        cbar.ax.set_xticklabels(ticklabs,ha='center')
+        cbar.ax.tick_params(axis='x', size=.0001)
         cbar.outline.set_edgecolor('dimgrey')
         cbar.outline.set_linewidth(0.5)
         
@@ -275,13 +275,13 @@ for v in range(len(variables)):
         cbar = fig.colorbar(cs,cax=cbar_ax,orientation='vertical',
                             extend='both',extendfrac=0.07,drawedges=False)    
         if varnamesn[v] == 'T2M':
-            cbar.set_label(r'\textbf{[T2M]$^\circ$C}',
+            cbar.set_label(r'\textbf{$^\circ$C}',
                            fontsize=9,color='dimgrey',labelpad=1.2)
         elif varnamesn[v] == 'T925':
-            cbar.set_label(r'\textbf{[T2M]$^\circ$C}',
+            cbar.set_label(r'\textbf{$^\circ$C}',
                            fontsize=9,color='dimgrey',labelpad=1.2)
         elif varnamesn[v] == 'T850':
-            cbar.set_label(r'\textbf{[T2M]$^\circ$C}',
+            cbar.set_label(r'\textbf{$^\circ$C}',
                            fontsize=9,color='dimgrey',labelpad=1.2)        
         cbar.set_ticks(barlim)
         cbar.set_ticklabels(list(map(str,barlim)))
@@ -294,7 +294,7 @@ for v in range(len(variables)):
     
 fig.subplots_adjust(wspace=-0.6,hspace=0)
     
-plt.savefig(directoryfigure + 'T_siberiaCooling_DJF_FITHIT.png',dpi=600)
+plt.savefig(directoryfigure + 'T_siberiaCooling_DJF_FITHIT.png',dpi=900)
 
 print('Completed: Script done!')
 

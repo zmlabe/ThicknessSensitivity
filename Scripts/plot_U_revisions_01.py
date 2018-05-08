@@ -38,60 +38,60 @@ years = np.arange(year1,year2+1,1)
 
 varnames = ['U']
 for v in range(len(varnames)):
-    ### Call function for surface temperature data from reach run
-    lat,lon,time,lev,varcit = MO.readExperi(directorydata,
-                                            '%s' % varnames[v],'CIT','profile')
-    lat,lon,time,lev,varfpol = MO.readExperi(directorydata,
-                                            '%s' % varnames[v],'FPOL','profile')
-    lat,lon,time,lev,varfsub = MO.readExperi(directorydata,
-                                             '%s' % varnames[v],'FSUB','profile')
-    lat,lon,time,lev,varfict = MO.readExperi(directorydata,
-                                            '%s' % varnames[v],'FICT','profile')
-    lat,lon,time,lev,varhit = MO.readExperi(directorydata,
-                                             '%s' % varnames[v],'HIT','profile')
-    
-    ### Create 2d array of latitude and longitude
-    lon2,lat2 = np.meshgrid(lon,lat)
-    
-    ### Concatonate runs
-    runnames = [r'CIT',r'FPOL',r'FSUB',r'FICT',r'HIT']
-    experiments = [r'\textbf{FPOL--CIT}',r'\textbf{FSUB--CIT}',
-                   r'\textbf{FICT--HIT']
-    runs = [varcit,varfpol,varfsub,varfict,varhit]
-    
-    ### Separate per periods (DJF)
-    var_djf = np.empty((5,varcit.shape[0]-1,varcit.shape[2],varcit.shape[3],
-                        varcit.shape[4]))
-    for i in range(len(runs)):
-        var_djf[i],var_djf[i] = UT.calcDecJanFeb(runs[i],runs[i],lat,
-                                              lon,'profile',17)   
-       
-    ### Compute comparisons for FM - taken ensemble average
-    diff_FSUBCIT = np.nanmean(var_djf[1] - var_djf[0],axis=0)
-    diff_FPOLCIT = np.nanmean(var_djf[2] - var_djf[0],axis=0)
-    diff_FICTHIT = np.nanmean(var_djf[3] - var_djf[4],axis=0)
-    diffruns_djf = [diff_FSUBCIT,diff_FPOLCIT,diff_FICTHIT]
-        
-    ### Calculate zonal mean
-    zdiff_FSUBCIT = np.nanmean(diff_FSUBCIT,axis=2)
-    zdiff_FPOLCIT = np.nanmean(diff_FPOLCIT,axis=2)
-    zdiff_FICTHIT = np.nanmean(diff_FICTHIT,axis=2)
-    zdiffruns_djf = np.asarray([zdiff_FSUBCIT,zdiff_FPOLCIT,zdiff_FICTHIT])
-    
-    ### Calculate climo
-    zclimo_cit = np.apply_over_axes(np.nanmean,var_djf[0],(0,3)).squeeze()
-    zclimo_FSUB = np.apply_over_axes(np.nanmean,var_djf[1],(0,3)).squeeze()
-    zclimo_FPOL = np.apply_over_axes(np.nanmean,var_djf[2],(0,3)).squeeze()
-    zclimo_hit = np.apply_over_axes(np.nanmean,var_djf[4],(0,3)).squeeze()
-    
-    ### Calculate signicance for DJF
-    stat_FSUBCIT,pvalue_FSUBCIT = UT.calc_indttest(np.nanmean(var_djf[1],axis=3),
-                                                 np.nanmean(var_djf[0],axis=3))
-    stat_FPOLCIT,pvalue_FPOLCIT = UT.calc_indttest(np.nanmean(var_djf[2],axis=3),
-                                                 np.nanmean(var_djf[0],axis=3))
-    stat_FICTHIT,pvalue_FICTHIT= UT.calc_indttest(np.nanmean(var_djf[3],axis=3),
-                                                 np.nanmean(var_djf[4],axis=3))
-    pruns_djf = np.asarray([pvalue_FSUBCIT,pvalue_FPOLCIT,pvalue_FICTHIT])
+#    ### Call function for surface temperature data from reach run
+#    lat,lon,time,lev,varcit = MO.readExperi(directorydata,
+#                                            '%s' % varnames[v],'CIT','profile')
+#    lat,lon,time,lev,varfpol = MO.readExperi(directorydata,
+#                                            '%s' % varnames[v],'FPOL','profile')
+#    lat,lon,time,lev,varfsub = MO.readExperi(directorydata,
+#                                             '%s' % varnames[v],'FSUB','profile')
+#    lat,lon,time,lev,varfict = MO.readExperi(directorydata,
+#                                            '%s' % varnames[v],'FICT','profile')
+#    lat,lon,time,lev,varhit = MO.readExperi(directorydata,
+#                                             '%s' % varnames[v],'HIT','profile')
+#    
+#    ### Create 2d array of latitude and longitude
+#    lon2,lat2 = np.meshgrid(lon,lat)
+#    
+#    ### Concatonate runs
+#    runnames = [r'CIT',r'FPOL',r'FSUB',r'FICT',r'HIT']
+#    experiments = [r'\textbf{FPOL--CIT}',r'\textbf{FSUB--CIT}',
+#                   r'\textbf{FICT--HIT']
+#    runs = [varcit,varfpol,varfsub,varfict,varhit]
+#    
+#    ### Separate per periods (DJF)
+#    var_djf = np.empty((5,varcit.shape[0]-1,varcit.shape[2],varcit.shape[3],
+#                        varcit.shape[4]))
+#    for i in range(len(runs)):
+#        var_djf[i],var_djf[i] = UT.calcDecJanFeb(runs[i],runs[i],lat,
+#                                              lon,'profile',17)   
+#       
+#    ### Compute comparisons for FM - taken ensemble average
+#    diff_FSUBCIT = np.nanmean(var_djf[1] - var_djf[0],axis=0)
+#    diff_FPOLCIT = np.nanmean(var_djf[2] - var_djf[0],axis=0)
+#    diff_FICTHIT = np.nanmean(var_djf[3] - var_djf[4],axis=0)
+#    diffruns_djf = [diff_FSUBCIT,diff_FPOLCIT,diff_FICTHIT]
+#        
+#    ### Calculate zonal mean
+#    zdiff_FSUBCIT = np.nanmean(diff_FSUBCIT,axis=2)
+#    zdiff_FPOLCIT = np.nanmean(diff_FPOLCIT,axis=2)
+#    zdiff_FICTHIT = np.nanmean(diff_FICTHIT,axis=2)
+#    zdiffruns_djf = np.asarray([zdiff_FSUBCIT,zdiff_FPOLCIT,zdiff_FICTHIT])
+#    
+#    ### Calculate climo
+#    zclimo_cit = np.apply_over_axes(np.nanmean,var_djf[0],(0,3)).squeeze()
+#    zclimo_FSUB = np.apply_over_axes(np.nanmean,var_djf[1],(0,3)).squeeze()
+#    zclimo_FPOL = np.apply_over_axes(np.nanmean,var_djf[2],(0,3)).squeeze()
+#    zclimo_hit = np.apply_over_axes(np.nanmean,var_djf[4],(0,3)).squeeze()
+#    
+#    ### Calculate signicance for DJF
+#    stat_FSUBCIT,pvalue_FSUBCIT = UT.calc_indttest(np.nanmean(var_djf[1],axis=3),
+#                                                 np.nanmean(var_djf[0],axis=3))
+#    stat_FPOLCIT,pvalue_FPOLCIT = UT.calc_indttest(np.nanmean(var_djf[2],axis=3),
+#                                                 np.nanmean(var_djf[0],axis=3))
+#    stat_FICTHIT,pvalue_FICTHIT= UT.calc_indttest(np.nanmean(var_djf[3],axis=3),
+#                                                 np.nanmean(var_djf[4],axis=3))
+#    pruns_djf = np.asarray([pvalue_FSUBCIT,pvalue_FPOLCIT,pvalue_FICTHIT])
     
     ###########################################################################
     ###########################6################################################
@@ -133,7 +133,7 @@ for v in range(len(varnames)):
     if varnames[v] == 'U': 
         cs2 = plt.contour(lat,lev,zclimo_cit,np.arange(-20,101,5),
                           linewidths=0.6,colors='dimgrey')
-#    plt.contourf(latq,levq,pvalue_FSUBCIT,colors='None',hatches=['////'],
+#    plt.contourf(latq,levq,pvalue_FICTHIT,colors='None',hatches=['////'],
 #                 linewidth=5)   
     
     plt.gca().invert_yaxis()
@@ -185,8 +185,8 @@ for v in range(len(varnames)):
     if varnames[v] == 'U':        
         cs2 = plt.contour(lat,lev,zclimo_hit,np.arange(-20,101,5),
                           linewidths=0.6,colors='dimgrey')
-#    plt.contourf(latq,levq,pvalue_FPOLCIT,colors='None',hatches=['////'],
-#                 linewidth=5) 
+    plt.contourf(latq,levq,pvalue_FICTHIT,colors='None',hatches=['////'],
+                 linewidth=5) 
     
     plt.gca().invert_yaxis()
     plt.yscale('log',nonposy='clip')
@@ -272,10 +272,10 @@ for v in range(len(varnames)):
         cs.set_cmap(cmap) 
     
     plt.xlabel(r'\textbf{Latitude ($^{\circ}$N)',fontsize=8,labelpad=0)
-    ax1.annotate(r'\textbf{$\Delta$NET - $\Delta$$\sum$Regions}',
-                xy=(0, 0),xytext=(0.01,1.02),xycoords='axes fraction',
+    ax1.annotate(r'\textbf{$\Delta$NET -- $\Delta$$\sum$Regions}',
+                xy=(0, 0),xytext=(0.0,1.02),xycoords='axes fraction',
                 fontsize=10,color='dimgrey',rotation=0)
     
-    plt.savefig(directoryfigure + 'U_revisionsTest_%s.png' % varnames[v],dpi=300)
+    plt.savefig(directoryfigure + 'U_revisionsTest_%s.png' % varnames[v],dpi=900)
 print('Completed: Script done!')
 
