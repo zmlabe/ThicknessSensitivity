@@ -22,7 +22,7 @@ Most atmospheric general circulation model (AGCM) experiments assessing the link
 
 
 ## Publications
-+ Labe, Z.M., Y. Peings, and G. Magnusdottir, 2018. Contributions of ice thickness to the atmospheric response from projected Arctic sea ice loss, *submitted*
++ Labe, Z.M., Y. Peings, and G. Magnusdottir, 2018. Contributions of ice thickness to the atmospheric response from projected Arctic sea ice loss, *accepted to Geophysical Research Letters*
 
 
 ## Conferences
