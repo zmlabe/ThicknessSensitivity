@@ -26,4 +26,4 @@ Most atmospheric general circulation model (AGCM) experiments assessing the link
 
 
 ## Conferences
-+ **Labe, Z.M.** Loss of Arctic sea ice thickness affects the large-scale atmosphere, *Arctic System Change Workshop* at NCAR, Boulder, CO (Apr 2018). (https://sites.uci.edu/zlabe/files/2019/09/ZLabe_042018_BigIdeaPoster.pdf)[[Poster]]
++ **Labe, Z.M.** Loss of Arctic sea ice thickness affects the large-scale atmosphere, *Arctic System Change Workshop* at NCAR, Boulder, CO (Apr 2018). [[Poster]](https://sites.uci.edu/zlabe/files/2019/09/ZLabe_042018_BigIdeaPoster.pdf)
