@@ -28,6 +28,6 @@ Most atmospheric general circulation model (AGCM) experiments assessing the link
 ## Conferences
 + [1] **Labe, Z.M.** Loss of Arctic sea ice thickness affects the large-scale atmosphere, *Arctic System Change Workshop* at NCAR, Boulder, CO (Apr 2018). [[Poster]](https://sites.uci.edu/zlabe/files/2019/09/ZLabe_042018_BigIdeaPoster.pdf)
 
-+ [2] Peings, Y., **Z.M. Lab**, and G. Magnusdottir. Arctic-midlatitude linkages: role of sea ice loss versus full Arctic Amplification, *Arctic Science Summit Week 2021*, Virtual Conference (Mar 2021).
++ [2] Peings, Y., **Z.M. Labe**, and G. Magnusdottir. Arctic-midlatitude linkages: role of sea ice loss versus full Arctic Amplification, *Arctic Science Summit Week 2021*, Virtual Conference (Mar 2021).
 
 + [3] **Labe, Z.M.,** Y. Peings, H.S. Stern, and G. Magnusdottir. Arctic sea ice thickness variability and its influence on the atmospheric response to projected sea ice loss. *Machine Learning and Physical Sciences (MAPS) Symposium*, University of California, Irvine (May 2018).
